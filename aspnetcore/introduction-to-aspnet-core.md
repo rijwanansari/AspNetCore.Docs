@@ -1,25 +1,26 @@
 ---
-title: Introduction to ASP.NET Core
-author: rick-anderson
-description: Get an introduction to ASP.NET Core, a cross-platform, high-performance, open-source framework for building modern, cloud-enabled, Internet-connected apps.
+title: Overview of ASP.NET Core
+author: tdykstra
+description: Get an overview of ASP.NET Core, a cross-platform, high-performance, open-source framework for building modern, cloud-enabled, Internet-connected apps.
 ms.author: riande
 ms.custom: mvc
-ms.date: 04/17/2020
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 10/03/2023
 uid: index
 ---
-# Introduction to ASP.NET Core
+# Overview of ASP.NET Core
 
 By [Daniel Roth](https://github.com/danroth27), [Rick Anderson](https://twitter.com/RickAndMSFT), and [Shaun Luttin](https://mvp.microsoft.com/en-us/PublicProfile/5001182)
 
 :::moniker range=">= aspnetcore-3.0"
 
-ASP.NET Core is a cross-platform, high-performance, [open-source](https://github.com/dotnet/aspnetcore) framework for building modern, cloud-enabled, Internet-connected apps. With ASP.NET Core, you can:
+ASP.NET Core is a cross-platform, high-performance, [open-source](https://github.com/dotnet/aspnetcore) framework for building modern, cloud-enabled, Internet-connected apps.
+
+With ASP.NET Core, you can:
 
 * Build web apps and services, [Internet of Things (IoT)](https://www.microsoft.com/internet-of-things/) apps, and mobile backends.
 * Use your favorite development tools on Windows, macOS, and Linux.
 * Deploy to the cloud or on-premises.
-* Run on [.NET Core](/dotnet/core/introduction).
+* Run on [.NET](/dotnet/core/introduction).
 
 ## Why choose ASP.NET Core?
 
@@ -41,15 +42,15 @@ ASP.NET Core MVC provides features to build [web APIs](xref:tutorials/first-web-
 
 ## Client-side development
 
-ASP.NET Core integrates seamlessly with popular client-side frameworks and libraries, including [Blazor](xref:blazor/index), [Angular](xref:spa/angular), [React](xref:spa/react), and [Bootstrap](https://getbootstrap.com/). For more information, see <xref:blazor/index> and related topics under *Client-side development*.
+ASP.NET Core includes [Blazor](xref:blazor/index) for building richly interactive web UI, and also integrates with other popular frontend JavaScript frameworks like [Angular](/visualstudio/javascript/tutorial-asp-net-core-with-angular), [React](/visualstudio/javascript/tutorial-asp-net-core-with-react), [Vue](/visualstudio/javascript/tutorial-asp-net-core-with-vue), and [Bootstrap](https://getbootstrap.com/). For more information, see <xref:blazor/index> and related topics under *Client-side development*.
 
 <a name="target-framework"></a>
 
 ## ASP.NET Core target frameworks
 
-ASP.NET Core 3.x and later can only target .NET Core. Generally, ASP.NET Core is composed of [.NET Standard](/dotnet/standard/net-standard) libraries. Libraries written with .NET Standard 2.0 run on any [.NET platform that implements .NET Standard 2.0](/dotnet/standard/net-standard#net-implementation-support).
+ASP.NET Core 3.x or later can only target .NET.
 
-There are several advantages to targeting .NET Core, and these advantages increase with each release. Some advantages of .NET Core over .NET Framework include:
+There are several advantages to targeting .NET, and these advantages increase with each release. Some advantages of .NET over .NET Framework include:
 
 * Cross-platform. Runs on Windows, macOS, and Linux.
 * Improved performance
@@ -83,7 +84,7 @@ We recommend the following sequence of tutorials for an introduction to developi
 
 1. Browse the table of contents for other topics of interest.
 
-&dagger;There's also an [interactive web API tutorial](/learn/modules/build-web-api-net-core). No local installation of development tools is required. The code runs in an [Azure Cloud Shell](https://azure.microsoft.com/features/cloud-shell/) in your browser, and [curl](https://curl.haxx.se/) is used for testing.
+&dagger;There's also an [interactive web API tutorial](/training/modules/build-web-api-net-core). No local installation of development tools is required. The code runs in an [Azure Cloud Shell](https://azure.microsoft.com/features/cloud-shell/) in your browser, and [curl](https://curl.haxx.se/) is used for testing.
 
 ## Migrate from .NET Framework
 
@@ -120,7 +121,7 @@ ASP.NET Core MVC provides features to build [web APIs](xref:tutorials/first-web-
 
 ## Client-side development
 
-ASP.NET Core integrates seamlessly with popular client-side frameworks and libraries, including [Blazor](xref:blazor/index), [Angular](xref:spa/angular), [React](xref:spa/react), and [Bootstrap](https://getbootstrap.com/). For more information, see <xref:blazor/index> and related topics under *Client-side development*.
+ASP.NET Core integrates seamlessly with popular client-side frameworks and libraries, including [Blazor](xref:blazor/index), [Angular](/visualstudio/javascript/tutorial-asp-net-core-with-angular), [React](/visualstudio/javascript/tutorial-asp-net-core-with-react), [Vue](/visualstudio/javascript/tutorial-asp-net-core-with-vue), and [Bootstrap](https://getbootstrap.com/). For more information, see <xref:blazor/index> and related topics under *Client-side development*.
 
 <a name="target-framework"></a>
 
@@ -131,9 +132,9 @@ ASP.NET Core 2.x can target .NET Core or .NET Framework. ASP.NET Core apps targe
 ASP.NET Core 2.x is supported on .NET Framework versions that implement .NET Standard 2.0:
 
 * .NET Framework latest version is recommended.
-* .NET Framework 4.6.1 and later.
+* .NET Framework 4.6.1 or later.
 
-ASP.NET Core 3.0 and later will only run on .NET Core. For more details regarding this change, see [A first look at changes coming in ASP.NET Core 3.0](https://blogs.msdn.microsoft.com/webdev/2018/10/29/a-first-look-at-changes-coming-in-asp-net-core-3-0/).
+ASP.NET Core 3.0 or later only run on .NET Core. For more details regarding this change, see [A first look at changes coming in ASP.NET Core 3.0](https://blogs.msdn.microsoft.com/webdev/2018/10/29/a-first-look-at-changes-coming-in-asp-net-core-3-0/).
 
 There are several advantages to targeting .NET Core, and these advantages increase with each release. Some advantages of .NET Core over .NET Framework include:
 
@@ -169,7 +170,7 @@ We recommend the following sequence of tutorials and articles for an introductio
 
 1. Browse the Table of Contents for other topics of interest.
 
-&dagger;There's also a [web API tutorial that you follow entirely in the browser](/learn/modules/build-web-api-net-core), no local IDE installation required. The code runs in an [Azure Cloud Shell](https://azure.microsoft.com/features/cloud-shell/), and [curl](https://curl.haxx.se/) is used for testing.
+&dagger;There's also a [web API tutorial that you follow entirely in the browser](/training/modules/build-web-api-net-core), no local IDE installation required. The code runs in an [Azure Cloud Shell](https://azure.microsoft.com/features/cloud-shell/), and [curl](https://curl.haxx.se/) is used for testing.
 
 ## Migrate from .NET Framework
 
@@ -203,7 +204,7 @@ To change the sample to run the `ExpandDefault` scenario, define the `ExpandDefa
 
 For more information on using [C# preprocessor directives](/dotnet/csharp/language-reference/preprocessor-directives/) to selectively compile sections of code, see [#define (C# Reference)](/dotnet/csharp/language-reference/preprocessor-directives/preprocessor-define) and [#if (C# Reference)](/dotnet/csharp/language-reference/preprocessor-directives/preprocessor-if).
 
-### Regions in sample code
+<!-- ### Regions in sample code
 
 Some sample apps contain sections of code surrounded by [#region](/dotnet/csharp/language-reference/preprocessor-directives/preprocessor-region) and [#endregion](/dotnet/csharp/language-reference/preprocessor-directives/preprocessor-endregion) C# directives. The documentation build system injects these regions into the rendered documentation topics.  
 
@@ -227,7 +228,7 @@ The preceding C# code snippet is referenced in the topic's markdown file with th
 
 You may safely ignore (or remove) the `#region` and `#endregion` directives that surround the code. Don't alter the code within these directives if you plan to run the sample scenarios described in the topic. Feel free to alter the code when experimenting with other scenarios.
 
-For more information, see [Contribute to the ASP.NET documentation: Code snippets](https://github.com/dotnet/AspNetCore.Docs/blob/main/CONTRIBUTING.md#code-snippets).
+For more information, see [Contribute to the ASP.NET documentation: Code snippets](https://github.com/dotnet/AspNetCore.Docs/blob/main/CONTRIBUTING.md#code-snippets). -->
 
 ## Breaking changes and security advisories
 

@@ -5,13 +5,14 @@ description: Learn how to build Blazor Hybrid apps with the tutorials listed in 
 monikerRange: '>= aspnetcore-6.0'
 ms.author: riande
 ms.custom: mvc
-ms.date: 02/10/2022
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR, JS, Promise]
+ms.date: 02/09/2024
 uid: blazor/hybrid/tutorials/index
 ---
 # ASP.NET Core Blazor Hybrid tutorials
 
-[!INCLUDE[](~/blazor/includes/blazor-hybrid-preview-notice.md)]
+[!INCLUDE[](~/includes/not-latest-version.md)]
+
+The following tutorials provide a basic working experience for building a Blazor Hybrid app:
 
 * <xref:blazor/hybrid/tutorials/maui>
 
@@ -19,4 +20,4 @@ uid: blazor/hybrid/tutorials/index
 
 * <xref:blazor/hybrid/tutorials/wpf>
 
-For more information on Blazor hosting models, see <xref:blazor/hosting-models>.
+For an overview of Blazor and reference articles, see <xref:blazor/index> and the articles that follow it in the table of contents.

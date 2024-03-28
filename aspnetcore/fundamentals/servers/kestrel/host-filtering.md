@@ -1,12 +1,11 @@
 ---
 title: Host filtering with ASP.NET Core Kestrel web server
-author: rick-anderson
+author: tdykstra
 description: Learn about using host filtering with Kestrel, the cross-platform web server for ASP.NET Core.
 monikerRange: '>= aspnetcore-5.0'
 ms.author: riande
 ms.custom: mvc
 ms.date: 05/04/2020
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: fundamentals/servers/kestrel/host-filtering
 ---
 
@@ -18,9 +17,9 @@ As a workaround, use Host Filtering Middleware. The middleware is added by <xref
 
 [!code-csharp[](samples-snapshot/2.x/KestrelSample/Program.cs?name=snippet_Program&highlight=9)]
 
-Host Filtering Middleware is disabled by default. To enable the middleware, define an `AllowedHosts` key in *appsettings.json*/*appsettings.\<EnvironmentName>.json*. The value is a semicolon-delimited list of host names without port numbers:
+Host Filtering Middleware is disabled by default. To enable the middleware, define an `AllowedHosts` key in `appsettings.json`/`appsettings.{Environment}.json`. The value is a semicolon-delimited list of host names without port numbers:
 
-*appsettings.json*:
+`appsettings.json`:
 
 ```json
 {

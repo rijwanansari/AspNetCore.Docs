@@ -1,11 +1,10 @@
 ---
-title: Facebook, Google, and external provider authentication in ASP.NET Core
+title: Facebook and Google authentication in ASP.NET Core
 author: rick-anderson
-description: This tutorial demonstrates how to build an ASP.NET Core app using OAuth 2.0 with external authentication providers.
+description: Create an ASP.NET Core app using OAuth 2.0 with external authentication providers such as Facebook, Twitter, Google, and Microsoft.
 ms.author: riande
 ms.custom: mvc
-ms.date: 1/11/2022
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 03/07/2022
 uid: security/authentication/social/index
 ---
 # Facebook, Google, and external provider authentication in ASP.NET Core
@@ -26,7 +25,7 @@ Enabling users to sign in with their existing credentials:
 # [Visual Studio](#tab/visual-studio)
 
 * Select the **ASP.NET Core Web App** template. Select **OK**.
-* In the **Authentication type** input,  select  **Individual User Accounts**.
+* In the **Authentication type** input,  select  **Individual Accounts**.
 
 # [Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
 
@@ -63,7 +62,7 @@ Enabling users to sign in with their existing credentials:
 
 ## Use SecretManager to store tokens assigned by login providers
 
-Social login providers assign **Application Id** and **Application Secret** tokens during the registration process. The exact token names vary by provider. These tokens represent the credentials your app uses to access their API. The tokens constitute the "user secrets" that can be linked to your app configuration with the help of [Secret Manager](xref:security/app-secrets#secret-manager). User secrets are a more secure alternative to storing the tokens in a configuration file, such as *appsettings.json*.
+Social login providers assign **Application Id** and **Application Secret** tokens during the registration process. The exact token names vary by provider. These tokens represent the credentials your app uses to access their API. The tokens constitute the "user secrets" that can be linked to your app configuration with the help of [Secret Manager](xref:security/app-secrets#secret-manager). User secrets are a more secure alternative to storing the tokens in a configuration file, such as `appsettings.json`.
 
 > [!IMPORTANT]
 > Secret Manager is for development purposes only. You can store and protect Azure test and production secrets with the [Azure Key Vault configuration provider](xref:security/key-vault-configuration).
@@ -98,9 +97,8 @@ To create a password and sign in using your email that you set during the sign i
 
 * Set a valid password and you can use this to sign in with your email.
 
-## Next steps
+## Additional information
 
+* [Sign in with Apple Example Integration](https://github.com/martincostello/SignInWithAppleSample)
 * See [this GitHub issue](https://github.com/dotnet/AspNetCore.Docs/issues/10563) for information on how to customize the login buttons.
-* This article introduced external authentication and explained the prerequisites required to add external logins to your ASP.NET Core app.
-* Reference provider-specific pages to configure logins for the providers required by your app.
-* You may want to persist additional data about the user and their access and refresh tokens. For more information, see <xref:security/authentication/social/additional-claims>.
+* Persist additional data about the user and their access and refresh tokens. For more information, see <xref:security/authentication/social/additional-claims>.

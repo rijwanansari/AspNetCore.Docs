@@ -1,4 +1,3 @@
-﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RazorPagesContacts.Pages
@@ -15,5 +14,11 @@ namespace RazorPagesContacts.Pages
         public void OnGet()
         {
         }
+        // <snippet>
+        public void OnHead()
+        {
+            HttpContext.Response.Headers.Add("Head Test", "Handled by OnHead!");
+        }
+        // </snippet>
     }
 }

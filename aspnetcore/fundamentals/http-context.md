@@ -1,21 +1,22 @@
 ---
 title: Access HttpContext in ASP.NET Core
 author: coderandhiker
-description: HttpContext in ASP.NET Core. HttpContext isn't thread-safe and can throw NullReferenceException.
+description: Learn about using HttpContext in ASP.NET Core apps. HttpContext isn't thread-safe and can throw an exception when accessed.
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 01/31/2022
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: fundamentals/httpcontext
 ---
-# Access HttpContext in ASP.NET Core
+# Access `HttpContext` in ASP.NET Core
 
 :::moniker range=">= aspnetcore-6.0"
-    
-ASP.NET Core apps access `HttpContext` through the <xref:Microsoft.AspNetCore.Http.IHttpContextAccessor> interface and its default implementation <xref:Microsoft.AspNetCore.Http.HttpContextAccessor>. It's only necessary to use `IHttpContextAccessor` when you need access to the `HttpContext` inside a service.
 
-## Use HttpContext from Razor Pages
+<xref:Microsoft.AspNetCore.Http.HttpContext> encapsulates all information about an individual HTTP request and response. An `HttpContext` instance is initialized when an HTTP request is received. The `HttpContext` instance is accessible by middleware and app frameworks such as Web API controllers, Razor Pages, SignalR, gRPC, and more.
+
+For information about using `HttpContext` with a HTTP request and response, see <xref:fundamentals/use-httpcontext>.
+
+## Access `HttpContext` from Razor Pages
 
 The Razor Pages <xref:Microsoft.AspNetCore.Mvc.RazorPages.PageModel> exposes the <xref:Microsoft.AspNetCore.Mvc.RazorPages.PageModel.HttpContext?displayProperty=nameWithType> property:
 
@@ -44,7 +45,7 @@ The same property can be used in the corresponding Razor Page View:
 }
 ```
 
-## Use HttpContext from a Razor view in MVC
+## Access `HttpContext` from a Razor view in MVC
 
 Razor views in the MVC pattern expose the `HttpContext` via the <xref:Microsoft.AspNetCore.Mvc.Razor.RazorPage.Context%2A?displayProperty=nameWithType> property on the view. The following example retrieves the current username in an intranet app using Windows Authentication:
 
@@ -56,7 +57,7 @@ Razor views in the MVC pattern expose the `HttpContext` via the <xref:Microsoft.
 }
 ```
 
-## Use HttpContext from a controller
+## Access `HttpContext` from a controller
 
 Controllers expose the <xref:Microsoft.AspNetCore.Mvc.ControllerBase.HttpContext%2A?displayProperty=nameWithType> property:
 
@@ -74,7 +75,7 @@ public class HomeController : Controller
 }
 ```
 
-## Use HttpContext from minimal APIs
+## Access `HttpContext` from minimal APIs
 
 To use `HttpContext` from minimal APIs, add a `HttpContext` parameter:
 
@@ -82,7 +83,7 @@ To use `HttpContext` from minimal APIs, add a `HttpContext` parameter:
 app.MapGet("/", (HttpContext context) => context.Response.WriteAsync("Hello World"));
 ```
 
-## Use HttpContext from middleware
+## Access `HttpContext` from middleware
 
 To use `HttpContext` from custom middleware components, use the `HttpContext` parameter passed into the `Invoke` or `InvokeAsync` method:
 
@@ -98,7 +99,7 @@ public class MyCustomMiddleware
 }
 ```
 
-## Use HttpContext from SignalR
+## Access `HttpContext` from SignalR
 
 To use `HttpContext` from SignalR, call the <xref:Microsoft.AspNetCore.SignalR.GetHttpContextExtensions.GetHttpContext%2A> method on <xref:Microsoft.AspNetCore.SignalR.Hub.Context%2A?displayProperty=nameWithType>:
 
@@ -114,11 +115,11 @@ public class MyHub : Hub
 }
 ```
 
-## Use HttpContext from gRPC methods
+## Access `HttpContext` from gRPC methods
 
-To use `HttpContext` from gRPC methods, see [Resolve HttpContext in gRPC methods](xref:grpc/aspnetcore#resolve-httpcontext-in-grpc-methods).
+To use `HttpContext` from gRPC methods, see [Resolve `HttpContext` in gRPC methods](xref:grpc/aspnetcore#resolve-httpcontext-in-grpc-methods).
 
-## Use HttpContext from custom components
+## Access `HttpContext` from custom components
 
 For other framework and custom components that require access to `HttpContext`, the recommended approach is to register a dependency using the built-in [Dependency Injection (DI)](xref:fundamentals/dependency-injection) container. The DI container supplies the `IHttpContextAccessor` to any classes that declare it as a dependency in their constructors:
 
@@ -152,7 +153,7 @@ public class UserRepository : IUserRepository
 }
 ```
 
-## HttpContext access from a background thread
+## `HttpContext` access from a background thread
 
 `HttpContext` isn't thread-safe. Reading or writing properties of the `HttpContext` outside of processing a request can result in a <xref:System.NullReferenceException>.
 
@@ -186,17 +187,19 @@ public class EmailController : Controller
 }
 ```
 
-## Blazor and shared state
+## `IHttpContextAccessor`/`HttpContext` in Razor components (Blazor)
 
-[!INCLUDE[](~/blazor/security/includes/blazor-shared-state.md)]
+[!INCLUDE[](~/blazor/security/includes/httpcontext.md)]
 
 :::moniker-end
 
 :::moniker range="< aspnetcore-6.0"
     
-ASP.NET Core apps access `HttpContext` through the <xref:Microsoft.AspNetCore.Http.IHttpContextAccessor> interface and its default implementation <xref:Microsoft.AspNetCore.Http.HttpContextAccessor>. It's only necessary to use `IHttpContextAccessor` when you need access to the `HttpContext` inside a service.
+<xref:Microsoft.AspNetCore.Http.HttpContext> encapsulates all information about an individual HTTP request and response. An `HttpContext` instance is initialized when an HTTP request is received. The `HttpContext` instance is accessible by middleware and app frameworks such as Web API controllers, Razor Pages, SignalR, gRPC, and more.
 
-## Use HttpContext from Razor Pages
+For information about using `HttpContext` with a HTTP request and response, see <xref:fundamentals/use-httpcontext>.
+
+## Access `HttpContext` from Razor Pages
 
 The Razor Pages <xref:Microsoft.AspNetCore.Mvc.RazorPages.PageModel> exposes the <xref:Microsoft.AspNetCore.Mvc.RazorPages.PageModel.HttpContext?displayProperty=nameWithType> property:
 
@@ -225,7 +228,7 @@ The same property can be used in the corresponding Razor Page View:
 }
 ```
 
-## Use HttpContext from a Razor view in MVC
+## Access `HttpContext` from a Razor view in MVC
 
 Razor views in the MVC pattern expose the `HttpContext` via the <xref:Microsoft.AspNetCore.Mvc.Razor.RazorPage.Context%2A?displayProperty=nameWithType> property on the view. The following example retrieves the current username in an intranet app using Windows Authentication:
 
@@ -237,7 +240,7 @@ Razor views in the MVC pattern expose the `HttpContext` via the <xref:Microsoft.
 }
 ```
 
-## Use HttpContext from a controller
+## Access `HttpContext` from a controller
 
 Controllers expose the <xref:Microsoft.AspNetCore.Mvc.ControllerBase.HttpContext%2A?displayProperty=nameWithType> property:
 
@@ -255,7 +258,7 @@ public class HomeController : Controller
 }
 ```
 
-## Use HttpContext from middleware
+## Access `HttpContext` from middleware
 
 When working with custom middleware components, `HttpContext` is passed into the `Invoke` or `InvokeAsync` method:
 
@@ -269,7 +272,7 @@ public class MyCustomMiddleware
 }
 ```
 
-## Use HttpContext from custom components
+## Access `HttpContext` from custom components
 
 For other framework and custom components that require access to `HttpContext`, the recommended approach is to register a dependency using the built-in [Dependency Injection (DI)](xref:fundamentals/dependency-injection) container. The DI container supplies the `IHttpContextAccessor` to any classes that declare it as a dependency in their constructors:
 
@@ -305,7 +308,7 @@ public class UserRepository : IUserRepository
 }
 ```
 
-## HttpContext access from a background thread
+## `HttpContext` access from a background thread
 
 `HttpContext` isn't thread-safe. Reading or writing properties of the `HttpContext` outside of processing a request can result in a <xref:System.NullReferenceException>.
 
@@ -339,8 +342,8 @@ public class EmailController : Controller
 }
 ```
 
-## Blazor and shared state
+## `IHttpContextAccessor`/`HttpContext` in Razor components (Blazor)
 
-[!INCLUDE[](~/blazor/security/includes/blazor-shared-state.md)]
+[!INCLUDE[](~/blazor/security/includes/httpcontext.md)]
 
 :::moniker-end

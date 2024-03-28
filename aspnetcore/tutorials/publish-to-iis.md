@@ -6,7 +6,6 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 10/03/2019
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: tutorials/publish-to-iis
 ---
 # Publish an ASP.NET Core app to IIS
@@ -55,7 +54,7 @@ Download the installer using the following link:
 1. Provide a **Site name** and set the **Physical path** to the app's deployment folder that you created. Provide the **Binding** configuration and create the website by selecting **OK**.
 
    > [!WARNING]
-   > Top-level wildcard bindings (`http://*:80/` and `http://+:80`) should **not** be used. Top-level wildcard bindings can open up your app to security vulnerabilities. This applies to both strong and weak wildcards. Use explicit host names rather than wildcards. Subdomain wildcard binding (for example, `*.mysub.com`) doesn't have this security risk if you control the entire parent domain (as opposed to `*.com`, which is vulnerable). See [rfc7230 section-5.4](https://tools.ietf.org/html/rfc7230#section-5.4) for more information.
+   > Top-level wildcard bindings (`http://*:80/` and `http://+:80`) should **not** be used. Top-level wildcard bindings can open up your app to security vulnerabilities. This applies to both strong and weak wildcards. Use explicit host names rather than wildcards. Subdomain wildcard binding (for example, `*.mysub.com`) doesn't have this security risk if you control the entire parent domain (as opposed to `*.com`, which is vulnerable). See [RFC 9110: HTTP Semantics (Section 7.2. Host and :authority)](https://www.rfc-editor.org/rfc/rfc9110#field.host) for more information.
 
 1. Confirm the process model identity has the proper permissions.
 
@@ -133,7 +132,6 @@ To learn more about hosting ASP.NET Core apps on IIS, see the IIS Overview artic
 * <xref:tutorials/publish-to-azure-webapp-using-vs>
 * <xref:tutorials/publish-to-azure-webapp-using-vscode>
 * <xref:host-and-deploy/visual-studio-publish-profiles>
-* [Publish a Web app to a folder using Visual Studio for Mac](/visualstudio/mac/publish-folder)
 
 ### Articles on IIS HTTPS configuration
 
@@ -155,4 +153,3 @@ To learn more about hosting ASP.NET Core apps on IIS, see the IIS Overview artic
 * <xref:host-and-deploy/iis/modules>
 * <xref:test/troubleshoot-azure-iis>
 * <xref:host-and-deploy/azure-iis-errors-reference>
-

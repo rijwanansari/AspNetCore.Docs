@@ -5,7 +5,6 @@ description: Learn about the new features in ASP.NET Core 3.0.
 ms.author: riande
 ms.custom: mvc
 ms.date: 12/05/2019
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: aspnetcore-3.0
 ---
 # What's new in ASP.NET Core 3.0
@@ -16,7 +15,7 @@ This article highlights the most significant changes in ASP.NET Core 3.0 with li
 
 Blazor is a new framework in ASP.NET Core for building interactive client-side web UI with .NET:
 
-* Create rich interactive UIs using C# instead of JavaScript.
+* Create rich interactive UIs using C#.
 * Share server-side and client-side app logic written in .NET.
 * Render the UI as HTML and CSS for wide browser support, including mobile browsers.
 
@@ -202,7 +201,7 @@ public class ChatHub : Hub
 
 Creating the `DomainRestricted` policy might involve:
 
-* In *Startup.cs*, adding the new policy.
+* In `Startup.cs`, adding the new policy.
 * Provide the custom `DomainRestrictedRequirement` requirement as a parameter.
 * Registering `DomainRestricted` with the authorization middleware.
 
@@ -325,7 +324,7 @@ IdentityServer4 is an OpenID Connect and OAuth 2.0 framework for ASP.NET Core 3.
 * Access control for APIs
 * Federation Gateway
 
-For more information, see [the IdentityServer4 documentation](http://docs.identityserver.io/en/latest/index.html) or [Authentication and authorization for SPAs](xref:security/authentication/identity/spa).
+For more information, see [the IdentityServer4 documentation](https://identityserver4.readthedocs.io/en/latest/) or [Authentication and authorization for SPAs](xref:security/authentication/identity/spa).
 
 ## Certificate and Kerberos authentication
 

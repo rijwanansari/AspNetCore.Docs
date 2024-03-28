@@ -4,7 +4,6 @@ author: ardalis
 description: Learn how ASP.NET Core MVC controllers and Actions handle requests and return responses.
 ms.author: riande
 ms.date: 12/05/2019
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: mvc/controllers/actions
 ---
 # Handle requests with controllers in ASP.NET Core MVC
@@ -15,7 +14,7 @@ Controllers, actions, and action results are a fundamental part of how developer
 
 ## What is a Controller?
 
-A controller is used to define and group a set of actions. An action (or *action method*) is a method on a controller which handles requests. Controllers logically group similar actions together. This aggregation of actions allows common sets of rules, such as routing, caching, and authorization, to be applied collectively. Requests are mapped to actions through [routing](xref:mvc/controllers/routing).
+A controller is used to define and group a set of actions. An action (or *action method*) is a method on a controller which handles requests. Controllers logically group similar actions together. This aggregation of actions allows common sets of rules, such as routing, caching, and authorization, to be applied collectively. Requests are mapped to actions through [routing](xref:mvc/controllers/routing). Controllers are activated and disposed on a per request basis.
 
 By convention, controller classes:
 

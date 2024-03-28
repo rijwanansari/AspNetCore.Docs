@@ -4,7 +4,6 @@ author: rick-anderson
 description: Learn implementation details of ASP.NET Core Data Protection key encryption at rest.
 ms.author: riande
 ms.date: 07/16/2018
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: security/data-protection/implementation/key-encryption-at-rest
 ---
 # Key encryption at rest in Windows and Azure using ASP.NET Core
@@ -37,7 +36,7 @@ For more information, see [Configure ASP.NET Core Data Protection: ProtectKeysWi
 
 **Only applies to Windows deployments.**
 
-When Windows DPAPI is used, key material is encrypted with [CryptProtectData](/windows/desktop/api/dpapi/nf-dpapi-cryptprotectdata) before being persisted to storage. DPAPI is an appropriate encryption mechanism for data that's never read outside of the current machine (though it's possible to back these keys up to Active Directory; see the *DPAPI and Roaming Profiles* section of [How to troubleshoot the Data Protection API (DPAPI)](https://support.microsoft.com/topic/bf374083-626f-3446-2a9d-3f6077723a60)). To configure DPAPI key-at-rest encryption, call one of the <xref:Microsoft.AspNetCore.DataProtection.DataProtectionBuilderExtensions.ProtectKeysWithDpapi%2A>) extension methods:
+When Windows DPAPI is used, key material is encrypted with [CryptProtectData](/windows/desktop/api/dpapi/nf-dpapi-cryptprotectdata) before being persisted to storage. DPAPI is an appropriate encryption mechanism for data that's never read outside of the current machine (though it's possible to back these keys up to Active Directory). To configure DPAPI key-at-rest encryption, call one of the <xref:Microsoft.AspNetCore.DataProtection.DataProtectionBuilderExtensions.ProtectKeysWithDpapi%2A>) extension methods:
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)

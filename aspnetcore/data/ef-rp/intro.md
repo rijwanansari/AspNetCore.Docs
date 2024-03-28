@@ -1,12 +1,11 @@
 ---
 title: Razor Pages with Entity Framework Core in ASP.NET Core - Tutorial 1 of 8
-author: rick-anderson
+author: tdykstra
 description: Shows how to create a Razor Pages app using Entity Framework Core
 ms.author: riande
 monikerRange: '>= aspnetcore-3.1'
 ms.custom: "mvc"
 ms.date: 11/11/2021
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: data/ef-rp/intro
 ---
 
@@ -66,7 +65,7 @@ This step is optional. Building the completed app is recommended when you have p
 
 # [Visual Studio](#tab/visual-studio)
 
-Select *ContosoUniversity.csproj* to open the project.
+Select `ContosoUniversity.csproj` to open the project.
 
 * Build the project.
 * In Package Manager Console (PMC) run the following command:
@@ -77,7 +76,7 @@ Select *ContosoUniversity.csproj* to open the project.
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-* Remove the comments from the *ContosoUniversity.csproj* file so `SQLiteVersion` is defined:
+* Remove the comments from the `ContosoUniversity.csproj` file so `SQLiteVersion` is defined:
 
   ```xml
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -92,6 +91,8 @@ Select *ContosoUniversity.csproj* to open the project.
   dotnet ef database update
     
   ```
+
+[!INCLUDE[](~/includes/dotnet-tool-install-arch-options.md)]
 
 <!-- prerelease versions require
   dotnet tool uninstall --global dotnet-ef
@@ -134,7 +135,7 @@ Run the project to seed the database.
 
 ## Set up the site style
 
-Copy and paste the following code into the *Pages/Shared/_Layout.cshtml* file:
+Copy and paste the following code into the `Pages/Shared/_Layout.cshtml` file:
 
 [!code-cshtml[Main](intro/samples/cu60/Pages/Shared/_Layout.cshtml?highlight=6,15,22-36,50)]
 
@@ -144,7 +145,7 @@ The layout file sets the site header, footer, and menu. The preceding code makes
 * The **Home** and **Privacy** menu entries are deleted.
 * Entries are added for **About**, **Students**, **Courses**, **Instructors**, and **Departments**.
 
-In *Pages/Index.cshtml*, replace the contents of the file with the following code:
+In `Pages/Index.cshtml`, replace the contents of the file with the following code:
 
 [!code-cshtml[Main](intro/samples/cu60/Pages/Index.cshtml)]
 
@@ -165,7 +166,7 @@ A student can enroll in any number of courses, and a course can have any number 
 ![Student entity diagram](intro/_static/student-entity.png)
 
 * Create a *Models* folder in the project folder.
-* Create *Models/Student.cs* with the following code:
+* Create `Models/Student.cs` with the following code:
   [!code-csharp[Main](intro/samples/cu60/Models/Student.cs?name=snippet_first)]
 
 The `ID` property becomes the primary key column of the database table that corresponds to this class. By default, EF Core interprets a property that's named `ID` or `classnameID` as the primary key. So the alternative automatically recognized name for the `Student` class primary key is `StudentID`. For more information, see [EF Core - Keys](/ef/core/modeling/keys?tabs=data-annotations).
@@ -180,7 +181,7 @@ The `Enrollments` property is defined as `ICollection<Enrollment>` because there
 
 ![Enrollment entity diagram](intro/_static/enrollment-entity.png)
 
-Create *Models/Enrollment.cs* with the following code:
+Create `Models/Enrollment.cs` with the following code:
 
 [!code-csharp[](intro/samples/cu60/Models/Enrollment.cs)]
 
@@ -198,7 +199,7 @@ EF Core interprets a property as a foreign key if it's named `<navigation proper
 
 ![Course entity diagram](intro/_static/course-entity.png)
 
-Create *Models/Course.cs* with the following code:
+Create `Models/Course.cs` with the following code:
 
   [!code-csharp[Main](intro/samples/cu60/Models/Course.cs?name=snippet_first)]
 
@@ -208,7 +209,7 @@ The `DatabaseGenerated` attribute allows the app to specify the primary key rath
 
 Build the app. The compiler generates several warnings about how `null` values are handled. See [this GitHub issue](https://github.com/dotnet/Scaffolding/issues/1594), [Nullable reference types](/dotnet/csharp/nullable-references), and [Tutorial: Express your design intent more clearly with nullable and non-nullable reference types](/dotnet/csharp/whats-new/tutorials/nullable-reference-types) for more information.
 
-To eliminate the warnings from nullable reference types, remove the following line from the *ContosoUniversity.csproj* file:
+To eliminate the warnings from nullable reference types, remove the following line from the `ContosoUniversity.csproj` file:
 
 ```xml
 <Nullable>enable</Nullable>
@@ -216,7 +217,7 @@ To eliminate the warnings from nullable reference types, remove the following li
 
 The scaffolding engine currently does not support [nullable reference types](/dotnet/csharp/nullable-references), therefore the models used in scaffold can't either.
 
-Remove the `?` nullable reference type annotation from `public string? RequestId { get; set; }` in *Pages/Error.cshtml.cs* so the project builds without compiler warnings.
+Remove the `?` nullable reference type annotation from `public string? RequestId { get; set; }` in `Pages/Error.cshtml.cs` so the project builds without compiler warnings.
 
 ## Scaffold Student pages
 
@@ -292,18 +293,18 @@ If the preceding step fails, build the project and retry the scaffold step.
 The scaffolding process:
 
 * Creates Razor pages in the *Pages/Students* folder:
-  * *Create.cshtml* and *Create.cshtml.cs*
-  * *Delete.cshtml* and *Delete.cshtml.cs*
-  * *Details.cshtml* and *Details.cshtml.cs*
-  * *Edit.cshtml* and *Edit.cshtml.cs*
-  * *Index.cshtml* and *Index.cshtml.cs*
-* Creates *Data/SchoolContext.cs*.
+  * `Create.cshtml` and `Create.cshtml.cs`
+  * `Delete.cshtml` and `Delete.cshtml.cs`
+  * `Details.cshtml` and `Details.cshtml.cs`
+  * `Edit.cshtml` and `Edit.cshtml.cs`
+  * `Index.cshtml` and `Index.cshtml.cs`
+* Creates `Data/SchoolContext.cs`.
 * Adds the context to dependency injection in `Program.cs`.
-* Adds a database connection string to *appsettings.json*.
+* Adds a database connection string to `appsettings.json`.
 
 ## Database connection string
 
-The scaffolding tool generates a connection string in the *appsettings.json* file.
+The scaffolding tool generates a connection string in the `appsettings.json` file.
 
 # [Visual Studio](#tab/visual-studio)
 
@@ -315,7 +316,7 @@ LocalDB is a lightweight version of the SQL Server Express Database Engine and i
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-Rename the connection string key to `SchoolContextSQLite` and shorten value to *CU.db*:
+Rename the connection string key to `SchoolContextSQLite` and shorten value to `CU.db`:
 
 [!code-json[Main](intro/samples/cu60/appsettings.Development.json?highlight=10)]
 
@@ -329,7 +330,7 @@ Renaming the connection string key to `SchoolContextSQLite` helps the author mai
 
 The main class that coordinates EF Core functionality for a given data model is the database context class. The context is derived from <xref:Microsoft.EntityFrameworkCore.DbContext?displayProperty=fullName>. The context specifies which entities are included in the data model. In this project, the class is named `SchoolContext`.
 
-Update *Data/SchoolContext.cs* with the following code:
+Update `Data/SchoolContext.cs` with the following code:
 
 [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Data/SchoolContext.cs?highlight=13-22)]
 
@@ -376,7 +377,7 @@ See [Use SQLite for development, SQL Server for production](xref:tutorials/razor
 
 ---
 
-The name of the connection string is passed in to the context by calling a method on a <xref:Microsoft.EntityFrameworkCore.DbContextOptions> object. For local development, the [ASP.NET Core configuration system](xref:fundamentals/configuration/index) reads the connection string from the *appsettings.json* or the *appsettings.Developement.json* file.
+The name of the connection string is passed in to the context by calling a method on a <xref:Microsoft.EntityFrameworkCore.DbContextOptions> object. For local development, the [ASP.NET Core configuration system](xref:fundamentals/configuration/index) reads the connection string from the `appsettings.json` or the `appsettings.Development.json` file.
 
 <a name="dbx"></a>
 
@@ -441,7 +442,7 @@ Later in the tutorial series, the database is deleted that was created by `Ensur
 
 The `EnsureCreated` method creates an empty database. This section adds code that populates the database with test data.
 
-Create *Data/DbInitializer.cs* with the following code:
+Create `Data/DbInitializer.cs` with the following code:
 
 [!code-csharp[Main](intro/samples/cu60/Data/DbInitializer1.cs?name=snippet)]
 
@@ -449,7 +450,7 @@ The code checks if there are any students in the database. If there are no stude
 
 * In `Program.cs`, remove `//` from the `DbInitializer.Initialize` line:
 
- [!code-csharp[Main](intro/samples/cu60/Program.cs?name=snippet_ensure&highlight=6)]
+ [!code-csharp[Main](intro/samples/cu60/Program.cs?name=snippet_ensure&highlight=7)]
 
 # [Visual Studio](#tab/visual-studio)
 
@@ -464,7 +465,7 @@ The code checks if there are any students in the database. If there are no stude
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-* Stop the app if it's running, and delete the *CU.db* file.
+* Stop the app if it's running, and delete the `CU.db` file.
 
 ---
 
@@ -483,7 +484,7 @@ The code checks if there are any students in the database. If there are no stude
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-Use a SQLite tool to view the database schema and seeded data. The database file is named *CU.db* and is located in the project folder.
+Use a SQLite tool to view the database schema and seeded data. The database file is named `CU.db` and is located in the project folder.
 
 ---
 
@@ -519,6 +520,9 @@ Some things to be aware of when writing asynchronous code that uses EF Core:
 
 For more information about asynchronous programming in .NET, see [Async Overview](/dotnet/standard/async) and [Asynchronous programming with async and await](/dotnet/csharp/programming-guide/concepts/async/).
 
+> [!WARNING]
+> The async implementation of [Microsoft.Data.SqlClient](https://github.com/dotnet/SqlClient) has some known issues ([#593](https://github.com/dotnet/SqlClient/issues/593), [#601](https://github.com/dotnet/SqlClient/issues/601), and others). If you're seeing unexpected performance problems, try using sync command execution instead, especially when dealing with large text or binary values.
+
 <!-- Review: See https://github.com/dotnet/AspNetCore.Docs/issues/14528 -->
 ## Performance considerations
 
@@ -530,7 +534,7 @@ Enumerating a large table in a view could return a partially constructed HTTP 20
 
 Paging is covered later in the tutorial.
 
-For more information, see [Performance considerations (EF)](/dotnet/framework/data/adonet/ef/performance-considerations).
+For more information, see [Performance considerations (EF)](/ef/core/performance).
 
 ## Next steps
 
@@ -593,7 +597,7 @@ This step is optional. Building the completed app is recommended when you have p
 
 # [Visual Studio](#tab/visual-studio)
 
-Select *ContosoUniversity.csproj* to open the project.
+Select `ContosoUniversity.csproj` to open the project.
 
 * Build the project.
 * In Package Manager Console (PMC) run the following command:
@@ -604,7 +608,7 @@ Update-Database
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-* Remove the comments from the *ContosoUniversity.csproj* file so `SQLiteVersion` is defined:
+* Remove the comments from the `ContosoUniversity.csproj` file so `SQLiteVersion` is defined:
 
   ```xml
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -655,7 +659,7 @@ Run the project to seed the database.
 
 ## Set up the site style
 
-Copy and paste the following code into the *Pages/Shared/_Layout.cshtml* file:
+Copy and paste the following code into the `Pages/Shared/_Layout.cshtml` file:
 
 [!code-cshtml[Main](intro/samples/cu50/Pages/Shared/_Layout.cshtml?highlight=6,14,21-35,49)]
 
@@ -665,7 +669,7 @@ The layout file sets the site header, footer, and menu. The preceding code makes
 * The **Home** and **Privacy** menu entries are deleted.
 * Entries are added for **About**, **Students**, **Courses**, **Instructors**, and **Departments**.
 
-In *Pages/Index.cshtml*, replace the contents of the file with the following code:
+In `Pages/Index.cshtml`, replace the contents of the file with the following code:
 
 [!code-cshtml[Main](intro/samples/cu50/Pages/Index.cshtml)]
 
@@ -687,7 +691,7 @@ A student can enroll in any number of courses, and a course can have any number 
 
 * Create a *Models* folder in the project folder. 
 
-* Create *Models/Student.cs* with the following code:
+* Create `Models/Student.cs` with the following code:
 
   [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Models/Student.cs)]
 
@@ -703,7 +707,7 @@ The `Enrollments` property is defined as `ICollection<Enrollment>` because there
 
 ![Enrollment entity diagram](intro/_static/enrollment-entity.png)
 
-Create *Models/Enrollment.cs* with the following code:
+Create `Models/Enrollment.cs` with the following code:
 
 [!code-csharp[](intro/samples/cu50/Models/Enrollment.cs)]
 
@@ -721,7 +725,7 @@ EF Core interprets a property as a foreign key if it's named `<navigation proper
 
 ![Course entity diagram](intro/_static/course-entity.png)
 
-Create *Models/Course.cs* with the following code:
+Create `Models/Course.cs` with the following code:
 
 [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Models/Course.cs)]
 
@@ -805,18 +809,18 @@ If the preceding step fails, build the project and retry the scaffold step.
 The scaffolding process:
 
 * Creates Razor pages in the *Pages/Students* folder:
-  * *Create.cshtml* and *Create.cshtml.cs*
-  * *Delete.cshtml* and *Delete.cshtml.cs*
-  * *Details.cshtml* and *Details.cshtml.cs*
-  * *Edit.cshtml* and *Edit.cshtml.cs*
-  * *Index.cshtml* and *Index.cshtml.cs*
-* Creates *Data/SchoolContext.cs*.
-* Adds the context to dependency injection in *Startup.cs*.
-* Adds a database connection string to *appsettings.json*.
+  * `Create.cshtml` and `Create.cshtml.cs`
+  * `Delete.cshtml` and `Delete.cshtml.cs`
+  * `Details.cshtml` and `Details.cshtml.cs`
+  * `Edit.cshtml` and `Edit.cshtml.cs`
+  * `Index.cshtml` and `Index.cshtml.cs`
+* Creates `Data/SchoolContext.cs`.
+* Adds the context to dependency injection in `Startup.cs`.
+* Adds a database connection string to `appsettings.json`.
 
 ## Database connection string
 
-The scaffolding tool generates a connection string in the *appsettings.json* file.
+The scaffolding tool generates a connection string in the `appsettings.json` file.
 
 # [Visual Studio](#tab/visual-studio)
 
@@ -828,7 +832,7 @@ LocalDB is a lightweight version of the SQL Server Express Database Engine and i
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-Shorten the SQLite connection string to *CU.db*:
+Shorten the SQLite connection string to `CU.db`:
 
 [!code-json[Main](intro/samples/cu50/appsettingsSQLite.json?highlight=11)]
 
@@ -840,7 +844,7 @@ Don't change the directory without making sure it's valid.
 
 The main class that coordinates EF Core functionality for a given data model is the database context class. The context is derived from <xref:Microsoft.EntityFrameworkCore.DbContext?displayProperty=fullName>. The context specifies which entities are included in the data model. In this project, the class is named `SchoolContext`.
 
-Update *Data/SchoolContext.cs* with the following code:
+Update `Data/SchoolContext.cs` with the following code:
 
 [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Data/SchoolContext.cs?highlight=13-22)]
 
@@ -887,7 +891,7 @@ See [Use SQLite for development, SQL Server for production](xref:tutorials/razor
 
 ---
 
-The name of the connection string is passed in to the context by calling a method on a <xref:Microsoft.EntityFrameworkCore.DbContextOptions> object. For local development, the [ASP.NET Core configuration system](xref:fundamentals/configuration/index) reads the connection string from the *appsettings.json* file.
+The name of the connection string is passed in to the context by calling a method on a <xref:Microsoft.EntityFrameworkCore.DbContextOptions> object. For local development, the [ASP.NET Core configuration system](xref:fundamentals/configuration/index) reads the connection string from the `appsettings.json` file.
 
 <a name="dbx"></a>
 
@@ -944,7 +948,7 @@ Later in the tutorial series, the database is deleted that was created by `Ensur
 
 The `EnsureCreated` method creates an empty database. This section adds code that populates the database with test data.
 
-Create *Data/DbInitializer.cs* with the following code:
+Create `Data/DbInitializer.cs` with the following code:
 
 [!code-csharp[Main](intro/samples/cu50/Data/DbInitializer1.cs?name=snippet)]
 
@@ -970,7 +974,7 @@ The code checks if there are any students in the database. If there are no stude
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-* Stop the app if it's running, and delete the *CU.db* file.
+* Stop the app if it's running, and delete the `CU.db` file.
 
 ---
 
@@ -989,7 +993,7 @@ The code checks if there are any students in the database. If there are no stude
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-Use a SQLite tool to view the database schema and seeded data. The database file is named *CU.db* and is located in the project folder.
+Use a SQLite tool to view the database schema and seeded data. The database file is named `CU.db` and is located in the project folder.
 
 ---
 
@@ -1116,9 +1120,9 @@ To run the app after downloading the completed project:
 
 To run the app after downloading the completed project:
 
-* Delete *ContosoUniversity.csproj*, and rename *ContosoUniversitySQLite.csproj* to *ContosoUniversity.csproj*.
+* Delete `ContosoUniversity.csproj`, and rename `ContosoUniversitySQLite.csproj` to `ContosoUniversity.csproj`.
 * In `Program.cs`, comment out `#define Startup` so `StartupSQLite` is used.
-* Delete *appSettings.json*, and rename *appSettingsSQLite.json* to *appSettings.json*.
+* Delete `appsettings.json`, and rename `appSettingsSQLite.json` to `appsettings.json`.
 * Delete the *Migrations* folder, and rename *MigrationsSQL* to *Migrations*.
 * Do a global search for `#if SQLiteVersion` and remove `#if SQLiteVersion` and the associated `#endif` statement.
 * Build the project.
@@ -1164,7 +1168,7 @@ To run the app after downloading the completed project:
 
 ## Set up the site style
 
-Set up the site header, footer, and menu by updating *Pages/Shared/_Layout.cshtml*:
+Set up the site header, footer, and menu by updating `Pages/Shared/_Layout.cshtml`:
 
 * Change each occurrence of "ContosoUniversity" to "Contoso University". There are three occurrences.
 
@@ -1174,7 +1178,7 @@ The changes are highlighted.
 
 [!code-cshtml[Main](intro/samples/cu30/Pages/Shared/_Layout.cshtml?highlight=6,14,21-35,49)]
 
-In *Pages/Index.cshtml*, replace the contents of the file with the following code to replace the text about ASP.NET Core with text about this app:
+In `Pages/Index.cshtml`, replace the contents of the file with the following code to replace the text about ASP.NET Core with text about this app:
 
 [!code-cshtml[Main](intro/samples/cu30/Pages/Index.cshtml)]
 
@@ -1193,7 +1197,7 @@ A student can enroll in any number of courses, and a course can have any number 
 ![Student entity diagram](intro/_static/student-entity.png)
 
 * Create a *Models* folder in the project folder.
-* Create *Models/Student.cs* with the following code:
+* Create `Models/Student.cs` with the following code:
 
   [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Models/Student.cs)]
 
@@ -1209,7 +1213,7 @@ The `Enrollments` property is defined as `ICollection<Enrollment>` because there
 
 ![Enrollment entity diagram](intro/_static/enrollment-entity.png)
 
-Create *Models/Enrollment.cs* with the following code:
+Create `Models/Enrollment.cs` with the following code:
 
 [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Models/Enrollment.cs)]
 
@@ -1227,7 +1231,7 @@ EF Core interprets a property as a foreign key if it's named `<navigation proper
 
 ![Course entity diagram](intro/_static/course-entity.png)
 
-Create *Models/Course.cs* with the following code:
+Create `Models/Course.cs` with the following code:
 
 [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Models/Course.cs)]
 
@@ -1309,20 +1313,20 @@ If you have a problem with the preceding step, build the project and retry the s
 The scaffolding process:
 
 * Creates Razor pages in the *Pages/Students* folder:
-  * *Create.cshtml* and *Create.cshtml.cs*
-  * *Delete.cshtml* and *Delete.cshtml.cs*
-  * *Details.cshtml* and *Details.cshtml.cs*
-  * *Edit.cshtml* and *Edit.cshtml.cs*
-  * *Index.cshtml* and *Index.cshtml.cs*
-* Creates *Data/SchoolContext.cs*.
-* Adds the context to dependency injection in *Startup.cs*.
-* Adds a database connection string to *appsettings.json*.
+  * `Create.cshtml` and `Create.cshtml.cs`
+  * `Delete.cshtml` and `Delete.cshtml.cs`
+  * `Details.cshtml` and `Details.cshtml.cs`
+  * `Edit.cshtml` and `Edit.cshtml.cs`
+  * `Index.cshtml` and `Index.cshtml.cs`
+* Creates `Data/SchoolContext.cs`.
+* Adds the context to dependency injection in `Startup.cs`.
+* Adds a database connection string to `appsettings.json`.
 
 ## Database connection string
 
 # [Visual Studio](#tab/visual-studio)
 
-The *appsettings.json* file specifies the connection string [SQL Server LocalDB](/sql/database-engine/configure-windows/sql-server-2016-express-localdb).
+The `appsettings.json` file specifies the connection string [SQL Server LocalDB](/sql/database-engine/configure-windows/sql-server-2016-express-localdb).
 
 [!code-json[Main](intro/samples/cu30/appsettings.json?highlight=11)]
 
@@ -1330,7 +1334,7 @@ LocalDB is a lightweight version of the SQL Server Express Database Engine and i
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-Change the connection string to point to a SQLite database file named *CU.db*:
+Change the connection string to point to a SQLite database file named `CU.db`:
 
 [!code-json[Main](intro/samples/cu30/appsettingsSQLite.json?highlight=11)]
 
@@ -1340,7 +1344,7 @@ Change the connection string to point to a SQLite database file named *CU.db*:
 
 The main class that coordinates EF Core functionality for a given data model is the database context class. The context is derived from <xref:Microsoft.EntityFrameworkCore.DbContext?displayProperty=fullName>. The context specifies which entities are included in the data model. In this project, the class is named `SchoolContext`.
 
-Update *Data/SchoolContext.cs* with the following code:
+Update `Data/SchoolContext.cs` with the following code:
 
 [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Data/SchoolContext.cs?highlight=13-22)]
 
@@ -1375,7 +1379,7 @@ The scaffolding tool automatically registered the context class with the depende
 
 ---
 
-The name of the connection string is passed in to the context by calling a method on a <xref:Microsoft.EntityFrameworkCore.DbContextOptions> object. For local development, the [ASP.NET Core configuration system](xref:fundamentals/configuration/index) reads the connection string from the *appsettings.json* file.
+The name of the connection string is passed in to the context by calling a method on a <xref:Microsoft.EntityFrameworkCore.DbContextOptions> object. For local development, the [ASP.NET Core configuration system](xref:fundamentals/configuration/index) reads the connection string from the `appsettings.json` file.
 
 ## Create the database
 
@@ -1404,7 +1408,7 @@ Later in the tutorial series, you delete the database that was created by `Ensur
 
 The `EnsureCreated` method creates an empty database. This section adds code that populates the database with test data.
 
-Create *Data/DbInitializer.cs* with the following code:
+Create `Data/DbInitializer.cs` with the following code:
 <!-- next update, keep this file in the project and surround with #if -->
   [!code-csharp[Main](intro/samples/cu30snapshots/1-intro/Data/DbInitializer.cs)]
 
@@ -1427,7 +1431,7 @@ Drop-Database
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-* Stop the app if it's running, and delete the *CU.db* file.
+* Stop the app if it's running, and delete the `CU.db` file.
 
 ---
 
@@ -1447,7 +1451,7 @@ Drop-Database
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-Use your SQLite tool to view the database schema and seeded data. The database file is named *CU.db* and is located in the project folder.
+Use your SQLite tool to view the database schema and seeded data. The database file is named `CU.db` and is located in the project folder.
 
 ---
 

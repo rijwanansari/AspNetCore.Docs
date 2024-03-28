@@ -3,13 +3,14 @@ title: Routing to controller actions in ASP.NET Core
 author: rick-anderson
 description: Learn how ASP.NET Core MVC uses Routing Middleware to match URLs of incoming requests and map them to actions.
 ms.author: riande
-ms.date: 9/15/2021
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 04/08/2022
 uid: mvc/controllers/routing
 ---
 # Routing to controller actions in ASP.NET Core
 
 By [Ryan Nowak](https://github.com/rynowak), [Kirk Larkin](https://twitter.com/serpent5), and [Rick Anderson](https://twitter.com/RickAndMSFT)
+
+[!INCLUDE[](~/includes/not-latest-version.md)]
 
 :::moniker range=">= aspnetcore-6.0"
 
@@ -55,7 +56,7 @@ The route template `"{controller=Home}/{action=Index}/{id?}"`:
 * `/Products/Details/5` model binds the value of `id = 5` to set the `id` parameter to `5`. See [Model Binding](xref:mvc/models/model-binding) for more details.
 * `{controller=Home}` defines `Home` as the default `controller`.
 * `{action=Index}` defines `Index` as the default `action`.
-*  The `?` character in `{id?}` defines `id` as optional.
+* The `?` character in `{id?}` defines `id` as optional.
   * Default and optional route parameters don't need to be present in the URL path for a match. See [Route Template Reference](xref:fundamentals/routing#route-template-reference) for a detailed description of route template syntax.
 * Matches the URL path `/`.
 * Produces the route values `{ controller = Home, action = Index }`.
@@ -65,7 +66,7 @@ The values for `controller` and `action` make use of the default values. `id` do
 ```csharp
 public class HomeController : Controller
 {
-  public IActionResult Index() { ... }
+    public IActionResult Index() { ... }
 }
 ```
 
@@ -91,6 +92,8 @@ Replaces:
 >
 > * Call <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllers%2A> to map [attribute routed](#ar6) controllers.
 > * Call <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllerRoute%2A> or <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapAreaControllerRoute%2A>, to map both [conventionally routed](#cr6) controllers and [attribute routed](#ar6) controllers.
+>
+> Apps typically don't need to call `UseRouting` or `UseEndpoints`. <xref:Microsoft.AspNetCore.Builder.WebApplicationBuilder> configures a middleware pipeline that wraps middleware added in `Program.cs` with `UseRouting` and `UseEndpoints`. For more information, see <xref:fundamentals/routing>.
 
 <a name="routing-conventional-ref-label"></a>
 <a name="crd6"></a>
@@ -123,7 +126,7 @@ Using conventional routing with the default route allows creating the app withou
 * Makes the UI more predictable.
 
 > [!WARNING]
-> The `id` in the preceding code is defined as optional by the route template. Actions can execute without the optional ID provided as part of the URL. Generally, when`id` is omitted from the URL:
+> The `id` in the preceding code is defined as optional by the route template. Actions can execute without the optional ID provided as part of the URL. Generally, when `id` is omitted from the URL:
 >
 > * `id` is set to `0` by model binding.
 > * No entity is found in the database matching `id == 0`.
@@ -153,7 +156,7 @@ Enable [Logging](xref:fundamentals/logging/index) to see how the built-in routin
 
 ### Multiple conventional routes
 
-Multiple [conventional routes](#cr6) can be added inside `UseEndpoints` by adding more calls to <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllerRoute%2A> and <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapAreaControllerRoute%2A>. Doing so allows defining multiple conventions, or to adding conventional routes that are dedicated to a specific [action](#action), such as:
+Multiple [conventional routes](#cr6) can be configured by adding more calls to <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllerRoute%2A> and <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapAreaControllerRoute%2A>. Doing so allows defining multiple conventions, or to adding conventional routes that are dedicated to a specific [action](#action), such as:
 
 [!code-csharp[](routing/samples/6.x/main/Program.cs?name=snippet_mcr)]
 
@@ -257,7 +260,7 @@ Attribute routing uses a set of attributes to map actions directly to route temp
 
 [!code-csharp[](routing/samples/6.x/main/Program.cs?name=snippet_webapi)]
 
-In the preceding code, <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllers%2A> is called inside `UseEndpoints` to map attribute routed controllers.
+In the preceding code, <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllers%2A> is called to map attribute routed controllers.
 
 In the following example:
 
@@ -301,16 +304,17 @@ Using `page` as a route parameter with attribute routing is a common error. Doin
 
 The special parameter names are used by the URL generation to determine if a URL generation operation refers to a Razor Page or to a Controller.
 
-* The following keywords are reserved in the context of a Razor view or a Razor Page:
-   * `page`
-   * `using`
-   * `namespace`
-   * `inject`
-   * `section`
-   * `inherits`
-   * `model`
-   * `addTagHelper`
-   * `removeTagHelper`
+The following keywords are reserved in the context of a Razor view or a Razor Page:
+
+* `page`
+* `using`
+* `namespace`
+* `inject`
+* `section`
+* `inherits`
+* `model`
+* `addTagHelper`
+* `removeTagHelper`
 
 These keywords shouldn't be used for link generations, model bound parameters, or top level properties.
 
@@ -347,16 +351,16 @@ Consider the following controller:
 In the preceding code:
 
 * Each action contains the `[HttpGet]` attribute, which constrains matching to HTTP GET requests only.
-* The `GetProduct` action includes the `"{id}"` template, therefore `id` is appended to the `"api/[controller]"` template on the controller. The methods template is `"api/[controller]/"{id}""`. Therefore this action only matches GET requests for the form `/api/test2/xyz`,`/api/test2/123`,`/api/test2/{any string}`, etc.
+* The `GetProduct` action includes the `"{id}"` template, therefore `id` is appended to the `"api/[controller]"` template on the controller. The methods template is `"api/[controller]/{id}"`. Therefore this action only matches GET requests for the form `/api/test2/xyz`,`/api/test2/123`,`/api/test2/{any string}`, etc.
   [!code-csharp[](routing/samples/6.x/main/Controllers/Test2Controller.cs?name=snippet2)]
-* The `GetIntProduct` action contains the `"int/{id:int}")` template. The `:int` portion of the template constrains the `id` route values to strings that can be converted to an integer. A GET request to `/api/test2/int/abc`:
+* The `GetIntProduct` action contains the `"int/{id:int}"` template. The `:int` portion of the template constrains the `id` route values to strings that can be converted to an integer. A GET request to `/api/test2/int/abc`:
   * Doesn't match this action.
   * Returns a [404 Not Found](https://developer.mozilla.org/docs/Web/HTTP/Status/404) error.
     [!code-csharp[](routing/samples/6.x/main/Controllers/Test2Controller.cs?name=snippet3)]
 * The `GetInt2Product` action contains `{id}` in the template, but doesn't constrain `id` to values that can be converted to an integer. A GET request to `/api/test2/int2/abc`:
   * Matches this route.
   * Model binding fails to convert `abc` to an integer. The `id` parameter of the method is integer.
-  * Returns a [400 Bad Request](https://developer.mozilla.org/docs/Web/HTTP/Status/400) because model binding failed to convert`abc` to an integer.
+  * Returns a [400 Bad Request](https://developer.mozilla.org/docs/Web/HTTP/Status/400) because model binding failed to convert `abc` to an integer.
       [!code-csharp[](routing/samples/6.x/main/Controllers/Test2Controller.cs?name=snippet4)]
 
 Attribute routing can use <xref:Microsoft.AspNetCore.Mvc.Routing.HttpMethodAttribute> attributes such as <xref:Microsoft.AspNetCore.Mvc.HttpPostAttribute>, <xref:Microsoft.AspNetCore.Mvc.HttpPutAttribute>, and <xref:Microsoft.AspNetCore.Mvc.HttpDeleteAttribute>. All of the [HTTP verb](#verb6) attributes accept a route template. The following example shows two actions that match the same route template:
@@ -484,13 +488,13 @@ For convenience, attribute routes support *token replacement* by enclosing a tok
 
 In the preceding code:
 
-  [!code-csharp[](routing/samples/6.x/main/Controllers/ProductsController.cs?name=snippet10)]
+[!code-csharp[](routing/samples/6.x/main/Controllers/ProductsController.cs?name=snippet10)]
 
-  * Matches `/Products0/List`
+* Matches `/Products0/List`
 
-  [!code-csharp[](routing/samples/6.x/main/Controllers/ProductsController.cs?name=snippet11)]
+[!code-csharp[](routing/samples/6.x/main/Controllers/ProductsController.cs?name=snippet11)]
 
-  * Matches `/Products0/Edit/{id}`
+* Matches `/Products0/Edit/{id}`
 
 Token replacement occurs as the last step of building the attribute routes. The preceding example behaves the same as the following code:
 
@@ -636,6 +640,8 @@ ASP.NET Core apps can mix the use of conventional routing and attribute routing.
 Actions are either conventionally routed or attribute routed. Placing a route on the controller or the action makes it attribute routed. Actions that define attribute routes cannot be reached through the conventional routes and vice-versa. ***Any*** route attribute on the controller makes ***all*** actions in the controller attribute routed.
 
 Attribute routing and conventional routing use the same routing engine.
+
+[!INCLUDE[](~/includes/routeSlash.md)]
 
 <a name="routing-url-gen-ref-label"></a>
 <a name="ambient"></a>
@@ -962,7 +968,7 @@ Using conventional routing with the default route allows creating the app withou
 * Makes the UI more predictable.
 
 > [!WARNING]
-> The `id` in the preceding code is defined as optional by the route template. Actions can execute without the optional ID provided as part of the URL. Generally, when`id` is omitted from the URL:
+> The `id` in the preceding code is defined as optional by the route template. Actions can execute without the optional ID provided as part of the URL. Generally, when `id` is omitted from the URL:
 >
 > * `id` is set to `0` by model binding.
 > * No entity is found in the database matching `id == 0`.
@@ -1140,16 +1146,17 @@ Using `page` as a route parameter with attribute routing is a common error. Doin
 
 The special parameter names are used by the URL generation to determine if a URL generation operation refers to a Razor Page or to a Controller.
 
-* The following keywords are reserved in the context of a Razor view or a Razor Page:
-   * `page`
-   * `using`
-   * `namespace`
-   * `inject`
-   * `section`
-   * `inherits`
-   * `model`
-   * `addTagHelper`
-   * `removeTagHelper`
+The following keywords are reserved in the context of a Razor view or a Razor Page:
+
+* `page`
+* `using`
+* `namespace`
+* `inject`
+* `section`
+* `inherits`
+* `model`
+* `addTagHelper`
+* `removeTagHelper`
 
 These keywords shouldn't be used for link generations, model bound parameters, or top level properties.
 
@@ -1186,16 +1193,16 @@ Consider the following controller:
 In the preceding code:
 
 * Each action contains the `[HttpGet]` attribute, which constrains matching to HTTP GET requests only.
-* The `GetProduct` action includes the `"{id}"` template, therefore `id` is appended to the `"api/[controller]"` template on the controller. The methods template is `"api/[controller]/"{id}""`. Therefore this action only matches GET requests for the form `/api/test2/xyz`,`/api/test2/123`,`/api/test2/{any string}`, etc.
+* The `GetProduct` action includes the `"{id}"` template, therefore `id` is appended to the `"api/[controller]"` template on the controller. The methods template is `"api/[controller]/{id}"`. Therefore this action only matches GET requests for the form `/api/test2/xyz`,`/api/test2/123`,`/api/test2/{any string}`, etc.
   [!code-csharp[](routing/samples/3.x/main/Controllers/Test2Controller.cs?name=snippet2)]
-* The `GetIntProduct` action contains the `"int/{id:int}")` template. The `:int` portion of the template constrains the `id` route values to strings that can be converted to an integer. A GET request to `/api/test2/int/abc`:
+* The `GetIntProduct` action contains the `"int/{id:int}"` template. The `:int` portion of the template constrains the `id` route values to strings that can be converted to an integer. A GET request to `/api/test2/int/abc`:
   * Doesn't match this action.
   * Returns a [404 Not Found](https://developer.mozilla.org/docs/Web/HTTP/Status/404) error.
     [!code-csharp[](routing/samples/3.x/main/Controllers/Test2Controller.cs?name=snippet3)]
 * The `GetInt2Product` action contains `{id}` in the template, but doesn't constrain `id` to values that can be converted to an integer. A GET request to `/api/test2/int2/abc`:
   * Matches this route.
   * Model binding fails to convert `abc` to an integer. The `id` parameter of the method is integer.
-  * Returns a [400 Bad Request](https://developer.mozilla.org/docs/Web/HTTP/Status/400) because model binding failed to convert`abc` to an integer.
+  * Returns a [400 Bad Request](https://developer.mozilla.org/docs/Web/HTTP/Status/400) because model binding failed to convert `abc` to an integer.
       [!code-csharp[](routing/samples/3.x/main/Controllers/Test2Controller.cs?name=snippet4)]
 
 Attribute routing can use <xref:Microsoft.AspNetCore.Mvc.Routing.HttpMethodAttribute> attributes such as <xref:Microsoft.AspNetCore.Mvc.HttpPostAttribute>, <xref:Microsoft.AspNetCore.Mvc.HttpPutAttribute>, and <xref:Microsoft.AspNetCore.Mvc.HttpDeleteAttribute>. All of the [HTTP verb](#verb) attributes accept a route template. The following example shows two actions that match the same route template:

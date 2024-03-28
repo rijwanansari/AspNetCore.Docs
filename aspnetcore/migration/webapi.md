@@ -5,7 +5,6 @@ description: Learn how to migrate a web API implementation from ASP.NET 4.x Web 
 ms.author: scaddie
 ms.custom: mvc
 ms.date: 01/31/2022
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: migration/webapi
 ---
 # Migrate from ASP.NET Web API to ASP.NET Core
@@ -57,7 +56,7 @@ This article shows how to migrate the Products controller created in [Getting St
 
 ## Remove the *WeatherForecast* template files
 
-1. Remove the *WeatherForecast.cs* and *Controllers/WeatherForecastController.cs* example files from the new *ProductsCore* project.
+1. Remove the `WeatherForecast.cs` and `Controllers/WeatherForecastController.cs` example files from the new *ProductsCore* project.
 1. Open *Properties\launchSettings.json*.
 1. Change `launchUrl` properties from `weatherforcast` to `productscore`.
 
@@ -65,14 +64,14 @@ This article shows how to migrate the Products controller created in [Getting St
 
 ASP.NET Core doesn't use the *App_Start* folder or the *Global.asax* file. The *web.config* file is added at publish time. For more information, see <xref:host-and-deploy/iis/web-config>.
 
-The *Program.cs* file:
+The `Program.cs` file:
 
 * Replaces *Global.asax*.
 * Handles all app startup tasks.
 
 For more information, see <xref:fundamentals/startup>.
 
-The following shows the application startup code in the ASP.NET Core *Program.cs* file:
+The following shows the application startup code in the ASP.NET Core `Program.cs` file:
 
 [!code-csharp[](webapi/sample/6.x/ProductsCore/Program.cs)]
 
@@ -133,7 +132,7 @@ The preceding highlighted code changes the following, to migrate to ASP.NET Core
 * Sets the root namespace to `ProductsCore`.
 * Changes `ApiController` to <xref:Microsoft.AspNetCore.Mvc.ControllerBase>.
 * Adds `using Microsoft.AspNetCore.Mvc;` to resolve the `ControllerBase` reference.
-* Changes the `GetProduct` action's return type from `IHttpActionResult` to `ActionResult<Product>`. For more info, see [Controller action return types](/aspnet/web-api/action-return-types).
+* Changes the `GetProduct` action's return type from `IHttpActionResult` to `ActionResult<Product>`. For more info, see [Controller action return types](/aspnet/core/web-api/action-return-types).
 * Simplifies the `GetProduct` action's `return` statement to the following statement:
 
     ```csharp
@@ -200,7 +199,7 @@ This article demonstrates the steps required to migrate from ASP.NET 4.x Web API
 
 This article uses the *ProductsApp* project created in [Getting Started with ASP.NET Web API 2](/aspnet/web-api/overview/getting-started-with-aspnet-web-api/tutorial-your-first-web-api). In that project, a basic ASP.NET 4.x Web API project is configured as follows.
 
-In *Global.asax.cs*, a call is made to `WebApiConfig.Register`:
+In `Global.asax.cs`, a call is made to `WebApiConfig.Register`:
 
 [!code-csharp[](webapi/sample/3.x/ProductsApp/Global.asax.cs?highlight=14)]
 
@@ -230,7 +229,7 @@ Add a new API project to migrate to:
 1. Add a new **ASP.NET Core Web Application** project to the solution.
 1. In the **Configure your new project** dialog, Name the project *ProductsCore*, and select **Create**.
 1. In the **Create a new ASP.NET Core Web Application** dialog, confirm that **.NET Core** and **ASP.NET Core 3.1** are selected. Select the **API** project template, and select **Create**.
-1. Remove the *WeatherForecast.cs* and *Controllers/WeatherForecastController.cs* example files from the new *ProductsCore* project.
+1. Remove the `WeatherForecast.cs` and `Controllers/WeatherForecastController.cs` example files from the new *ProductsCore* project.
 
 The solution now contains two projects. The following sections explain migrating the *ProductsApp* project's contents to the *ProductsCore* project.
 
@@ -253,7 +252,7 @@ The following code shows the `ProductsController` to be updated for ASP.NET Core
 
 Update the `ProductsController` for ASP.NET Core:
 
-1. Copy *Controllers/ProductsController.cs* and the *Models* folder from the original project to the new one.
+1. Copy `Controllers/ProductsController.cs` and the *Models* folder from the original project to the new one.
 1. Change the copied files' root namespace to `ProductsCore`.
 1. Update the `using ProductsApp.Models;` statement to `using ProductsCore.Models;`.
 
@@ -281,7 +280,7 @@ The ASP.NET Core *API* project template includes endpoint routing configuration 
 The following <xref:Microsoft.AspNetCore.Builder.EndpointRoutingApplicationBuilderExtensions.UseRouting%2A> and <xref:Microsoft.AspNetCore.Builder.EndpointRoutingApplicationBuilderExtensions.UseEndpoints%2A> calls:
 
 * Register route matching and endpoint execution in the [middleware](xref:fundamentals/middleware/index) pipeline.
-* Replace the *ProductsApp* project's *App_Start/WebApiConfig.cs* file.
+* Replace the *ProductsApp* project's `App_Start/WebApiConfig.cs` file.
 
 [!code-csharp[](webapi/sample/3.x/ProductsCore/Startup.cs?name=snippet_Configure&highlight=10,14)]
 
@@ -299,7 +298,7 @@ Configure routing as follows:
     Attribute routing supports tokens, such as `[controller]` and `[action]`. At runtime, each token is replaced with the name of the controller or action, respectively, to which the attribute has been applied. The tokens:
     * Reduce the number of magic strings in the project.
     * Ensure routes remain synchronized with the corresponding controllers and actions when automatic rename refactorings are applied.
-1. Enable HTTP Get requests to the `ProductController` actions:
+1. Enable HTTP Get requests to the `ProductsController` actions:
     * Apply the [`[HttpGet]`](xref:Microsoft.AspNetCore.Mvc.HttpGetAttribute) attribute to the `GetAllProducts` action.
     * Apply the `[HttpGet("{id}")]` attribute to the `GetProduct` action.
 

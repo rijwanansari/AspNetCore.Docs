@@ -5,8 +5,7 @@ description: Learn how to test ASP.NET Core middleware with TestServer.
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 5/12/2020
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 05/18/2022
 uid: test/middleware
 ---
 # Test ASP.NET Core middleware
@@ -109,6 +108,48 @@ public async Task TestMiddleware_ExpectedResponse()
 
 As with the earlier example that tested for a *404 - Not Found* response, check the opposite for each `Assert` statement in the preceding test. The check confirms that the test fails correctly when the middleware is operating normally. After you've confirmed that the false positive test works, set the final `Assert` statements for the expected conditions and values of the test. Run it again to confirm that the test passes.
 
+## Add request routes
+
+Additional routes can be added by configuration using the test `HttpClient`:
+
+
+```csharp
+	[Fact]
+	public async Task TestWithEndpoint_ExpectedResponse ()
+	{
+		using var host = await new HostBuilder()
+			.ConfigureWebHost(webBuilder =>
+			{
+				webBuilder
+					.UseTestServer()
+					.ConfigureServices(services =>
+					{
+						services.AddRouting();
+					})
+					.Configure(app =>
+					{
+						app.UseRouting();
+						app.UseMiddleware<MyMiddleware>();
+						app.UseEndpoints(endpoints =>
+						{
+							endpoints.MapGet("/hello", () =>
+								TypedResults.Text("Hello Tests"));
+						});
+					});
+			})
+			.StartAsync();
+
+		var client = host.GetTestClient();
+
+		var response = await client.GetAsync("/hello");
+
+		Assert.True(response.IsSuccessStatusCode);
+		var responseBody = await response.Content.ReadAsStringAsync();
+		Assert.Equal("Hello Tests", responseBody);
+```
+
+Additional routes can also be added using the approach `server.SendAsync`.
+
 ## TestServer limitations
 
 TestServer:
@@ -116,7 +157,8 @@ TestServer:
 * Was created to replicate server behaviors to test middleware.
 * Does ***not*** try to replicate all <xref:System.Net.Http.HttpClient> behaviors.
 * Attempts to give the client access to as much control over the server as possible, and with as much visibility into what's happening on the server as possible. For example it may throw exceptions not normally thrown by `HttpClient` in order to directly communicate server state.
-* Doesn't set some transport specific headers by default as those are not usually relevant to middleware. For more information, see the next section.
+* Doesn't set some transport specific headers by default as those aren't usually relevant to middleware. For more information, see the next section.
+* Ignores the `Stream` position passed through <xref:System.Net.Http.StreamContent>. <xref:System.Net.Http.HttpClient> sends the entire stream from the start position, even when positioning is set. For more information, see [this GitHub issue](https://github.com/dotnet/aspnetcore/issues/33780).
 
 ### Content-Length and Transfer-Encoding headers
 

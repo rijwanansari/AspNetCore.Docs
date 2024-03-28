@@ -4,9 +4,8 @@ author: bradygaster
 description: Learn how to avoid performance and scaling problems in apps that use ASP.NET Core SignalR.
 monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
-ms.custom: mvc
+ms.custom: mvc, linux-related-content
 ms.date: 01/17/2020
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: signalr/scale
 ---
 # ASP.NET Core SignalR hosting and scaling

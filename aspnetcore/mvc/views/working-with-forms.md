@@ -5,7 +5,6 @@ description: Describes the built-in Tag Helpers used with Forms.
 ms.author: riande
 ms.custom: mvc
 ms.date: 12/05/2019
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: mvc/views/working-with-forms
 ---
 # Tag Helpers in forms in ASP.NET Core
@@ -174,7 +173,7 @@ The Input Tag Helper:
 
 * Generates [HTML5](https://developer.mozilla.org/docs/Web/Guide/HTML/HTML5)  validation attributes from [data annotation](xref:Microsoft.AspNetCore.Mvc.DataAnnotations.IAttributeAdapter) attributes applied to model properties
 
-* Has an HTML Helper feature overlap with `Html.TextBoxFor` and `Html.EditorFor`. See the **HTML Helper alternatives to Input Tag Helper** section for details.
+* Has an HTML Helper feature overlap with `Html.TextBoxFor` and `Html.EditorFor`. See the [HTML Helper alternatives to Input Tag Helper](#html-helper-alternatives-to-input-tag-helper) section for details.
 
 * Provides strong typing. If the name of the property changes and you don't update the Tag Helper you'll get an error similar to the following:
 
@@ -237,6 +236,8 @@ The code above generates the following HTML:
 ```
 
 The data annotations applied to the `Email` and `Password` properties generate metadata on the model. The Input Tag Helper consumes the model metadata and produces [HTML5](https://developer.mozilla.org/docs/Web/Guide/HTML/HTML5) `data-val-*` attributes (see [Model Validation](../models/validation.md)). These attributes describe the validators to attach to the input fields. This provides unobtrusive HTML5 and [jQuery](https://jquery.com/) validation. The unobtrusive attributes have the format `data-val-rule="Error Message"`, where rule is the name of the validation rule (such as `data-val-required`, `data-val-email`, `data-val-maxlength`, etc.) If an error message is provided in the attribute, it's displayed as the value for the `data-val-rule` attribute. There are also attributes of the form `data-val-ruleName-argumentName="argumentValue"` that provide additional details about the rule, for example, `data-val-maxlength-max="1024"` .
+
+When binding multiple `input` controls to the same property, the generated controls share the same `id`, which makes the generated mark-up invalid. To prevent duplicates, specify the `id` attribute for each control explicitly. 
 
 ### Checkbox hidden input rendering
 
@@ -355,7 +356,7 @@ The following Razor shows how you access a specific `Color` element:
 
 [!code-cshtml[](working-with-forms/sample/final/Views/Demo/EditColor.cshtml)]
 
-The *Views/Shared/EditorTemplates/String.cshtml* template:
+The `Views/Shared/EditorTemplates/String.cshtml` template:
 
 [!code-cshtml[](working-with-forms/sample/final/Views/Shared/EditorTemplates/String.cshtml)]
 
@@ -367,7 +368,7 @@ The following Razor shows how to iterate over a collection:
 
 [!code-cshtml[](working-with-forms/sample/final/Views/Demo/Edit.cshtml)]
 
-The *Views/Shared/EditorTemplates/ToDoItem.cshtml* template:
+The `Views/Shared/EditorTemplates/ToDoItem.cshtml` template:
 
 [!code-cshtml[](working-with-forms/sample/final/Views/Shared/EditorTemplates/ToDoItem.cshtml)]
 
@@ -450,7 +451,7 @@ There are two Validation Tag Helpers. The `Validation Message Tag Helper` (which
 
 * HTML Helper alternative: `Html.ValidationMessageFor`
 
-The `Validation Message Tag Helper`  is used with the `asp-validation-for` attribute on a HTML [span](https://developer.mozilla.org/docs/Web/HTML/Element/span) element.
+The `Validation Message Tag Helper`  is used with the `asp-validation-for` attribute on an HTML [span](https://developer.mozilla.org/docs/Web/HTML/Element/span) element.
 
 ```cshtml
 <span asp-validation-for="Email"></span>
@@ -504,8 +505,6 @@ The generated HTML (when the model is valid):
 
 ```html
 <form action="/DemoReg/Register" method="post">
-  <div class="validation-summary-valid" data-valmsg-summary="true">
-  <ul><li style="display:none"></li></ul></div>
   Email:  <input name="Email" id="Email" type="email" value=""
    data-val-required="The Email field is required."
    data-val-email="The Email field is not a valid email address."
@@ -671,7 +670,7 @@ If you find yourself using the "not specified" option in multiple pages, you can
 
 [!code-cshtml[](../../mvc/views/working-with-forms/sample/final/Views/Home/IndexEmptyTemplate.cshtml?highlight=5)]
 
-The *Views/Shared/EditorTemplates/CountryViewModel.cshtml* template:
+The `Views/Shared/EditorTemplates/CountryViewModel.cshtml` template:
 
 [!code-cshtml[](working-with-forms/sample/final/Views/Shared/EditorTemplates/CountryViewModel.cshtml)]
 

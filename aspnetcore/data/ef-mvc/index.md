@@ -1,10 +1,9 @@
 ---
 title: ASP.NET Core MVC with EF Core - tutorial series
-author: rick-anderson
+author: tdykstra
 description: List of topics in ASP.NET Core MVC with EF Core
 ms.author: riande
 ms.date: 03/27/2017
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: data/ef-mvc/index
 ---
 # ASP.NET Core MVC with EF Core - tutorial series

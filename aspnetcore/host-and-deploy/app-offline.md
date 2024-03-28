@@ -5,8 +5,7 @@ description: Learn how the App Offline file (`app_offline.htm`) works with the A
 monikerRange: '>= aspnetcore-5.0'
 ms.author: riande
 ms.custom: mvc
-ms.date: 01/13/2020
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 1/13/2020
 uid: host-and-deploy/iis/app-offline
 ---
 # App Offline file (`app_offline.htm`)
@@ -45,4 +44,4 @@ In the preceding PowerShell script:
 * The `Remove-Item` command starts the app pool.
 * Commands between the `New-Item` command and the `Remove-Item` command are provided by the developer to deploy the app.
 
-Files can also be unlocked by manually stopping the app pool in the IIS Manager on the server. Don't use the `app_offine.htm` file when using the IIS Manager to stop and restart the app pool.
+Files can also be unlocked by manually stopping the app pool in the IIS Manager on the server. Don't use the `app_offline.htm` file when using the IIS Manager to stop and restart the app pool.

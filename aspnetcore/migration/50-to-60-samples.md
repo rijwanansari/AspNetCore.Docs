@@ -5,7 +5,6 @@ description: Learn how to migrate ASP.NET Core samples to the new minimal hostin
 monikerRange: '>= aspnetcore-5.0'
 ms.author: riande
 ms.date: 10/22/2021
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: migration/50-to-60-samples
 ---
 
@@ -88,9 +87,7 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
 
 [!code-csharp[](50-to-60-samples/samples/Web6Samples/Program.cs?name=snippet_root)]
 
-<!-- TODO, uncomment the following link when article is updated for .NET 6
-For more information, see <xref:fundamentals/index/?view=aspnetcore-6.0>
--->
+For more information, see <xref:fundamentals/index>
 
 #### Change the content root, app name, and environment by environment variables or command line
 
@@ -238,7 +235,7 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
 
 ## Custom dependency injection (DI) container
 
-The following .NET 5 and .NET 6 samples use [Autofac](https://autofac.readthedocs.io/latest/integration/aspnetcore.html)
+The following .NET 5 and .NET 6 samples use [Autofac](https://docs.autofac.org/en/latest/integration/aspnetcore.html)
 
 ### ASP.NET Core 5
 
@@ -303,8 +300,9 @@ public class Startup
                           ILogger<Startup> logger)
     {
         lifetime.ApplicationStarted.Register(() =>
-            logger.LogInformation($"The application {env.ApplicationName} started" +
-                                  $" in the injected {service}"));
+            logger.LogInformation(
+                "The application {Name} started in the injected {Service}",
+                env.ApplicationName, service));
     }
 }
 ```

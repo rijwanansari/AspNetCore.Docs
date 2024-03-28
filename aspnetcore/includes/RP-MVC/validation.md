@@ -1,6 +1,3 @@
----
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
----
 <!-- USED in RP and MVC tutorial for .NET 5 and earlier-->
 
 ## Add validation rules to the movie model
@@ -17,8 +14,7 @@ The validation attributes specify behavior that you want to enforce on the model
 * The `RegularExpression` attribute is used to limit what characters can be input. In the preceding code, "Genre":
 
   * Must only use letters.
-  * The first letter is required to be uppercase. White spaces are allowed while numbers, and special
-   characters are not allowed.
+  * The first letter must be uppercase. White spaces are allowed, while numbers and special characters aren't allowed.
 
 * The `RegularExpression` "Rating":
 

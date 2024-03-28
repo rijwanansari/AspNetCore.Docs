@@ -4,9 +4,8 @@ author: bradygaster
 description: Learn how to gather diagnostics from your ASP.NET Core SignalR app.
 monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
-ms.custom: "devx-track-csharp, signalr"
+ms.custom: devx-track-csharp, signalr, linux-related-content
 ms.date: 06/12/2020
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: signalr/diagnostics
 ---
 # Logging and diagnostics in ASP.NET Core SignalR
@@ -27,7 +26,7 @@ SignalR uses two logger categories:
 * `Microsoft.AspNetCore.SignalR`: For logs related to Hub Protocols, activating Hubs, invoking methods, and other Hub-related activities.
 * `Microsoft.AspNetCore.Http.Connections`: For logs related to transports, such as WebSockets, Long Polling, Server-Sent Events, and low-level SignalR infrastructure.
 
-To enable detailed logs from SignalR, configure both of the preceding prefixes to the `Debug` level in your *appsettings.json* file by adding the following items to the `LogLevel` sub-section in `Logging`:
+To enable detailed logs from SignalR, configure both of the preceding prefixes to the `Debug` level in your `appsettings.json` file by adding the following items to the `LogLevel` sub-section in `Logging`:
 
 [!code-json[](diagnostics/logging-config.json?highlight=7-8)]
 
@@ -73,7 +72,7 @@ When using the JavaScript client, you can configure logging options using the `c
 
 [!code-javascript[](diagnostics/logging-config-js.js?highlight=3)]
 
-To disable logging entirely, specify `signalR.LogLevel.None` in the `configureLogging` method.
+To disable framework logging, specify `signalR.LogLevel.None` in the `configureLogging` method. Note that some logging is emitted directly by the browser and can't be disabled via setting the log level.
 
 The following table shows log levels available to the JavaScript client. Setting the log level to one of these values enables logging at that level and all levels above it in the table.
 

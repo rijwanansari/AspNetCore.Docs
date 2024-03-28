@@ -1,6 +1,3 @@
----
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
----
 <a name="csc"></a>
 
 Consider the following `ConfigureServices` method, which registers services and configures options:
@@ -15,7 +12,7 @@ The remaining services are registered in a similar class. The following `Configu
 
 [!code-csharp[](~/fundamentals/configuration/index/samples/3.x/ConfigSample/Startup4.cs?name=snippet)]
 
-**_Note:_** Each `services.Add{GROUP_NAME}` extension method adds and potentially configures services. For example, <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddControllersWithViews%2A> adds the services MVC controllers with views require, and <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddRazorPages%2A> adds the services Razor Pages requires. We recommended that apps follow the naming convention of creating extension methods in the <xref:Microsoft.Extensions.DependencyInjection?displayProperty=fullName> namespace. Creating extension methods in the `Microsoft.Extensions.DependencyInjection` namespace:
+**_Note:_** Each `services.Add{GROUP_NAME}` extension method adds and potentially configures services. For example, <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddControllersWithViews%2A> adds the services MVC controllers with views require, and <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddRazorPages%2A> adds the services Razor Pages requires. We recommend that apps follow the naming convention of creating extension methods in the <xref:Microsoft.Extensions.DependencyInjection?displayProperty=fullName> namespace. Creating extension methods in the `Microsoft.Extensions.DependencyInjection` namespace:
 
 * Encapsulates groups of service registrations.
 * Provides convenient [IntelliSense](/visualstudio/ide/using-intellisense) access to the service.

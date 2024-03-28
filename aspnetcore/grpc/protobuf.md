@@ -5,7 +5,6 @@ description: Learn how to create Protobuf messages for .NET apps.
 monikerRange: '>= aspnetcore-3.0'
 ms.author: jamesnk
 ms.date: 02/12/2021
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: grpc/protobuf
 ---
 # Create Protobuf messages for .NET apps
@@ -88,7 +87,7 @@ The following table shows the date and time types:
 | `TimeSpan`       | `google.protobuf.Duration`  |
 
 ```protobuf  
-syntax = "proto3"
+syntax = "proto3";
 
 import "google/protobuf/duration.proto";  
 import "google/protobuf/timestamp.proto";
@@ -125,9 +124,9 @@ The Protobuf code generation for C# uses the native types, such as `int` for `in
 For values that require explicit `null`, such as using `int?` in C# code, Protobuf's Well-Known Types include wrappers that are compiled to nullable C# types. To use them, import `wrappers.proto` into your `.proto` file, like the following code:
 
 ```protobuf  
-syntax = "proto3"
+syntax = "proto3";
 
-import "google/protobuf/wrappers.proto"
+import "google/protobuf/wrappers.proto";
 
 message Person {
     // ...
@@ -198,7 +197,11 @@ message DecimalValue {
 The `nanos` field represents values from `0.999_999_999` to `-0.999_999_999`. For example, the `decimal` value `1.5m` would be represented as `{ units = 1, nanos = 500_000_000 }`. This is why the `nanos` field in this example uses the `sfixed32` type, which encodes more efficiently than `int32` for larger values. If the `units` field is negative, the `nanos` field should also be negative.
 
 > [!NOTE]
-> There are multiple other algorithms for encoding `decimal` values as byte strings, but this message is easier to understand than any of them. The values are not affected by big-endian or little-endian on different platforms.
+> Additional algorithms are available for encoding `decimal` values as byte strings. The algorithm used by `DecimalValue`:
+> 
+> * Is easy to understand.
+> * Isn't affected by big-endian or little-endian on different platforms.
+> * Supports decimal numbers ranging from positive `9,223,372,036,854,775,807.999999999` to negative `9,223,372,036,854,775,808.999999999` with a maximum precision of nine decimal places, which isn't the full range of a `decimal`.
 
 Conversion between this type and the BCL `decimal` type might be implemented in C# like this:
 
@@ -214,9 +217,6 @@ namespace CustomTypes
             Nanos = nanos;
         }
 
-        public long Units { get; }
-        public int Nanos { get; }
-
         public static implicit operator decimal(CustomTypes.DecimalValue grpcDecimal)
         {
             return grpcDecimal.Units + grpcDecimal.Nanos / NanoFactor;
@@ -231,6 +231,11 @@ namespace CustomTypes
     }
 }
 ```
+
+The preceding code:
+
+* Adds a partial class for `DecimalValue`. The partial class is combined with `DecimalValue` generated from the `.proto` file. The generated class declares the `Units` and `Nanos` properties.
+* Has implicit operators for converting between `DecimalValue` and the BCL `decimal` type.
 
 ## Collections
 

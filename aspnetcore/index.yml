@@ -11,7 +11,7 @@ metadata:
   ms.topic: hub-page
   author: WadePickett
   ms.author: wpickett
-  ms.date: 11/08/2021
+  ms.date: 02/23/2024
 
 # highlightedContent section (optional)
 # Maximum of 8 items
@@ -23,6 +23,10 @@ highlightedContent:
       itemType: get-started
       url: getting-started/index.md
     # Card
+    - title: "Create your first web UI"
+      itemType: get-started
+      url: tutorials/razor-pages/razor-pages-start.md
+    # Card
     - title: "ASP.NET Core overview"
       itemType: overview
       url: introduction-to-aspnet-core.md
@@ -31,14 +35,6 @@ highlightedContent:
       itemType: download
       url: https://dotnet.microsoft.com/download
     # Card
-    - title: "What's new in ASP.NET Core docs"
-      itemType: whats-new
-      url: whats-new/index.yml
-    # Card
-    - title: "Create your first web UI"
-      itemType: get-started
-      url: tutorials/razor-pages/razor-pages-start.md
-    # Card
     - title: "Create your first web API"
       itemType: get-started
       url: tutorials/min-web-api.md
@@ -46,10 +42,6 @@ highlightedContent:
     - title: "Create your first real-time web app"
       itemType: get-started
       url: tutorials/signalr.md
-    # Card
-    - title: "ASP.NET 4.x Documentation"
-      itemType: overview
-      url: /aspnet/overview
 
 # conceptualContent section (optional)
 conceptualContent:
@@ -58,46 +50,37 @@ conceptualContent:
   summary: "Choose interactive web apps, web API, MVC-patterned apps, real-time apps, and more"
   items:
     # Card
+    - title: "HTTP API apps"
+      summary: Develop HTTP services with ASP.NET Core
+      links:
+        - url: fundamentals/apis.md
+          itemType: overview
+          text: "Overview"
+        - url: tutorials/min-web-api.md
+          itemType: get-started
+          text: "Create a minimal web API with ASP.NET Core"
+        - url: /training/modules/build-web-api-net-core/
+          itemType: learn
+          text: "Create a web API with ASP.NET Core Controllers"
+        - url: tutorials/web-api-help-pages-using-swagger.md
+          itemType: tutorial
+          text: "Generate web API help pages with Swagger / OpenAPI"
+    # Card
     - title: "Interactive client-side Blazor apps"
       summary: Develop with reusable UI components that can take advantage of WebAssembly for near-native performance
       links:
         - url: blazor/index.md
           itemType: overview
           text: "Overview"
+        - url: blazor/hosting-models.md
+          itemType: concept
+          text: "Blazor hosting models"
         - url: https://dotnet.microsoft.com/learn/aspnet/blazor-tutorial/intro
           itemType: get-started
           text: "Build your first Blazor app"
         - url: blazor/tutorials/build-a-blazor-app.md
           itemType: get-started
           text: "Build your first Blazor app with reusable components"
-        - url: blazor/hosting-models.md
-          itemType: concept
-          text: "Blazor hosting models"
-    # Card
-    - title: HTTP API apps
-      summary: Develop HTTP services with ASP.NET Core
-      links:
-        - url: tutorials/min-web-api.md
-          itemType: get-started
-          text: "Create a minimal web API with ASP.NET Core"
-        - url: /learn/modules/build-web-api-net-core/
-          itemType: learn
-          text: "Create a web API with ASP.NET Core Controllers"
-        - url: tutorials/web-api-help-pages-using-swagger.md
-          itemType: tutorial
-          text: "Generate web API help pages with Swagger / OpenAPI"
-        - url: web-api/action-return-types.md
-          itemType: concept
-          text: "Controller action return types"
-        - url: web-api/advanced/formatting.md
-          itemType: concept
-          text: "Format response data"
-        - url: web-api/handle-errors.md
-          itemType: concept
-          text: "Handle errors"
-        - url: tutorials/web-api-javascript.md
-          itemType: tutorial
-          text: "Call an ASP.NET Core web API with JavaScript"
     # Card
     - title: "Page-focused web UI with Razor Pages"
       summary: "Develop page-focused web apps with a clean separation of concerns"
@@ -105,18 +88,15 @@ conceptualContent:
         - url: tutorials/razor-pages/razor-pages-start.md
           itemType: get-started
           text: "Create your first Razor Pages web app"
-        - url: /learn/modules/create-razor-pages-aspnet-core/
+        - url: /training/modules/create-razor-pages-aspnet-core/
           itemType: tutorial
           text: "Create a page-focused web UI that consumes a web API"
         - url: mvc/views/razor.md
           itemType: concept
           text: "Razor syntax"
-        - url: razor-pages/filter.md
-          itemType: concept
-          text: "Filters"
-        - url: razor-pages/razor-pages-conventions.md
-          itemType: concept
-          text: "Routing"
+        - url: razor-pages/index.md
+          itemType: overview
+          text: "See more"
     # Card
     - title: Page-focused web UI with MVC
       summary: "Develop web apps using the Model-View-Controller design pattern"
@@ -130,18 +110,31 @@ conceptualContent:
         - url: mvc/views/overview.md
           itemType: concept
           text: "Views"
-        - url: mvc/views/partial.md
-          itemType: concept
-          text: "Partial views"
         - url: mvc/controllers/actions.md
           itemType: concept
           text: "Controllers"
         - url: mvc/controllers/routing.md
           itemType: concept
           text: "Routing to controller actions"
-        - url: mvc/controllers/testing.md
+    # Card
+    - title: Data-driven web apps
+      summary: "Create data-driven web apps in ASP.NET Core"
+      links:
+        - url: blazor/components/data-binding.md
           itemType: concept
-          text: "Unit test"
+          text: "Data binding in ASP.NET Core Blazor"
+        - url: tutorials/razor-pages/razor-pages-start.md
+          itemType: tutorial
+          text: "SQL Server Express and Razor Pages"
+        - url: data/ef-rp/intro.md
+          itemType: tutorial
+          text: "Entity Framework Core with Razor Pages"
+        - url: data/ef-mvc/intro.md
+          itemType: tutorial
+          text: "Entity Framework Core with ASP.NET Core MVC"
+        - url: tutorials/first-mvc-app/start-mvc.md
+          itemType: tutorial
+          text: "Get started with ASP.NET Core MVC (SQL Server Express and SQLite)"
       # Card
     - title: Real-time web apps with SignalR
       summary: "Add real-time functionality to your web app, enable server-side code to push content instantly"
@@ -161,15 +154,6 @@ conceptualContent:
         - url: https://github.com/aspnet/SignalR-samples
           itemType: sample
           text: "Samples"
-        - url: signalr/hubs.md
-          itemType: concept
-          text: "Hubs"
-        - url: signalr/client-features.md
-          itemType: concept
-          text: "SignalR client features"
-        - url: signalr/scale.md
-          itemType: concept
-          text: "Host and scale"
       # Card
     - title: Remote Procedure Call (RPC) apps - gRPC services
       summary: "Develop contract-first, high-performance services with gRPC in ASP.NET Core"
@@ -189,43 +173,6 @@ conceptualContent:
         - url: grpc/comparison.md
           itemType: concept
           text: "Compare gRPC services with HTTP APIs"
-        - url: grpc/aspnetcore.md
-          itemType: tutorial
-          text: "Add a gRPC service to an ASP.NET Core app"
-        - url: grpc/client.md
-          itemType: tutorial
-          text: "Call gRPC services with the .NET client"
-        - url: grpc/browser.md
-          itemType: tutorial
-          text: "Use gRPC in browser apps"
-      # Card
-    - title: Data-driven web apps
-      summary: "Create data-driven web apps in ASP.NET Core"
-      links:
-        - url: tutorials/first-mvc-app/start-mvc.md
-          itemType: tutorial
-          text: "SQL with ASP.NET Core"
-        - url: blazor/components/data-binding.md
-          itemType: concept
-          text: "Data binding in ASP.NET Core Blazor"
-        - url: tutorials/razor-pages/razor-pages-start.md
-          itemType: tutorial
-          text: "SQL Server Express and Razor Pages"
-        - url: data/ef-rp/intro.md
-          itemType: tutorial
-          text: "Entity Framework Core with Razor Pages"
-        - url: data/ef-mvc/intro.md
-          itemType: tutorial
-          text: "Entity Framework Core with ASP.NET Core MVC"
-        - url: /visualstudio/azure/azure/vs-azure-tools-connected-services-storage?view=vs-2022
-          itemType: tutorial
-          text: "Azure Storage"
-        - url: /azure/storage/blobs/storage-quickstart-blobs-dotnet
-          itemType: tutorial
-          text: "Blob Storage"
-        - url: /azure/storage/tables/table-storage-overview?bc=%252faspnet%252fcore%252fbreadcrumb%252ftoc.json&toc=%252faspnet%252fcore%252ftoc.json&view=aspnetcore-6.0
-          itemType: concept
-          text: "Azure Table Storage"
       # Card
     - title: Previous ASP.NET framework versions
       summary: "Explore overviews, tutorials, fundamental concepts, architecture and API reference for previous ASP.NET framework versions"
@@ -264,6 +211,17 @@ additionalContent:
           - url: /dotnet/api/?view=aspnetcore-6.0
             text: ".NET API browser"
       # Card
+      - title: Servers
+        links:
+          - url: fundamentals/servers/overview.md
+            text: "Overview"
+          - url: fundamentals/servers/kestrel.md
+            text: "Kestrel"
+          - url: host-and-deploy/iis/index.md
+            text: "IIS"
+          - url: fundamentals/servers/httpsys.md
+            text: "HTTP.sys"
+      # Card
       - title: Host and deploy
         links:
           - url: host-and-deploy/index.md
@@ -280,6 +238,8 @@ additionalContent:
             text: "Kestrel"
           - url: host-and-deploy/iis/index.md
             text: "IIS"
+          - url: fundamentals/servers/httpsys.md
+            text: "HTTP.sys"
           - url: host-and-deploy/docker/index.md
             text: "Docker"
       # Card
@@ -287,11 +247,13 @@ additionalContent:
         links:
           - url: security/index.md
             text: "Overview"
+          - url: security/how-to-choose-identity-solution.md
+            text: "Choose an identity solution"
           - url: security/authentication/index.md
             text: "Authentication"
           - url: security/authorization/introduction.md
             text: "Authorization"
-          - url: /learn/modules/secure-aspnet-core-identity/
+          - url: /training/modules/secure-aspnet-core-identity/
             text: "Course: Secure an ASP.NET Core web app with the Identity framework"
           - url: security/data-protection/introduction.md
             text: "Data protection"
@@ -329,7 +291,7 @@ additionalContent:
             text: "Troubleshoot and debug"
           - url: fundamentals/logging/index.md
             text: "Logging"
-          - url: /learn/modules/load-test-web-app-azure-devops/
+          - url: /training/modules/load-test-web-app-azure-devops/
             text: "Load test Azure web apps by using Azure DevOps"
       # Card
       - title: Azure and ASP.NET Core
@@ -338,7 +300,7 @@ additionalContent:
             text: "Deploy an ASP.NET Core web app"
           - url: /visualstudio/containers/container-tools?view=vs-2022
             text: "ASP.NET Core and Docker"
-          - url: /learn/modules/host-a-web-app-with-azure-app-service/
+          - url: /training/modules/host-a-web-app-with-azure-app-service/
             text: "Host a web application with Azure App Service"
           - url: /azure/app-service/app-service-web-tutorial-dotnet-sqldatabase
             text: "App Service and Azure SQL Database"
@@ -346,7 +308,7 @@ additionalContent:
             text: "Managed identity with ASP.NET Core and Azure SQL Database"
           - url: /azure/app-service/app-service-web-tutorial-rest-api
             text: "Web API with CORS in Azure App Service"
-          - url: /learn/modules/capture-application-logs-app-service/
+          - url: /training/modules/capture-application-logs-app-service/
             text: "Capture Web Application Logs with App Service Diagnostics Logging"
       # Card
       - title: Performance

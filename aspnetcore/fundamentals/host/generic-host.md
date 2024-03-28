@@ -1,12 +1,11 @@
 ---
 title: .NET Generic Host in ASP.NET Core
-author: rick-anderson
+author: tdykstra
 description: Use .NET Core Generic Host in ASP.NET Core apps.  Generic Host is responsible for app startup and lifetime management.
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 11/09/2021
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 09/05/2023
 uid: fundamentals/host/generic-host
 ---
 # .NET Generic Host in ASP.NET Core
@@ -51,8 +50,8 @@ The <xref:Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder%2A> method:
   * Environment variables prefixed with `DOTNET_`.
   * Command-line arguments.
 * Loads app configuration from:
-  * *appsettings.json*.
-  * *appsettings.{Environment}.json*.
+  * `appsettings.json`.
+  * `appsettings.{Environment}.json`.
   * [User secrets](xref:security/app-secrets) when the app runs in the `Development` environment.
   * Environment variables.
   * Command-line arguments.
@@ -197,7 +196,7 @@ If the timeout period expires before all of the hosted services stop, any remain
 
 **Key**: `shutdownTimeoutSeconds`  
 **Type**: `int`  
-**Default**: 5 seconds  
+**Default**: 30 seconds  
 **Environment variable**: `{PREFIX_}SHUTDOWNTIMEOUTSECONDS`
 
 To set this value, use the environment variable or configure `HostOptions`. The following example sets the timeout to 20 seconds:
@@ -206,7 +205,7 @@ To set this value, use the environment variable or configure `HostOptions`. The 
 
 ### Disable app configuration reload on change
 
-By [default](xref:fundamentals/configuration/index#default), *appsettings.json* and *appsettings.{Environment}.json* are reloaded when the file changes. To disable this reload behavior in ASP.NET Core 5.0 or later, set the `hostBuilder:reloadConfigOnChange` key to `false`.
+By [default](xref:fundamentals/configuration/index#default), `appsettings.json` and `appsettings.{Environment}.json` are reloaded when the file changes. To disable this reload behavior in ASP.NET Core 5.0 or later, set the `hostBuilder:reloadConfigOnChange` key to `false`.
 
 **Key**: `hostBuilder:reloadConfigOnChange`  
 **Type**: `bool` (`true` or `false`)  
@@ -296,7 +295,7 @@ Indicates whether the host should listen on the URLs configured with the `IWebHo
 
 **Key**: `preferHostingUrls`  
 **Type**: `bool` (`true`/`1` or `false`/`0`)  
-**Default**: `true`  
+**Default**: `false`  
 **Environment variable**: `{PREFIX_}PREFERHOSTINGURLS`
 
 To set this value, use the environment variable or call `PreferHostingUrls`:
@@ -379,6 +378,8 @@ For more information, see:
 ## Manage the host lifetime
 
 Call methods on the built <xref:Microsoft.Extensions.Hosting.IHost> implementation to start and stop the app. These methods affect all  <xref:Microsoft.Extensions.Hosting.IHostedService> implementations that are registered in the service container.
+
+The difference between `Run*` and `Start*` methods is that `Run*` methods wait for the host to complete before returning, whereas `Start*` methods return immediately. The `Run*` methods are typically used in console apps, whereas the `Start*` methods are typically used in long-running services.
 
 ### Run
 
@@ -502,8 +503,8 @@ The <xref:Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder%2A> method:
   * Environment variables prefixed with `DOTNET_`.
   * Command-line arguments.
 * Loads app configuration from:
-  * *appsettings.json*.
-  * *appsettings.{Environment}.json*.
+  * `appsettings.json`.
+  * `appsettings.{Environment}.json`.
   * [User secrets](xref:security/app-secrets) when the app runs in the `Development` environment.
   * Environment variables.
   * Command-line arguments.
@@ -659,7 +660,7 @@ To set this value, use the environment variable or configure `HostOptions`. The 
 
 ### Disable app configuration reload on change
 
-By [default](xref:fundamentals/configuration/index#default), *appsettings.json* and *appsettings.{Environment}.json* are reloaded when the file changes. To disable this reload behavior in ASP.NET Core 5.0 or later, set the `hostBuilder:reloadConfigOnChange` key to `false`.
+By [default](xref:fundamentals/configuration/index#default), `appsettings.json` and `appsettings.{Environment}.json` are reloaded when the file changes. To disable this reload behavior in ASP.NET Core 5.0 or later, set the `hostBuilder:reloadConfigOnChange` key to `false`.
 
 **Key**: `hostBuilder:reloadConfigOnChange`  
 **Type**: `bool` (`true` or `false`)  
@@ -767,13 +768,13 @@ Indicates whether the host should listen on the URLs configured with the `IWebHo
 
 **Key**: `preferHostingUrls`  
 **Type**: `bool` (`true`/`1` or `false`/`0`)  
-**Default**: `true`  
+**Default**: `false`  
 **Environment variable**: `{PREFIX_}PREFERHOSTINGURLS`
 
 To set this value, use the environment variable or call `PreferHostingUrls`:
 
 ```csharp
-webBuilder.PreferHostingUrls(false);
+webBuilder.PreferHostingUrls(true);
 ```
 
 ### PreventHostingStartup
@@ -865,6 +866,8 @@ For more information, see:
 ## Manage the host lifetime
 
 Call methods on the built <xref:Microsoft.Extensions.Hosting.IHost> implementation to start and stop the app. These methods affect all  <xref:Microsoft.Extensions.Hosting.IHostedService> implementations that are registered in the service container.
+
+The difference between `Run*` and `Start*` methods is that `Run*` methods wait for the host to complete before returning, whereas `Start*` methods return immediately. The `Run*` methods are typically used in console apps, whereas the `Start*` methods are typically used in long-running services.
 
 ### Run
 
@@ -1020,8 +1023,8 @@ The <xref:Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder%2A> method:
   * Environment variables prefixed with `DOTNET_`.
   * Command-line arguments.
 * Loads app configuration from:
-  * *appsettings.json*.
-  * *appsettings.{Environment}.json*.
+  * `appsettings.json`.
+  * `appsettings.{Environment}.json`.
   * [User secrets](xref:security/app-secrets) when the app runs in the `Development` environment.
   * Environment variables.
   * Command-line arguments.
@@ -1272,13 +1275,13 @@ Indicates whether the host should listen on the URLs configured with the `IWebHo
 
 **Key**: `preferHostingUrls`  
 **Type**: `bool` (`true`/`1` or `false`/`0`)  
-**Default**: `true`  
+**Default**: `false`  
 **Environment variable**: `{PREFIX_}PREFERHOSTINGURLS`
 
 To set this value, use the environment variable or call `PreferHostingUrls`:
 
 ```csharp
-webBuilder.PreferHostingUrls(false);
+webBuilder.PreferHostingUrls(true);
 ```
 
 ### PreventHostingStartup
@@ -1370,6 +1373,8 @@ For more information, see:
 ## Manage the host lifetime
 
 Call methods on the built <xref:Microsoft.Extensions.Hosting.IHost> implementation to start and stop the app. These methods affect all  <xref:Microsoft.Extensions.Hosting.IHostedService> implementations that are registered in the service container.
+
+The difference between `Run*` and `Start*` methods is that `Run*` methods wait for the host to complete before returning, whereas `Start*` methods return immediately. The `Run*` methods are typically used in console apps, whereas the `Start*` methods are typically used in long-running services.
 
 ### Run
 

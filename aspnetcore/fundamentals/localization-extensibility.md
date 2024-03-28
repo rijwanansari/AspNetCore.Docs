@@ -6,7 +6,6 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 08/03/2019
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: fundamentals/localization-extensibility
 ---
 # Localization Extensibility
@@ -86,7 +85,7 @@ options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async
 
 :::moniker-end
 
-### Use a new implemetation of RequestCultureProvider
+### Use a new implementation of RequestCultureProvider
 
 A new implementation of <xref:Microsoft.AspNetCore.Localization.RequestCultureProvider> can be created that determines the request culture information from a custom source. For example, the custom source can be a configuration file or database.
 
