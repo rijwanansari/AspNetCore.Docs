@@ -6,7 +6,6 @@ monikerRange: '>= aspnetcore-3.1'
 ms.author: bradyg
 ms.custom: mvc
 ms.date: 2/05/2022
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: signalr/authn-and-authz
 ---
 
@@ -91,7 +90,7 @@ Rather than `ClaimTypes.Name`, use any value from the `User`, such as the Window
 > [!NOTE]
 > The value chosen must be unique among all the users in the system. Otherwise, a message intended for one user could end up going to a different user.
 
-Register this component in *Program.cs*:
+Register this component in `Program.cs`:
 
 [!code-csharp[](authn-and-authz/6.0sample/SignalRAuthenticationSample/Program.cs?name=snippet_win&highlight=17-18)]
 
@@ -106,7 +105,7 @@ var connection = new HubConnectionBuilder()
     .Build();
 ```
 
-<!--The Internet Explorer 11 desktop application will be retired and go out of support on June 15, 2022  https://docs.microsoft.com/en-us/troubleshoot/developer/browsers/security-privacy/prompt-for-username-and-password -->
+<!--The Internet Explorer 11 desktop application will be retired and go out of support on June 15, 2022  https://learn.microsoft.com/troubleshoot/developer/browsers/security-privacy/prompt-for-username-and-password -->
 Windows authentication is supported in Microsoft Edge, but not in all browsers. For example, in Chrome and Safari, attempting to use Windows authentication and WebSockets fails. When Windows authentication fails, the client attempts to fall back to other transports which might work.
 
 ### Use claims to customize identity handling
@@ -124,7 +123,7 @@ The account registration adds a claim with type `ClaimsTypes.Email` to the ASP.N
 
 [!code-csharp[Adding the email to the ASP.NET identity claims](authn-and-authz/6.0sample/SignalRAuthenticationSample/Areas/Identity/Pages/Account/Register.cshtml.cs?name=AddEmailClaim&highlight=14)]
 
-Register this component in *Program.cs*:
+Register this component in `Program.cs`:
 
 ```csharp
 builder.Services.AddSingleton<IUserIdProvider, EmailBasedUserIdProvider>();
@@ -163,7 +162,7 @@ public class ChatHub : Hub
 
 SignalR provides a custom resource to authorization handlers when a hub method requires authorization. The resource is an instance of <xref:Microsoft.AspNetCore.SignalR.HubInvocationContext>. The `HubInvocationContext` includes the <xref:Microsoft.AspNetCore.SignalR.HubCallerContext>, the name of the hub method being invoked, and the arguments to the hub method.
 
-Consider the example of a chat room allowing multiple organization sign-in via Azure Active Directory. Anyone with a Microsoft account can sign in to chat, but only members of the owning organization should be able to ban users or view users' chat histories. Furthermore, we might want to restrict some functionality from specific users. Note how the `DomainRestrictedRequirement` serves as a custom <xref:Microsoft.AspNetCore.Authorization.IAuthorizationRequirement>. Now that the `HubInvocationContext` resource parameter is being passed in, the internal logic can inspect the context in which the Hub is being called and make decisions on allowing the user to execute individual Hub methods:
+Consider the example of a chat room allowing multiple organization sign-in via Microsoft Entra ID. Anyone with a Microsoft account can sign in to chat, but only members of the owning organization should be able to ban users or view users' chat histories. Furthermore, we might want to restrict some functionality from specific users. Note how the `DomainRestrictedRequirement` serves as a custom <xref:Microsoft.AspNetCore.Authorization.IAuthorizationRequirement>. Now that the `HubInvocationContext` resource parameter is being passed in, the internal logic can inspect the context in which the Hub is being called and make decisions on allowing the user to execute individual Hub methods:
 
 ```csharp
 [Authorize]
@@ -188,7 +187,7 @@ public class ChatHub : Hub
 
 [!code-csharp[Restrict a hub only DomainRestrictedRequirement users](authn-and-authz/6.0sample/SignalRAuthenticationSample/DomainRestrictedRequirement.cs)]
 
-In *Program.cs*, add the new policy, providing the custom `DomainRestrictedRequirement` requirement as a parameter to create the `DomainRestricted` policy:
+In `Program.cs`, add the new policy, providing the custom `DomainRestrictedRequirement` requirement as a parameter to create the `DomainRestricted` policy:
 
 [!code-csharp[](authn-and-authz/6.0sample/SignalRAuthenticationSample/Program.cs?name=snippet_drr&highlight=19-25)]
 
@@ -419,7 +418,7 @@ public class ChatHub : Hub
 
 SignalR provides a custom resource to authorization handlers when a hub method requires authorization. The resource is an instance of `HubInvocationContext`. The `HubInvocationContext` includes the `HubCallerContext`, the name of the hub method being invoked, and the arguments to the hub method.
 
-Consider the example of a chat room allowing multiple organization sign-in via Azure Active Directory. Anyone with a Microsoft account can sign in to chat, but only members of the owning organization should be able to ban users or view users' chat histories. Furthermore, we might want to restrict certain functionality from certain users. Using the updated features in ASP.NET Core 3.0, this is entirely possible. Note how the `DomainRestrictedRequirement` serves as a custom `IAuthorizationRequirement`. Now that the `HubInvocationContext` resource parameter is being passed in, the internal logic can inspect the context in which the Hub is being called and make decisions on allowing the user to execute individual Hub methods.
+Consider the example of a chat room allowing multiple organization sign-in via Microsoft Entra ID. Anyone with a Microsoft account can sign in to chat, but only members of the owning organization should be able to ban users or view users' chat histories. Furthermore, we might want to restrict certain functionality from certain users. Using the updated features in ASP.NET Core 3.0, this is entirely possible. Note how the `DomainRestrictedRequirement` serves as a custom `IAuthorizationRequirement`. Now that the `HubInvocationContext` resource parameter is being passed in, the internal logic can inspect the context in which the Hub is being called and make decisions on allowing the user to execute individual Hub methods.
 
 ```csharp
 [Authorize]

@@ -6,13 +6,12 @@ monikerRange: '>= aspnetcore-2.1 < aspnetcore-3.0'
 ms.author: riande
 ms.custom: mvc
 ms.date: 12/03/2019
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: security/samesite/mvc21
 ---
 
 # ASP.NET Core 2.1 MVC SameSite cookie sample
 
-ASP.NET Core 2.1 has built-in support for the [SameSite](https://owasp.org/www-community/samesite) attribute, but it was written to the original standard. The [patched behavior](https://github.com/dotnet/aspnetcore/issues/8212) changed the meaning of `SameSite.None` to emit the sameSite attribute with a value of `None`, rather than not emit the value at all. If you want to not emit the value you can set the `SameSite` property on a cookie to -1.
+ASP.NET Core 2.1 has built-in support for the [SameSite](https://owasp.org/www-community/SameSite) attribute, but it was written to the original standard. The [patched behavior](https://github.com/dotnet/aspnetcore/issues/8212) changed the meaning of `SameSite.None` to emit the sameSite attribute with a value of `None`, rather than not emit the value at all. If you want to not emit the value you can set the `SameSite` property on a cookie to -1.
 
 [!INCLUDE[](~/includes/SameSiteIdentity.md)]
 

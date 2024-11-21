@@ -4,7 +4,6 @@ author: ajcvickers
 description: This article describes how to customize the underlying Entity Framework Core data model for ASP.NET Core Identity.
 ms.author: avickers
 ms.date: 07/01/2019
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: security/authentication/customize_identity_model
 ---
 # Identity model customization in ASP.NET Core
@@ -293,6 +292,8 @@ The context is used to configure the model in two ways:
 
 When overriding `OnModelCreating`, `base.OnModelCreating` should be called first; the overriding configuration should be called next. EF Core generally has a last-one-wins policy for configuration. For example, if the `ToTable` method for an entity type is called first with one table name and then again later with a different table name, the table name in the second call is used.
 
+***NOTE***: If the `DbContext` doesn't derive from `IdentityDbContext`, `AddEntityFrameworkStores` may not infer the correct POCO types for `TUserClaim`, `TUserLogin`, and `TUserToken`. If `AddEntityFrameworkStores` doesn't infer the correct POCO types, a workaround is to directly add the correct types via `services.AddScoped<IUser/RoleStore<TUser>` and `UserStore<...>>`.
+
 ### Custom user data
 
 <!--
@@ -333,7 +334,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
 There's no need to override `OnModelCreating` in the `ApplicationDbContext` class. EF Core maps the `CustomTag` property by convention. However, the database needs to be updated to create a new `CustomTag` column. To create the column, add a migration, and then update the database as described in [Identity and EF Core Migrations](#identity-and-ef-core-migrations).
 
-Update *Pages/Shared/_LoginPartial.cshtml* and replace `IdentityUser` with `ApplicationUser`:
+Update `Pages/Shared/_LoginPartial.cshtml` and replace `IdentityUser` with `ApplicationUser`:
 
 ```cshtml
 @using Microsoft.AspNetCore.Identity
@@ -342,7 +343,7 @@ Update *Pages/Shared/_LoginPartial.cshtml* and replace `IdentityUser` with `Appl
 @inject UserManager<ApplicationUser> UserManager
 ```
 
-Update *Areas/Identity/IdentityHostingStartup.cs* or `Startup.ConfigureServices` and replace `IdentityUser` with `ApplicationUser`.
+Update `Areas/Identity/IdentityHostingStartup.cs` or `Startup.ConfigureServices` and replace `IdentityUser` with `ApplicationUser`.
 
 ```csharp
 services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)

@@ -1,12 +1,9 @@
----
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
----
 Isolate CSS styles to individual pages, views, and components to reduce or avoid:
 
 * Dependencies on global styles that can be challenging to maintain.
 * Style conflicts in nested content.
 
-To add a *scoped CSS file* for a page or view, place the CSS styles in a companion `.cshtml.css` file matching the name of the `.cshtml` file. In the following example, a `Index.cshtml.css` file supplies CSS styles that are only applied to the `Index.cshtml` page or view.
+To add a *scoped CSS file* for a page or view, place the CSS styles in a companion `.cshtml.css` file matching the name of the `.cshtml` file. In the following example, an `Index.cshtml.css` file supplies CSS styles that are only applied to the `Index.cshtml` page or view.
 
 `Pages/Index.cshtml.css` (Razor Pages) or `Views/Index.cshtml.css` (MVC):
 
@@ -21,7 +18,7 @@ CSS isolation occurs at build time. The framework rewrites CSS selectors to matc
 In the `<head>` content of the app's `Pages/Shared/_Layout.cshtml` (Razor Pages) or `Views/Shared/_Layout.cshtml` (MVC), add or confirm the presence of the link to the bundled CSS styles:
 
 ```html
-<link rel="stylesheet" href="{APP ASSEMBLY}.styles.css" />
+<link rel="stylesheet" href="~/{APP ASSEMBLY}.styles.css" />
 ```
 
 In the following example, the app's assembly name is `WebApp`:
@@ -63,7 +60,7 @@ If other projects are utilized, such as NuGet packages or [Razor class libraries
 
 CSS preprocessors are useful for improving CSS development by utilizing features such as variables, nesting, modules, mixins, and inheritance. While CSS isolation doesn't natively support CSS preprocessors such as Sass or Less, integrating CSS preprocessors is seamless as long as preprocessor compilation occurs before the framework rewrites the CSS selectors during the build process. Using Visual Studio for example, configure existing preprocessor compilation as a **Before Build** task in the Visual Studio Task Runner Explorer.
 
-Many third-party NuGet packages, such as [`Delegate.SassBuilder`](https://www.nuget.org/packages/Delegate.SassBuilder), can compile SASS/SCSS files at the beginning of the build process before CSS isolation occurs, and no additional configuration is required.
+Many third-party NuGet packages, such as [`AspNetCore.SassCompiler`](https://www.nuget.org/packages/AspNetCore.SassCompiler#readme-body-tab), can compile SASS/SCSS files at the beginning of the build process before CSS isolation occurs, and no additional configuration is required.
 
 ## CSS isolation configuration
 

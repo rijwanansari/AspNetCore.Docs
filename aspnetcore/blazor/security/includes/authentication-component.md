@@ -1,6 +1,3 @@
----
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
----
 The page produced by the `Authentication` component (`Pages/Authentication.razor`) defines the routes required for handling different authentication stages.
 
 The <xref:Microsoft.AspNetCore.Components.WebAssembly.Authentication.RemoteAuthenticatorView> component:
@@ -12,10 +9,13 @@ The <xref:Microsoft.AspNetCore.Components.WebAssembly.Authentication.RemoteAuthe
 @page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
-<RemoteAuthenticatorView Action="@Action" />
+<RemoteAuthenticatorView Action="Action" />
 
 @code {
     [Parameter]
-    public string Action { get; set; }
+    public string? Action { get; set; }
 }
 ```
+
+> [!NOTE]
+> [Nullable reference types (NRTs) and .NET compiler null-state static analysis](xref:migration/50-to-60#nullable-reference-types-nrts-and-net-compiler-null-state-static-analysis) is supported in ASP.NET Core in .NET 6 or later. Prior to the release of ASP.NET Core in .NET 6, the `string` type appears without the null type designation (`?`).

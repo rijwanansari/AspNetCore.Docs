@@ -1,12 +1,11 @@
 ---
 title: Host ASP.NET Core in a web farm
-author: rick-anderson
+author: tdykstra
 description: Learn how to host multiple instances of an ASP.NET Core app with shared resources in a web farm environment.
 monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 01/13/2020
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: host-and-deploy/web-farm
 ---
 # Host ASP.NET Core in a web farm

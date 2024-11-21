@@ -1,26 +1,30 @@
 ---
 title: When to use a reverse proxy with the ASP.NET Core Kestrel web server
-author: rick-anderson
+author: tdykstra
 description: Learn about when to use a reverse proxy in front of Kestrel, the cross-platform web server for ASP.NET Core.
 monikerRange: '>= aspnetcore-5.0'
 ms.author: riande
 ms.custom: mvc
-ms.date: 01/14/2021
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 04/01/2022
 uid: fundamentals/servers/kestrel/when-to-use-a-reverse-proxy
 ---
 
 # When to use Kestrel with a reverse proxy
 
-Kestrel can be used by itself or with a *reverse proxy server*, such as [Internet Information Services (IIS)](https://www.iis.net/), [Nginx](https://nginx.org), or [Apache](https://httpd.apache.org/). A reverse proxy server receives HTTP requests from the network and forwards them to Kestrel.
+Kestrel can be used by itself or with a *reverse proxy server*. A reverse proxy server receives HTTP requests from the network and forwards them to Kestrel. Examples of a reverse proxy server include:
+
+* [Internet Information Services (IIS)](https://www.iis.net/)
+* [Nginx](https://nginx.org)
+* [Apache](https://httpd.apache.org/)
+* [YARP: Yet Another Reverse Proxy](https://microsoft.github.io/reverse-proxy/)
 
 Kestrel used as an edge (Internet-facing) web server:
 
-![Kestrel communicates directly with the Internet without a reverse proxy server](_static/kestrel-to-internet2.png)
+:::image source="_static/kestrel-to-internet2.png" alt-text="Kestrel communicates directly with the Internet without a reverse proxy server":::
 
 Kestrel used in a reverse proxy configuration:
 
-![Kestrel communicates indirectly with the Internet through a reverse proxy server, such as IIS, Nginx, or Apache](_static/kestrel-to-internet.png)
+:::image source="_static/kestrel-to-internet.png" alt-text="Kestrel communicates indirectly with the Internet through a reverse proxy server, such as IIS, Nginx, or Apache":::
 
 Either configuration, with or without a reverse proxy server, is a supported hosting configuration.
 
@@ -31,9 +35,9 @@ Even if a reverse proxy server isn't required, using a reverse proxy server migh
 A reverse proxy:
 
 * Can limit the exposed public surface area of the apps that it hosts.
-* Provide an additional layer of configuration and defense.
+* Provides an additional layer of configuration and defense.
 * Might integrate better with existing infrastructure.
-* Simplify load balancing and secure communication (HTTPS) configuration. Only the reverse proxy server requires an X.509 certificate, and that server can communicate with the app's servers on the internal network using plain HTTP.
+* Simplifies load balancing and secure communication (HTTPS) configuration. Only the reverse proxy server requires the X.509 certificate for the public domain(s). That server can communicate with the app's servers on the internal network using plain HTTP or HTTPS with locally managed certificates. Internal HTTPS increases security but adds significant overhead.
 
 > [!WARNING]
 > Hosting in a reverse proxy configuration requires [host filtering](xref:fundamentals/servers/kestrel/host-filtering).

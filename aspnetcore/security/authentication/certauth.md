@@ -4,8 +4,7 @@ author: blowdart
 description: Learn how to configure certificate authentication in ASP.NET Core for IIS and HTTP.sys.
 monikerRange: '>= aspnetcore-3.1'
 ms.author: bdorrans
-ms.date: 01/10/2022
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 11/03/2023
 uid: security/authentication/certauth
 ---
 # Configure certificate authentication in ASP.NET Core
@@ -14,7 +13,7 @@ uid: security/authentication/certauth
 
 `Microsoft.AspNetCore.Authentication.Certificate` contains an implementation similar to [Certificate Authentication](https://tools.ietf.org/html/rfc5246#section-7.4.4) for ASP.NET Core. Certificate authentication happens at the TLS level, long before it ever gets to ASP.NET Core. More accurately, this is an authentication handler that validates the certificate and then gives you an event where you can resolve that certificate to a `ClaimsPrincipal`. 
 
-[Configure your server](#configure-your-server-to-require-certificates) for certificate authentication, be it IIS, Kestrel, Azure Web Apps, or whatever else you're using.
+You ***must*** [configure your server](#configure-your-server-to-require-certificates) for certificate authentication, be it IIS, Kestrel, Azure Web Apps, or whatever else you're using.
 
 ## Proxy and load balancer scenarios
 
@@ -52,6 +51,22 @@ The `CertificateAuthenticationOptions` handler has some built-in validations tha
 Default value: `CertificateTypes.Chained`
 
 This check validates that only the appropriate certificate type is allowed. If the app is using self-signed certificates, this option needs to be set to `CertificateTypes.All` or `CertificateTypes.SelfSigned`.
+
+### ChainTrustValidationMode
+
+Default value: [X509ChainTrustMode.System](xref:System.Security.Cryptography.X509Certificates.X509ChainTrustMode.System)
+
+The certificate presented by the client must chain to a trusted root certificate. This check controls which trust store contains these root certificates.
+
+By default, the handler uses the system trust store. If the presented client certificate needs to chain to a root certificate which doesn't appear in the system trust store, this option can be set to [X509ChainTrustMode.CustomRootTrust](xref:System.Security.Cryptography.X509Certificates.X509ChainTrustMode.CustomRootTrust) to make the handler use the `CustomTrustStore`.
+
+### CustomTrustStore
+
+Default value: Empty <xref:System.Security.Cryptography.X509Certificates.X509Certificate2Collection>
+
+If the handler's <xref:Microsoft.AspNetCore.Authentication.Certificate.CertificateAuthenticationOptions.ChainTrustValidationMode> property is set to `X509ChainTrustMode.CustomRootTrust`, this <xref:System.Security.Cryptography.X509Certificates.X509Certificate2Collection> contains every certificate which will be used to validate the client certificate up to a trusted root, including the trusted root.
+
+When the client presents a certificate which is part of a multi-level certificate chain, `CustomTrustStore` must contain every issuing certificate in the chain.
 
 ### ValidateCertificateUse
 
@@ -163,9 +178,9 @@ A separate class can be used to implement validation logic. Because the same sel
 
 :::code language="csharp" source="certauth/samples/6.x/CertAuthSample/Snippets/SampleCertificateValidationService.cs":::
 
-#### Implement an HttpClient using a certificate and IHttpClientFactory 
+#### Implement an HttpClient using a certificate and IHttpClientFactory
 
-In the following example, a client certificate is added to a `HttpClientHandler` using the `ClientCertificates` property from the handler. This handler can then be used in a named instance of an `HttpClient` using the `ConfigurePrimaryHttpMessageHandler` method. This is setup in `Program.cs`:
+In the following example, a client certificate is added to a `HttpClientHandler` using the `ClientCertificates` property from the handler. This handler can then be used in a named instance of an `HttpClient` using the <xref:Microsoft.Extensions.DependencyInjection.HttpClientBuilderExtensions.ConfigurePrimaryHttpMessageHandler%2A> method. This is setup in `Program.cs`:
 
 :::code language="csharp" source="certauth/samples/6.x/CertAuthSample/Snippets/Program.cs" id="snippet_AddHttpClient":::
 
@@ -342,7 +357,7 @@ The implementation and configuration of this feature varies by server and framew
 
 IIS manages the client certificate negotiation on your behalf. A subsection of the application can enable the `SslRequireCert` option to negotiate the client certificate for those requests. See [Configuration in the IIS documentation](/iis/configuration/system.webserver/security/access#configuration) for details.
 
-IIS will automatically buffer any request body data up to a configured size limit before renegotiating. Requests that exceed the limit are rejected with a 413 response. This limit defaults to 48MB and is configurable by setting the [uploadReadAheadSize](/iis/configuration/system.webserver/serverruntime).
+IIS will automatically buffer any request body data up to a configured size limit before renegotiating. Requests that exceed the limit are rejected with a 413 response. This limit defaults to 48KB and is configurable by setting the [uploadReadAheadSize](/iis/configuration/system.webserver/serverruntime).
 
 #### HttpSys
 
@@ -358,7 +373,7 @@ An application can first check the <xref:Microsoft.AspNetCore.Http.ConnectionInf
 
 #### Kestrel
 
-Kestrel controls client certificate negotation with the <xref:Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions.ClientCertificateMode> option.
+Kestrel controls client certificate negotiation with the <xref:Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions.ClientCertificateMode> option.
 
 <xref:Microsoft.AspNetCore.Server.Kestrel.Https.ClientCertificateMode.DelayCertificate?displayProperty=nameWithType> is new option available in .NET 6 or later. When set, an app can check the <xref:Microsoft.AspNetCore.Http.ConnectionInfo.ClientCertificate> property to see if the certificate is available. If it isn't available, ensure the request body has been consumed before calling <xref:Microsoft.AspNetCore.Http.ConnectionInfo.GetClientCertificateAsync%2A> to negotiate one. Note `GetClientCertificateAsync` can return a null certificate if the client declines to provide one.
 
@@ -749,19 +764,21 @@ private async Task<JsonDocument> GetApiDataUsingHttpClientHandler()
 
 #### Implement an HttpClient using a certificate and a named HttpClient from IHttpClientFactory 
 
-In the following example, a client certificate is added to a `HttpClientHandler` using the `ClientCertificates` property from the handler. This handler can then be used in a named instance of an `HttpClient` using the `ConfigurePrimaryHttpMessageHandler` method. This is setup in `Startup.ConfigureServices`:
+In the following example, a client certificate is added to a `HttpClientHandler` using the `ClientCertificates` property from the handler. This handler can then be used in a named instance of an `HttpClient` using the <xref:Microsoft.Extensions.DependencyInjection.HttpClientBuilderExtensions.ConfigurePrimaryHttpMessageHandler%2A> method. This is setup in `Startup.ConfigureServices`:
 
 ```csharp
 var clientCertificate = 
     new X509Certificate2(
       Path.Combine(_environment.ContentRootPath, "sts_dev_cert.pfx"), "1234");
- 
-var handler = new HttpClientHandler();
-handler.ClientCertificates.Add(clientCertificate);
- 
+
 services.AddHttpClient("namedClient", c =>
 {
-}).ConfigurePrimaryHttpMessageHandler(() => handler);
+}).ConfigurePrimaryHttpMessageHandler(() =>
+{
+    var handler = new HttpClientHandler();
+    handler.ClientCertificates.Add(clientCertificate);
+    return handler;
+});
 ```
 
 The `IHttpClientFactory` can then be used to get the named instance with the handler and the certificate. The `CreateClient` method with the name of the client defined in the `Startup` class is used to get the instance. The HTTP request can be sent using the client as required.
@@ -1008,7 +1025,7 @@ The implementation and configuration of this feature varies by server and framew
 
 IIS manages the client certificate negotiation on your behalf. A subsection of the application can enable the `SslRequireCert` option to negotiate the client certificate for those requests. See [Configuration in the IIS documentation](/iis/configuration/system.webserver/security/access#configuration) for details.
 
-IIS will automatically buffer any request body data up to a configured size limit before renegotiating. Requests that exceed the limit are rejected with a 413 response. This limit defaults to 48MB and is configurable by setting the [uploadReadAheadSize](/iis/configuration/system.webserver/serverruntime).
+IIS will automatically buffer any request body data up to a configured size limit before renegotiating. Requests that exceed the limit are rejected with a 413 response. This limit defaults to 48KB and is configurable by setting the [uploadReadAheadSize](/iis/configuration/system.webserver/serverruntime).
 
 #### HttpSys
 
@@ -1022,7 +1039,7 @@ There is a [known issue](https://github.com/dotnet/aspnetcore/issues/33586) wher
 
 #### Kestrel
 
-Kestrel controls client certificate negotation with the <xref:Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions.ClientCertificateMode> option.
+Kestrel controls client certificate negotiation with the <xref:Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions.ClientCertificateMode> option.
 
 For .NET 5 and earlier Kestrel does not support renegotiating after the start of a connection to acquire a client certificate. This feature has been added in .NET 6.
 
@@ -1426,19 +1443,21 @@ private async Task<JsonDocument> GetApiDataUsingHttpClientHandler()
 
 #### Implement an HttpClient using a certificate and a named HttpClient from IHttpClientFactory 
 
-In the following example, a client certificate is added to a `HttpClientHandler` using the `ClientCertificates` property from the handler. This handler can then be used in a named instance of an `HttpClient` using the `ConfigurePrimaryHttpMessageHandler` method. This is setup in `Startup.ConfigureServices`:
+In the following example, a client certificate is added to a `HttpClientHandler` using the `ClientCertificates` property from the handler. This handler can then be used in a named instance of an `HttpClient` using the <xref:Microsoft.Extensions.DependencyInjection.HttpClientBuilderExtensions.ConfigurePrimaryHttpMessageHandler%2A> method. This is setup in `Startup.ConfigureServices`:
 
 ```csharp
 var clientCertificate = 
     new X509Certificate2(
       Path.Combine(_environment.ContentRootPath, "sts_dev_cert.pfx"), "1234");
- 
-var handler = new HttpClientHandler();
-handler.ClientCertificates.Add(clientCertificate);
- 
+
 services.AddHttpClient("namedClient", c =>
 {
-}).ConfigurePrimaryHttpMessageHandler(() => handler);
+}).ConfigurePrimaryHttpMessageHandler(() =>
+{
+    var handler = new HttpClientHandler();
+    handler.ClientCertificates.Add(clientCertificate);
+    return handler;
+});
 ```
 
 The `IHttpClientFactory` can then be used to get the named instance with the handler and the certificate. The `CreateClient` method with the name of the client defined in the `Startup` class is used to get the instance. The HTTP request can be sent using the client as required.
@@ -1664,7 +1683,7 @@ The implementation and configuration of this feature varies by server and framew
 
 IIS manages the client certificate negotiation on your behalf. A subsection of the application can enable the `SslRequireCert` option to negotiate the client certificate for those requests. See [Configuration in the IIS documentation](/iis/configuration/system.webserver/security/access#configuration) for details.
 
-IIS will automatically buffer any request body data up to a configured size limit before renegotiating. Requests that exceed the limit are rejected with a 413 response. This limit defaults to 48MB and is configurable by setting the [uploadReadAheadSize](/iis/configuration/system.webserver/serverruntime).
+IIS will automatically buffer any request body data up to a configured size limit before renegotiating. Requests that exceed the limit are rejected with a 413 response. This limit defaults to 48KB and is configurable by setting the [uploadReadAheadSize](/iis/configuration/system.webserver/serverruntime).
 
 #### HttpSys
 
@@ -1678,7 +1697,7 @@ There is a [known issue](https://github.com/dotnet/aspnetcore/issues/33586) wher
 
 #### Kestrel
 
-Kestrel controls client certificate negotation with the <xref:Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions.ClientCertificateMode> option.
+Kestrel controls client certificate negotiation with the <xref:Microsoft.AspNetCore.Server.Kestrel.Https.HttpsConnectionAdapterOptions.ClientCertificateMode> option.
 
 For .NET 5 and earlier Kestrel does not support renegotiating after the start of a connection to acquire a client certificate. This feature has been added in .NET 6.
 

@@ -5,7 +5,6 @@ description: Learn how to call gRPC services with the .NET gRPC client.
 monikerRange: '>= aspnetcore-3.0'
 ms.author: jamesnk
 ms.date: 12/18/2020
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: grpc/client
 ---
 # Call gRPC services with the .NET client
@@ -53,6 +52,7 @@ To call unsecured gRPC services, ensure the server address starts with `http`. F
 Channel and client performance and usage:
 
 * Creating a channel can be an expensive operation. Reusing a channel for gRPC calls provides performance benefits.
+* A channel manages connections to the server. If the connection is closed or lost, the channel automatically reconnects the next time a gRPC call is made.
 * gRPC clients are created with channels. gRPC clients are lightweight objects and don't need to be cached or reused.
 * Multiple gRPC clients can be created from a channel, including different types of clients.
 * A channel and clients created from the channel can safely be used by multiple threads.

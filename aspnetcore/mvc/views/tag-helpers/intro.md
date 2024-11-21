@@ -5,7 +5,6 @@ description: Learn what Tag Helpers are and how to use them in ASP.NET Core.
 ms.author: riande
 ms.custom: H1Hack27Feb2017
 ms.date: 03/18/2019
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: mvc/views/tag-helpers/intro
 ---
 # Tag Helpers in ASP.NET Core
@@ -15,7 +14,7 @@ By [Rick Anderson](https://twitter.com/RickAndMSFT)
 ## What are Tag Helpers
 
 Tag Helpers enable server-side code to participate in creating and rendering HTML elements in Razor files. For example, the built-in `ImageTagHelper` can append a version number to the image name. Whenever the image changes, the server generates a new unique version for the image, so clients are guaranteed to get the current image (instead of a stale cached image). There are many built-in Tag Helpers for common tasks - such as creating forms, links, loading assets and more - and even more available in public GitHub repositories and as NuGet packages. Tag Helpers are authored in C#, and they target HTML elements based on element name, attribute name, or parent tag. For example, the built-in `LabelTagHelper` can target the HTML `<label>` element when the
-`LabelTagHelper` attributes are applied. If you're familiar with [HTML Helpers](https://stephenwalther.com/archive/2009/03/03/chapter-6-understanding-html-helpers), Tag Helpers reduce the explicit transitions between HTML and C# in Razor views. In many cases, HTML Helpers provide an alternative approach to a specific Tag Helper, but it's important to recognize that Tag Helpers don't replace HTML Helpers and there's not a Tag Helper for each HTML Helper. [Tag Helpers compared to HTML Helpers](#tag-helpers-compared-to-html-helpers) explains the differences in more detail.
+`LabelTagHelper` attributes are applied. If you're familiar with HTML Helpers, Tag Helpers reduce the explicit transitions between HTML and C# in Razor views. In many cases, HTML Helpers provide an alternative approach to a specific Tag Helper, but it's important to recognize that Tag Helpers don't replace HTML Helpers and there's not a Tag Helper for each HTML Helper. [Tag Helpers compared to HTML Helpers](#tag-helpers-compared-to-html-helpers) explains the differences in more detail.
 
 Tag Helpers aren't supported in Razor components. For more information, see <xref:blazor/components/index#tag-helpers-arent-supported-in-components>.
 
@@ -68,11 +67,11 @@ Tag Helpers scope is controlled by a combination of `@addTagHelper`, `@removeTag
 
 ### `@addTagHelper` makes Tag Helpers available
 
-If you create a new ASP.NET Core web app named *AuthoringTagHelpers*, the following *Views/_ViewImports.cshtml* file will be added to your project:
+If you create a new ASP.NET Core web app named *AuthoringTagHelpers*, the following `Views/_ViewImports.cshtml` file will be added to your project:
 
 [!code-cshtml[](../../../mvc/views/tag-helpers/authoring/sample/AuthoringTagHelpers/src/AuthoringTagHelpers/Views/_ViewImportsCopy.cshtml?highlight=2&range=2-3)]
 
-The `@addTagHelper` directive makes Tag Helpers available to the view. In this case, the view file is *Pages/_ViewImports.cshtml*, which by default is inherited by all files in the *Pages* folder and subfolders; making Tag Helpers available. The code above uses the wildcard syntax ("\*") to specify that all Tag Helpers in the specified assembly (*Microsoft.AspNetCore.Mvc.TagHelpers*) will be available to every view file in the *Views* directory or subdirectory. The first parameter after `@addTagHelper` specifies the Tag Helpers to load (we are using "\*" for all Tag Helpers), and the second parameter "Microsoft.AspNetCore.Mvc.TagHelpers" specifies the assembly containing the Tag Helpers. *Microsoft.AspNetCore.Mvc.TagHelpers* is the assembly for the built-in ASP.NET Core Tag Helpers.
+The `@addTagHelper` directive makes Tag Helpers available to the view. In this case, the view file is `Pages/_ViewImports.cshtml`, which by default is inherited by all files in the *Pages* folder and subfolders; making Tag Helpers available. The code above uses the wildcard syntax ("\*") to specify that all Tag Helpers in the specified assembly (*Microsoft.AspNetCore.Mvc.TagHelpers*) will be available to every view file in the *Views* directory or subdirectory. The first parameter after `@addTagHelper` specifies the Tag Helpers to load (we are using "\*" for all Tag Helpers), and the second parameter "Microsoft.AspNetCore.Mvc.TagHelpers" specifies the assembly containing the Tag Helpers. *Microsoft.AspNetCore.Mvc.TagHelpers* is the assembly for the built-in ASP.NET Core Tag Helpers.
 
 To expose all of the Tag Helpers in this project (which creates an assembly named *AuthoringTagHelpers*), you would use the following:
 
@@ -93,17 +92,17 @@ To add a Tag Helper to a view using an FQN, you first add the FQN (`AuthoringTag
 @addTagHelper AuthoringTagHelpers.TagHelpers.Email*, AuthoringTagHelpers
 ```
 
-As mentioned previously, adding the `@addTagHelper` directive to the *Views/_ViewImports.cshtml* file makes the Tag Helper available to all view files in the *Views* directory and subdirectories. You can use the `@addTagHelper` directive in specific view files if you want to opt-in to exposing the Tag Helper to only those views.
+As mentioned previously, adding the `@addTagHelper` directive to the `Views/_ViewImports.cshtml` file makes the Tag Helper available to all view files in the *Views* directory and subdirectories. You can use the `@addTagHelper` directive in specific view files if you want to opt-in to exposing the Tag Helper to only those views.
 
 <a name="remove-razor-directives-label"></a>
 
 ### `@removeTagHelper` removes Tag Helpers
 
-The `@removeTagHelper` has the same two parameters as `@addTagHelper`, and it removes a Tag Helper that was previously added. For example, `@removeTagHelper` applied to a specific view removes the specified Tag Helper from the view. Using `@removeTagHelper` in a *Views/Folder/_ViewImports.cshtml* file removes the specified Tag Helper from all of the views in *Folder*.
+The `@removeTagHelper` has the same two parameters as `@addTagHelper`, and it removes a Tag Helper that was previously added. For example, `@removeTagHelper` applied to a specific view removes the specified Tag Helper from the view. Using `@removeTagHelper` in a `Views/Folder/_ViewImports.cshtml` file removes the specified Tag Helper from all of the views in *Folder*.
 
-### Controlling Tag Helper scope with the *_ViewImports.cshtml* file
+### Controlling Tag Helper scope with the `_ViewImports.cshtml` file
 
-You can add a *_ViewImports.cshtml* to any view folder, and the view engine applies the directives from both that file and the *Views/_ViewImports.cshtml* file. If you added an empty *Views/Home/_ViewImports.cshtml* file for the *Home* views, there would be no change because the *_ViewImports.cshtml* file is additive. Any `@addTagHelper` directives you add to the *Views/Home/_ViewImports.cshtml* file (that are not in the default *Views/_ViewImports.cshtml* file) would expose those Tag Helpers to views only in the *Home* folder.
+You can add a `_ViewImports.cshtml` to any view folder, and the view engine applies the directives from both that file and the `Views/_ViewImports.cshtml` file. If you added an empty `Views/Home/_ViewImports.cshtml` file for the *Home* views, there would be no change because the `_ViewImports.cshtml` file is additive. Any `@addTagHelper` directives you add to the `Views/Home/_ViewImports.cshtml` file (that are not in the default `Views/_ViewImports.cshtml` file) would expose those Tag Helpers to views only in the *Home* folder.
 
 <a name="opt-out"></a>
 
@@ -121,7 +120,7 @@ You must apply the Tag Helper opt-out character to the opening and closing tag. 
 
 ### Using `@tagHelperPrefix` to make Tag Helper usage explicit
 
-The `@tagHelperPrefix` directive allows you to specify a tag prefix string to enable Tag Helper support and to make Tag Helper usage explicit. For example, you could add the following markup to the *Views/_ViewImports.cshtml* file:
+The `@tagHelperPrefix` directive allows you to specify a tag prefix string to enable Tag Helper support and to make Tag Helper usage explicit. For example, you could add the following markup to the `Views/_ViewImports.cshtml` file:
 
 ```cshtml
 @tagHelperPrefix th:
@@ -153,11 +152,11 @@ The preceding code can be written as:
        disabled="@(Model?.LicenseId == null)" />
 ```
 
-Normally, the `@` operator inserts a textual representation of an expression into the rendered HTML markup. However, when an expression evaluates to logical `false`, the framework removes the attribute instead. In the preceding example, the `disabled` attribute is removed if `Model` or `LicenseId` is `null`.
+Normally, the `@` operator inserts a textual representation of an expression into the rendered HTML markup. However, when an expression evaluates to logical `false`, the framework removes the attribute instead. In the preceding example, the `disabled` attribute is set to `true` if either `Model` or `LicenseId` is `null`.
 
 ## Tag helper initializers
 
-While attributes can be used to configure individual instances of tag helpers, <xref:Microsoft.AspNetCore.Mvc.Razor.ITagHelperInitializer%601> can be used to configure all tag helper instances of a specific kind. Consider the following example of a tag helper initializer that configures the `asp-append-version` attribute or `AppendVersion` property for all `ScriptTagHelper`s in the app:
+While attributes can be used to configure individual instances of tag helpers, <xref:Microsoft.AspNetCore.Mvc.Razor.ITagHelperInitializer%601> can be used to configure all tag helper instances of a specific kind. Consider the following example of a tag helper initializer that configures the `asp-append-version` attribute or `AppendVersion` property for all instances of `ScriptTagHelper` in the app:
 
 ```csharp
 public class AppendVersionTagHelperInitializer : ITagHelperInitializer<ScriptTagHelper>
@@ -176,9 +175,11 @@ builder.Services.AddSingleton
     <ITagHelperInitializer<ScriptTagHelper>, AppendVersionTagHelperInitializer>();
 ```
 
-## IntelliSense support for Tag Helpers
+## Tag Helper automatic version generation outside of wwwroot
 
-When you create a new ASP.NET Core web app in Visual Studio, it adds the NuGet package "Microsoft.AspNetCore.Razor.Tools". This is the package that adds Tag Helper tooling.
+[!INCLUDE[](~/includes/th_version.md)]
+
+## IntelliSense support for Tag Helpers
 
 Consider writing an HTML `<label>` element. As soon as you enter `<l` in the Visual Studio editor, IntelliSense displays matching elements:
 
@@ -218,7 +219,7 @@ IntelliSense lists the properties and methods available to the model on the page
 
 ## Tag Helpers compared to HTML Helpers
 
-Tag Helpers attach to HTML elements in Razor views, while [HTML Helpers](https://stephenwalther.com/archive/2009/03/03/chapter-6-understanding-html-helpers) are invoked as methods interspersed with HTML in Razor views. Consider the following Razor markup, which creates an HTML label with the CSS class "caption":
+Tag Helpers attach to HTML elements in Razor views, while HTML Helpers are invoked as methods interspersed with HTML in Razor views. Consider the following Razor markup, which creates an HTML label with the CSS class "caption":
 
 ```cshtml
 @Html.Label("FirstName", "First Name:", new {@class="caption"})
@@ -244,7 +245,7 @@ With the Tag Helper version, as soon as you enter `<l` in the Visual Studio edit
 
 IntelliSense helps you write the entire line.
 
-The following code image shows the Form portion of the *Views/Account/Register.cshtml* Razor view generated from the ASP.NET 4.5.x MVC template included with Visual Studio.
+The following code image shows the Form portion of the `Views/Account/Register.cshtml` Razor view generated from the ASP.NET 4.5.x MVC template included with Visual Studio.
 
 ![Razor markup for the form portion of the Register Razor view for ASP.NET 4.5 MVC project template](intro/_static/regCS.png)
 
@@ -274,7 +275,7 @@ The Visual Studio editor helps you write **all** of the markup in the Tag Helper
 
 * ASP.NET Web Server Controls have a non-trivial lifecycle that can make developing and debugging difficult.
 
-* Web Server controls allow you to add functionality to the client Document Object Model (DOM) elements by using a client control. Tag Helpers have no DOM.
+* Web Server controls allow you to add functionality to the client DOM elements by using a client control. Tag Helpers have no DOM.
 
 * Web Server controls include automatic browser detection. Tag Helpers have no knowledge of the browser.
 

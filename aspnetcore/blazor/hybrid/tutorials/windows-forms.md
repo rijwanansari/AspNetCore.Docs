@@ -5,11 +5,12 @@ description: Build a Windows Forms Blazor app step-by-step.
 monikerRange: '>= aspnetcore-6.0'
 ms.author: riande
 ms.custom: mvc
-ms.date: 02/15/2022
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 02/09/2024
 uid: blazor/hybrid/tutorials/windows-forms
 ---
 # Build a Windows Forms Blazor app
+
+[!INCLUDE[](~/includes/not-latest-version.md)]
 
 This tutorial shows you how to build and run a Windows Forms Blazor app. You learn how to:
 
@@ -20,7 +21,7 @@ This tutorial shows you how to build and run a Windows Forms Blazor app. You lea
 ## Prerequisites
 
 * [Supported platforms (Windows Forms documentation)](/dotnet/desktop/winforms/overview/)
-* [Visual Studio 2022 Preview](https://visualstudio.microsoft.com/vs/preview/) with the **.NET desktop development** workload
+* [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the **.NET desktop development** workload
 
 ## Visual Studio workload
 
@@ -30,40 +31,36 @@ If the **.NET desktop development** workload isn't installed, use the Visual Stu
 
 ## Create a Windows Forms Blazor project
 
-Start Visual Studio 2022 Preview.
-
-In the Start Window, select **Create a new project**:
+Launch Visual Studio. In the **Start Window**, select **Create a new project**:
 
 :::image type="content" source="windows-forms/_static/new-solution.png" alt-text="Create a new solution in Visual Studio.":::
 
-In the **Create a new project** dialog, filter the **Project type** drop-down to **Desktop**. Select the C# project template for **Windows Forms App** and select the **Next** button:
+In the **Create a new project** dialog, filter the **Project type** dropdown to **Desktop**. Select the C# project template for **Windows Forms App** and select the **Next** button:
 
 :::image type="content" source="windows-forms/_static/create-project.png" alt-text="Create a new project in Visual Studio.":::
 
-In the **Configure your new project** dialog, set the **Project name** to **`WinFormsBlazor`**, choose a suitable location for the project, and select the **Next** button.
+In the **Configure your new project** dialog:
+
+* Set the **Project name** to **:::no-loc text="WinFormsBlazor":::**.
+* Choose a suitable location for the project.
+* Select the **Next** button.
 
 :::image type="content" source="windows-forms/_static/configure-project.png" alt-text="Configure the project.":::
 
-In the **Additional information** dialog, select the framework version, which must be .NET 6.0 or later. Select the **Create** button:
+In the **Additional information** dialog, select the framework version with the **Framework** dropdown list. Select the **Create** button:
 
 :::image type="content" source="windows-forms/_static/additional-information.png" alt-text="The Additional Information dialog.":::
 
-Use [NuGet Package Manager](/nuget/consume-packages/install-use-packages-visual-studio) to install the [`Microsoft.AspNetCore.Components.WebView.WindowsForms`](https://nuget.org/packages/Microsoft.AspNetCore.Components.WebView.WindowsForms) preview NuGet package.
+Use [NuGet Package Manager](/nuget/consume-packages/install-use-packages-visual-studio) to install the [`Microsoft.AspNetCore.Components.WebView.WindowsForms`](https://nuget.org/packages/Microsoft.AspNetCore.Components.WebView.WindowsForms) NuGet package:
 
-In **Solution Explorer**, right-click the project's name, `WinFormsBlazor` and select **Edit Project File** to open the project file (`WinFormsBlazor.csproj`).
+:::image type="content" source="windows-forms/_static/nuget-package-manager.png" alt-text="Use Nuget Package Manager in Visual Studio to install the Microsoft.AspNetCore.Components.WebView.WindowsForms NuGet package.":::
+
+In **Solution Explorer**, right-click the project's name, **:::no-loc text="WinFormsBlazor":::**, and select **Edit Project File** to open the project file (`WinFormsBlazor.csproj`).
 
 At the top of the project file, change the SDK to `Microsoft.NET.Sdk.Razor`:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Razor">
-```
-
-Add the following [MSBuild `Content` item](/visualstudio/msbuild/common-msbuild-project-items#content) to the project file, which copies the contents of the `wwwroot` folder to the output directory without compiling the assets in the folder:
-
-```xml
-<ItemGroup>
-  <Content Update="wwwroot\**" CopyToOutputDirectory="PreserveNewest" />
-</ItemGroup>
 ```
 
 Save the changes to the project file (`WinFormsBlazor.csproj`).
@@ -75,6 +72,8 @@ Add an `_Imports.razor` file to the root of the project with an [`@using`](xref:
 ```razor
 @using Microsoft.AspNetCore.Components.Web
 ```
+
+Save the `_Imports.razor` file.
 
 Add a `wwwroot` folder to the project.
 
@@ -90,6 +89,7 @@ Add an `index.html` file to the `wwwroot` folder with the following markup.
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WinFormsBlazor</title>
     <base href="/" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="WinFormsBlazor.styles.css" rel="stylesheet" />
 </head>
@@ -98,7 +98,7 @@ Add an `index.html` file to the `wwwroot` folder with the following markup.
 
     <div id="app">Loading...</div>
 
-    <div id="blazor-error-ui">
+    <div id="blazor-error-ui" data-nosnippet>
         An unhandled error has occurred.
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
@@ -120,6 +120,20 @@ Add an `app.css` stylesheet to the `wwwroot/css` folder with the following conte
 ```css
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1:focus {
+    outline: none;
+}
+
+a, .btn-link {
+    color: #0071c1;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -154,6 +168,8 @@ html, body {
     }
 ```
 
+Inside the `wwwroot/css` folder, create a `bootstrap` folder. Inside the `bootstrap` folder, place a copy of `bootstrap.min.css`. You can obtain the latest version of `bootstrap.min.css` from the [Bootstrap website](https://getbootstrap.com/). Follow navigation bar links to **Docs** > **Download**. A direct link can't be provided here because all of the content at the site is versioned in the URL.
+
 Add the following `Counter` component to the root of the project, which is the default `Counter` component found in Blazor project templates.
 
 `Counter.razor`:
@@ -175,65 +191,73 @@ Add the following `Counter` component to the root of the project, which is the d
 }
 ```
 
+Save the `Counter` component (`Counter.razor`).
+
 In **Solution Explorer**, double-click on the `Form1.cs` file to open the designer:
 
 :::image type="content" source="windows-forms/_static/solution-explorer-1.png" alt-text="The Form1.cs file in Solution Explorer.":::
 
-Open the **Toolbox** by either selecting the **Toolbox** button along the left edge of the Visual Studio window or selecting the **View** > **Toolbox** menu item.
+Open the **Toolbox** by either selecting the **Toolbox** button along the left edge of the Visual Studio window or selecting the **View** > **Toolbox** menu command.
 
-Locate the `BlazorWebView` control under `Microsoft.AspNetCore.Components.WebView.WindowsForms`:
+Locate the **`BlazorWebView`** control under **`Microsoft.AspNetCore.Components.WebView.WindowsForms`**. Drag the <xref:Microsoft.AspNetCore.Components.WebView.WindowsForms.BlazorWebView> from the **Toolbox** into the `Form1` designer. Be careful not to accidentally drag a **`WebView2`** control into the form.
 
 :::image type="content" source="windows-forms/_static/toolbox.png" alt-text="BlazorWebView in the Toolbox.":::
 
-Drag `BlazorWebView` from the **Toolbox** into the `Form1` designer:
+Visual Studio shows the <xref:Microsoft.AspNetCore.Components.WebView.WindowsForms.BlazorWebView> control in the form designer as `WebView2` and automatically names the control `blazorWebView1`:
 
 :::image type="content" source="windows-forms/_static/form1.png" alt-text="BlazorWebView in the Form1 designer.":::
 
-In `Form1`, select `BlazorWebView` with a single click.
+In `Form1`, select the <xref:Microsoft.AspNetCore.Components.WebView.WindowsForms.BlazorWebView> (`WebView2`) with a single click.
 
-In `BlazorWebView`'s **Properties**, change its **Dock** value to **Fill**:
+In the <xref:Microsoft.AspNetCore.Components.WebView.WindowsForms.BlazorWebView>'s **Properties**, confirm that the control is named `blazorWebView1`. If the name isn't `blazorWebView1`, the wrong control was dragged from the **Toolbox**. Delete the `WebView2` control in `Form1` and drag the **`BlazorWebView` control** into the form.
+
+:::image type="content" source="windows-forms/_static/control-properties.png" alt-text="The BlazorWebView is automatically named 'blazorWebView1' by Visual Studio.":::
+
+In the control's properties, change the <xref:Microsoft.AspNetCore.Components.WebView.WindowsForms.BlazorWebView>'s **Dock** value to **Fill**:
 
 :::image type="content" source="windows-forms/_static/properties.png" alt-text="BlazorWebView properties with Dock set to Fill.":::
 
 In the `Form1` designer, right-click `Form1` and select **View Code**.
 
-Add namespaces for `Microsoft.AspNetCore.Components.WebView.WindowsForms` and <xref:Microsoft.Extensions.DependencyInjection?displayProperty=fullName> to the top of the `Form1.cs` file:
+Add namespaces for <xref:Microsoft.AspNetCore.Components.WebView.WindowsForms?displayProperty=fullName> and <xref:Microsoft.Extensions.DependencyInjection?displayProperty=fullName> to the top of the `Form1.cs` file:
 
 ```csharp
 using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using Microsoft.Extensions.DependencyInjection;
 ```
 
-Inside the `Form1` constructor, below the `InitializeComponent()` method call, add the following code:
+Inside the `Form1` constructor, after the `InitializeComponent` method call, add the following code:
 
 ```csharp
 var services = new ServiceCollection();
-services.AddBlazorWebView();
+services.AddWindowsFormsBlazorWebView();
 blazorWebView1.HostPage = "wwwroot\\index.html";
 blazorWebView1.Services = services.BuildServiceProvider();
 blazorWebView1.RootComponents.Add<Counter>("#app");
 ```
 
-The final, complete C# code of `Form1.cs`:
+> [!NOTE]
+> The `InitializeComponent` method is automatically generated at app build time and added to the compilation object for the calling class.
+
+The final, complete C# code of `Form1.cs` with a [file-scoped namespace](/dotnet/csharp/language-reference/keywords/namespace):
 
 ```csharp
 using Microsoft.AspNetCore.Components.WebView.WindowsForms;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WinFormsBlazor
-{
-    public partial class Form1 : Form
-    {
-        public Form1()
-        {
-            InitializeComponent();
+namespace WinFormsBlazor;
 
-            var services = new ServiceCollection();
-            services.AddBlazorWebView();
-            blazorWebView1.HostPage = "wwwroot\\index.html";
-            blazorWebView1.Services = services.BuildServiceProvider();
-            blazorWebView1.RootComponents.Add<Counter>("#app");
-        }
+public partial class Form1 : Form
+{
+    public Form1()
+    {
+        InitializeComponent();
+
+        var services = new ServiceCollection();
+        services.AddWindowsFormsBlazorWebView();
+        blazorWebView1.HostPage = "wwwroot\\index.html";
+        blazorWebView1.Services = services.BuildServiceProvider();
+        blazorWebView1.RootComponents.Add<Counter>("#app");
     }
 }
 ```

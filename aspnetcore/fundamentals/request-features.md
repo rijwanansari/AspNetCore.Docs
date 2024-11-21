@@ -5,7 +5,6 @@ description: Learn about web server implementation details related to HTTP reque
 ms.author: riande
 ms.custom: mvc
 ms.date: 10/11/2021
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: fundamentals/request-features
 ---
 # Request Features in ASP.NET Core
@@ -96,7 +95,7 @@ The following feature interfaces are from <xref:Microsoft.AspNetCore.Http.Featur
 
 :::moniker-end
 
-<xref:Microsoft.AspNetCore.Http.Features.IHttpUpgradeFeature>: Defines support for [HTTP Upgrades](https://tools.ietf.org/html/rfc2616.html#section-14.42), which allow the client to specify which additional protocols it would like to use if the server wishes to switch protocols.
+<xref:Microsoft.AspNetCore.Http.Features.IHttpUpgradeFeature>: Defines support for [HTTP Upgrades](https://www.rfc-editor.org/rfc/rfc9110#field.upgrade), which allow the client to specify which additional protocols it would like to use if the server wishes to switch protocols.
 
 <xref:Microsoft.AspNetCore.Http.Features.IHttpWebSocketFeature>: Defines an API for supporting web sockets.
 

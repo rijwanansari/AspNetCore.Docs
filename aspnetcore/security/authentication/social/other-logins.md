@@ -5,7 +5,6 @@ description: Discover External OAuth authentication providers that work with ASP
 ms.author: riande
 ms.custom: mvc
 ms.date: 11/11/2018
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: security/authentication/otherlogins
 ---
 # External OAuth authentication providers
@@ -22,7 +21,7 @@ The following list includes common external OAuth authentication providers that 
 
 * [Github](https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Fsettings%2Fapplications%2Fnew) ([Instructions](https://developer.github.com/v3/oauth/))
 
-* [Yahoo](https://login.yahoo.com/config/login?src=devnet&.done=http%3A%2F%2Fdeveloper.yahoo.com%2Fapps%2Fcreate%2F) ([Instructions](https://developer.yahoo.com/bbauth/user.html))
+* [Yahoo](https://login.yahoo.com/config/login?src=devnet&.done=http%3A%2F%2Fdeveloper.yahoo.com%2Fapps%2Fcreate%2F) ([Instructions](https://developer.yahoo.com/oauth2/guide/))
 
 * [Tumblr](https://www.tumblr.com/oauth/apps) ([Instructions](https://www.tumblr.com/docs/api/v2#auth))
 
@@ -32,7 +31,7 @@ The following list includes common external OAuth authentication providers that 
 
 * [Flickr](https://www.flickr.com/services/apps/create) ([Instructions](https://www.flickr.com/services/api/auth.oauth.html))
 
-* [Dribble](https://dribbble.com/signup) ([Instructions](https://developer.dribbble.com/v1/oauth/))
+* [Dribbble](https://dribbble.com/signup) ([Instructions](https://developer.dribbble.com))
 
 * [Vimeo](https://vimeo.com/join) ([Instructions](https://developer.vimeo.com/api/authentication))
 

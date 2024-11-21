@@ -5,24 +5,22 @@ description: Learn how to build Blazor WebAssembly apps with native dependencies
 monikerRange: '>= aspnetcore-6.0'
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/28/2021
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 02/09/2024
 uid: blazor/webassembly-native-dependencies
 ---
 # ASP.NET Core Blazor WebAssembly native dependencies
 
-*This article applies to Blazor WebAssembly.*
+[!INCLUDE[](~/includes/not-latest-version.md)]
 
 Blazor WebAssembly apps can use native dependencies built to run on WebAssembly. You can statically link native dependencies into the .NET WebAssembly runtime using the **.NET WebAssembly build tools**, the same tools used to [ahead-of-time (AOT) compile](xref:blazor/host-and-deploy/webassembly#ahead-of-time-aot-compilation) a Blazor app to WebAssembly and to [relink the runtime to remove unused features](xref:blazor/host-and-deploy/webassembly#runtime-relinking).
 
+*This article only applies to Blazor WebAssembly.*
+
 ## .NET WebAssembly build tools
 
-The **.NET WebAssembly build tools** are based on [Emscripten](https://emscripten.org/), a compiler toolchain for the web platform. To install the **.NET WebAssembly build tools**, use ***either*** of the following approaches:
+The .NET WebAssembly build tools are based on [Emscripten](https://emscripten.org/), a compiler toolchain for the web platform. For more information on the build tools, including installation, see <xref:blazor/tooling#net-webassembly-build-tools>.
 
-* For the **ASP.NET and web development** workload in the Visual Studio installer, select the **.NET WebAssembly build tools** option from the list of optional components.
-* Run `dotnet workload install wasm-tools` in a command shell.
-
-Add native dependencies to a Blazor WebAssembly app by adding `NativeFileReference` items in the app's project file. When the project is built, each `NativeFileReference` is passed to Emscripten by the **.NET WebAssembly build tools** so that they are compiled and linked into the runtime. Next, [`p/invoke`](/dotnet/standard/native-interop/pinvoke) into the native code from the app's .NET code.
+Add native dependencies to a Blazor WebAssembly app by adding `NativeFileReference` items in the app's project file. When the project is built, each `NativeFileReference` is passed to Emscripten by the .NET WebAssembly build tools so that they are compiled and linked into the runtime. Next, [`p/invoke`](/dotnet/standard/native-interop/pinvoke) into the native code from the app's .NET code.
 
 Generally, any portable native code can be used as a native dependency with Blazor WebAssembly. You can add native dependencies to C/C++ code or code previously compiled using Emscripten:
 
@@ -34,7 +32,7 @@ Generally, any portable native code can be used as a native dependency with Blaz
 Prebuilt dependencies typically must be built using the same version of Emscripten used to build the .NET WebAssembly runtime.
 
 > [!NOTE]
-> For [Mono](https://github.com/mono/mono)/WebAssembly MSBuild properties and targets, see [`WasmApp.targets` (dotnet/runtime GitHub repository)](https://github.com/dotnet/runtime/blob/main/src/mono/wasm/build/WasmApp.targets). Official documentation for common MSBuild properties is planned per [Document blazor msbuild configuration options (dotnet/docs #27395)](https://github.com/dotnet/docs/issues/27395).
+> For [Mono](https://github.com/mono/mono)/WebAssembly MSBuild properties and targets, see [`WasmApp.targets` (`dotnet/runtime` GitHub repository)](https://github.com/dotnet/runtime/blob/main/src/mono/wasm/build/WasmApp.Common.targets). Official documentation for common MSBuild properties is planned per [Document blazor msbuild configuration options (`dotnet/docs` #27395)](https://github.com/dotnet/docs/issues/27395).
 
 ## Use native code
 
@@ -84,7 +82,7 @@ Add a simple native C function to a Blazor WebAssembly app:
    }
    ```
 
-When you build the app with the **.NET WebAssembly build tools** installed, the native C code is compiled and linked into the .NET WebAssembly runtime (`dotnet.wasm`). After the app is built, run the app to see the rendered factorial value.
+When you build the app with the .NET WebAssembly build tools installed, the native C code is compiled and linked into the .NET WebAssembly runtime (`dotnet.wasm`). After the app is built, run the app to see the rendered factorial value.
 
 ## C++ managed method callbacks
 
@@ -103,21 +101,17 @@ NuGet packages can contain native dependencies for use on WebAssembly. These lib
 
 ## SkiaSharp example library use
 
-[SkiaSharp](https://github.com/mono/SkiaSharp) is a cross-platform 2D graphics library for .NET based on the native [Skia graphics library](https://skia.org/), and it now has preview support for Blazor WebAssembly.
-
-> [!WARNING]
-> Experimental and preview features are provided for the purpose of collecting feedback and aren't supported for production use.
+[SkiaSharp](https://github.com/mono/SkiaSharp) is a cross-platform 2D graphics library for .NET based on the native [Skia graphics library](https://skia.org/) with support for Blazor WebAssembly.
 
 To use SkiaSharp in a Blazor WebAssembly app:
 
-1. Add a package reference to the [`SkiaSharp.Views.Blazor`](https://www.nuget.org/packages/SkiaSharp.Views.Blazor) package in a Blazor WebAssembly project. Use Visual Studio's process for adding packages to an app (**Manage NuGet Packages**) or execute the [`dotnet add package`](/dotnet/core/tools/dotnet-add-package) command in a command shell:
+1. Add a package reference to the [`SkiaSharp.Views.Blazor`](https://www.nuget.org/packages/SkiaSharp.Views.Blazor) package in a Blazor WebAssembly project. Use Visual Studio's process for adding packages to an app (**Manage NuGet Packages** with **Include prerelease** selected) or execute the [`dotnet add package`](/dotnet/core/tools/dotnet-add-package) command in a command shell:
 
    ```dotnetcli
    dotnet add package –-prerelease SkiaSharp.Views.Blazor
    ```
 
-   > [!WARNING]
-   > The [`SkiaSharp.Views.Blazor`](https://www.nuget.org/packages/SkiaSharp.Views.Blazor) package is a prerelease NuGet package not supported for production use.
+   [!INCLUDE[](~/includes/package-reference.md)]
 
 1. Add a `SKCanvasView` component to the app with the following:
 
@@ -135,7 +129,7 @@ To use SkiaSharp in a Blazor WebAssembly app:
 
    <h1>Native dependency example with SkiaSharp</h1>
 
-   <SKCanvasView OnPaintSurface="@OnPaintSurface" />
+   <SKCanvasView OnPaintSurface="OnPaintSurface" />
 
    @code {
        private void OnPaintSurface(SKPaintSurfaceEventArgs e)
@@ -157,3 +151,7 @@ To use SkiaSharp in a Blazor WebAssembly app:
    ```
 
 1. Build the app, which might take several minutes. Run the app and navigate to the `NativeDependencyExample` component at `/native-dependency-example`.
+
+## Additional resources
+
+* [.NET WebAssembly build tools](xref:blazor/tooling#net-webassembly-build-tools)

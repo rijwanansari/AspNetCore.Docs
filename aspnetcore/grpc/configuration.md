@@ -6,7 +6,6 @@ monikerRange: '>= aspnetcore-3.0'
 ms.author: jamesnk
 ms.custom: mvc
 ms.date: 11/23/2020
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: grpc/configuration
 ---
 # gRPC for .NET configuration
@@ -40,6 +39,18 @@ Service interceptors have a per-request lifetime by default. Registering the int
 
 [!code-csharp[](~/grpc/configuration/sample/GrcpService/Startup3.cs?name=snippet)]
 
+### ASP.NET Core server options
+
+`Grpc.AspNetCore.Server` is hosted by an ASP.NET Core web server. There are a number of options for ASP.NET Core servers, including Kestrel, IIS and HTTP.sys. Each server offers additional options for how HTTP requests are served.
+
+The server used by an ASP.NET Core app is configured in app startup code. The default server is Kestrel.
+
+For more information about the different servers and their configuration options, see:
+
+* <xref:fundamentals/servers/kestrel>
+* <xref:fundamentals/servers/httpsys>
+* <xref:host-and-deploy/iis/index>
+
 ## Configure client options
 
 gRPC client configuration is set on `GrpcChannelOptions`. Configuration options are in the [`Grpc.Net.Client`](https://www.nuget.org/packages/Grpc.Net.Client) package.
@@ -57,6 +68,7 @@ The following table describes options for configuring gRPC channels:
 | `Credentials` | `null` | A `ChannelCredentials` instance. Credentials are used to add authentication metadata to gRPC calls. |
 | `CompressionProviders` | gzip | A collection of compression providers used to compress and decompress messages. Custom compression providers can be created and added to the collection. The default configured providers support **gzip** compression. |
 | `ThrowOperationCanceledOnCancellation` | `false` | If set to `true`, clients throw <xref:System.OperationCanceledException> when a call is canceled or its deadline is exceeded. |
+| `UnsafeUseInsecureChannelCallCredentials` | `false` | If set to `true`, `CallCredentials` are applied to gRPC calls made by an insecure channel. Sending authentication headers over an insecure connection has security implications and shouldn't be done in production environments. |
 | `MaxRetryAttempts` | 5 | The maximum retry attempts. This value limits any retry and hedging attempt values specified in the service config. Setting this value alone doesn't enable retries. Retries are enabled in the service config, which can be done using `ServiceConfig`. A `null` value removes the maximum retry attempts limit. For more information about retries, see <xref:grpc/retries>. |
 | `MaxRetryBufferSize` | 16 MB | The maximum buffer size in bytes that can be used to store sent messages when retrying or hedging calls. If the buffer limit is exceeded, then no more retry attempts are made and all hedging calls but one will be canceled. This limit is applied across all calls made using the channel. A `null` value removes the maximum retry buffer size limit. |
 | `MaxRetryBufferPerCallSize` | 1 MB | The maximum buffer size in bytes that can be used to store sent messages when retrying or hedging calls. If the buffer limit is exceeded, then no more retry attempts are made and all hedging calls but one will be canceled. This limit is applied to one call. A `null` value removes the maximum retry buffer size limit per call. |
@@ -73,7 +85,16 @@ Note that client interceptors aren't configured with `GrpcChannelOptions`. Inste
 
 [!code-csharp[](~/grpc/configuration/sample/Program2.cs?name=snippet&highlight=4)]
 
-[!INCLUDE[](~/includes/gRPCazure.md)]
+### System.Net handler options
+
+`Grpc.Net.Client` uses a HTTP transport derived from `HttpMessageHandler` to make HTTP requests. Each handler offers additional options for how HTTP requests are made.
+
+The handler is configured on a channel and can be overridden by setting `GrpcChannelOptions.HttpHandler`. .NET Core 3 and .NET 5 or later uses <xref:System.Net.Http.SocketsHttpHandler> by default. gRPC client apps on .NET Framework [should configure WinHttpHandler](xref:grpc/netstandard#net-framework).
+
+For more information about the different handlers and their configuration options, see:
+
+* <xref:System.Net.Http.SocketsHttpHandler?displayProperty=fullName>
+* <xref:System.Net.Http.WinHttpHandler?displayProperty=fullName>
 
 ## Additional resources
 

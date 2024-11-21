@@ -4,7 +4,6 @@ author: rick-anderson
 description: Learn about Razor markup syntax for embedding server-based code into webpages.
 ms.author: riande
 ms.date: 02/12/2020
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: mvc/views/razor
 ---
 # Razor syntax reference for ASP.NET Core
@@ -255,7 +254,40 @@ To render the rest of an entire line as HTML inside a code block, use `@:` synta
 
 Without the `@:` in the code, a Razor runtime error is generated.
 
-Extra `@` characters in a Razor file can cause compiler errors at statements later in the block. These compiler errors can be difficult to understand because the actual error occurs before the reported error. This error is common after combining multiple implicit/explicit expressions into a single code block.
+Extra `@` characters in a Razor file can cause compiler errors at statements later in the block. These extra `@` compiler errors:
+
+* Can be difficult to understand because the actual error occurs before the reported error.
+* Is common after combining multiple implicit and explicit expressions into a single code block.
+
+### Conditional attribute rendering
+
+Razor automatically omits attributes that aren't needed. If the value passed in is `null` or `false`, the attribute isn't rendered.
+
+For example,  consider the following razor:
+
+```cshtml
+<div class="@false">False</div>
+<div class="@null">Null</div>
+<div class="@("")">Empty</div>
+<div class="@("false")">False String</div>
+<div class="@("active")">String</div>
+<input type="checkbox" checked="@true" name="true" />
+<input type="checkbox" checked="@false" name="false" />
+<input type="checkbox" checked="@null" name="null" />
+```
+
+The preceding Razor markup generates the following HTML:
+
+```html
+<div>False</div>
+<div>Null</div>
+<div class="">Empty</div>
+<div class="false">False String</div>
+<div class="active">String</div>
+<input type="checkbox" checked="checked" name="true">
+<input type="checkbox" name="false">
+<input type="checkbox" name="null">
+```
 
 ## Control structures
 
@@ -467,6 +499,13 @@ The `@attribute` directive adds the given attribute to the class of the generate
 @attribute [Authorize]
 ```
 
+The `@attribute` directive can also be used to supply a constant-based route template in a Razor component. In the following example, the `@page` directive in a component is replaced with the `@attribute` directive and the constant-based route template in `Constants.CounterRoute`, which is set elsewhere in the app to "`/counter`":
+
+```diff
+- @page "/counter"
++ @attribute [Route(Constants.CounterRoute)]
+```
+
 ### `@code`
 
 *This scenario only applies to Razor components (`.razor`).*
@@ -619,7 +658,7 @@ In an ASP.NET Core MVC or Razor Pages app created with individual user accounts,
 @model LoginViewModel
 ```
 
-The class generated inherits from `RazorPage<dynamic>`:
+The class generated inherits from `RazorPage<LoginViewModel>`:
 
 ```csharp
 public class _Views_Account_Login_cshtml : RazorPage<LoginViewModel>
@@ -638,7 +677,7 @@ The `@model` directive specifies the type of the `Model` property. The directive
 The `@namespace` directive:
 
 * Sets the namespace of the class of the generated Razor page, MVC view, or Razor component.
-* Sets the root derived namespaces of a pages, views, or components classes from the closest imports file in the directory tree, `_ViewImports.cshtml` (views or pages) or *_Imports.razor* (Razor components).
+* Sets the root derived namespaces of a pages, views, or components classes from the closest imports file in the directory tree, `_ViewImports.cshtml` (views or pages) or `_Imports.razor` (Razor components).
 
 ```cshtml
 @namespace Your.Namespace.Here
@@ -689,11 +728,77 @@ When set to `false` (default), whitespace in the rendered markup from Razor comp
 
 :::moniker-end
 
+:::moniker range=">= aspnetcore-8.0"
+
+### `@rendermode`
+
+*This scenario only applies to Razor components (`.razor`).*
+
+Sets the render mode of a Razor component:
+
+* `InteractiveServer`: Applies interactive server rendering using Blazor Server.
+* `InteractiveWebAssembly`: Applies interactive WebAssembly rendering using Blazor WebAssembly.
+* `InteractiveAuto`: Initially applies interactive WebAssembly rendering using Blazor Server, and then applies interactive WebAssembly rendering using WebAssembly on subsequent visits after the Blazor bundle is downloaded.
+
+For a component instance:
+
+```razor
+<... @rendermode="InteractiveServer" />
+```
+
+In the component definition:
+
+```razor
+@rendermode InteractiveServer
+```
+
+> [!NOTE]
+> Blazor templates include a static `using` directive for <xref:Microsoft.AspNetCore.Components.Web.RenderMode> in the app's `_Imports` file (`Components/_Imports.razor`) for shorter `@rendermode` syntax:
+>
+> ```razor
+> @using static Microsoft.AspNetCore.Components.Web.RenderMode
+> ```
+>
+> Without the preceding directive, components must specify the static <xref:Microsoft.AspNetCore.Components.Web.RenderMode> class in `@rendermode` syntax explicitly:
+>
+> ```razor
+> <Dialog @rendermode="RenderMode.InteractiveServer" />
+> ```
+
+For more information, including guidance on disabling prerendering with the directive/directive attribute, see <xref:blazor/components/render-modes>.
+
+:::moniker-end
+
 ### `@section`
 
 *This scenario only applies to MVC views and Razor Pages (`.cshtml`).*
 
 The `@section` directive is used in conjunction with [MVC and Razor Pages layouts](xref:mvc/views/layout) to enable views or pages to render content in different parts of the HTML page. For more information, see <xref:mvc/views/layout>.
+
+### `@typeparam`
+
+*This scenario only applies to Razor components (`.razor`).*
+
+The `@typeparam` directive declares a [generic type parameter](/dotnet/csharp/programming-guide/generics/generic-type-parameters) for the generated component class:
+
+```razor
+@typeparam TEntity
+```
+
+:::moniker range=">= aspnetcore-6.0"
+
+Generic types with [`where`](/dotnet/csharp/language-reference/keywords/where-generic-type-constraint) type constraints are supported:
+
+```razor
+@typeparam TEntity where TEntity : IEntity
+```
+
+:::moniker-end
+
+For more information, see the following articles:
+
+* <xref:blazor/components/generic-type-support>
+* <xref:blazor/components/templated-components>
 
 ### `@using`
 
@@ -711,7 +816,7 @@ Razor directive attributes are represented by implicit expressions with reserved
 
 *This scenario only applies to Razor components (`.razor`).*
 
-`@attributes` allows a component to render non-declared attributes. For more information, see <xref:blazor/components/index#attribute-splatting-and-arbitrary-parameters>.
+`@attributes` allows a component to render non-declared attributes. For more information, see <xref:blazor/components/attribute-splatting>.
 
 ### `@bind`
 
@@ -747,7 +852,7 @@ Stops event propagation for the event.
 
 *This scenario only applies to Razor components (`.razor`).*
 
-The `@key` directive attribute causes the components diffing algorithm to guarantee preservation of elements or components based on the key's value. For more information, see <xref:blazor/components/index#use-key-to-control-the-preservation-of-elements-and-components>.
+The `@key` directive attribute causes the components diffing algorithm to guarantee preservation of elements or components based on the key's value. For more information, see <xref:blazor/components/key>.
 
 ### `@ref`
 
@@ -755,51 +860,9 @@ The `@key` directive attribute causes the components diffing algorithm to guaran
 
 Component references (`@ref`) provide a way to reference a component instance so that you can issue commands to that instance. For more information, see <xref:blazor/components/index#capture-references-to-components>.
 
-:::moniker range=">= aspnetcore-6.0"
-
-### `@typeparam`
-
-*This scenario only applies to Razor components (`.razor`).*
-
-The `@typeparam` directive declares a [generic type parameter](/dotnet/csharp/programming-guide/generics/generic-type-parameters) for the generated component class:
-
-```razor
-@typeparam TEntity
-```
-
-Generic types with [`where`](/dotnet/csharp/language-reference/keywords/where-generic-type-constraint) type constraints are supported:
-
-```razor
-@typeparam TEntity where TEntity : IEntity
-```
-
-For more information, see the following articles:
-
-* <xref:blazor/components/index#generic-type-parameter-support>
-* <xref:blazor/components/templated-components>
-
-:::moniker-end
-
-:::moniker range="< aspnetcore-6.0"
-
-### `@typeparam`
-
-*This scenario only applies to Razor components (`.razor`).*
-
-The `@typeparam` directive declares a [generic type parameter](/dotnet/csharp/programming-guide/generics/generic-type-parameters) for the generated component class:
-
-```razor
-@typeparam TEntity
-```
-
-For more information, see the following articles:
-
-* <xref:blazor/components/index#generic-type-parameter-support>
-* <xref:blazor/components/templated-components>
-
-:::moniker-end
-
 ## Templated Razor delegates
+
+*This scenario only applies to MVC views and Razor Pages (`.cshtml`).*
 
 Razor templates allow you to define a UI snippet with the following format:
 
@@ -949,9 +1012,25 @@ C# Razor keywords must be double-escaped with `@(@C# Razor Keyword)` (for exampl
 
 ## Inspect the Razor C# class generated for a view
 
-The [Razor SDK](xref:razor-pages/sdk) handles compilation of Razor files. When building a project, the Razor SDK generates an `obj/<build_configuration>/<target_framework_moniker>/Razor` directory in the project root. The directory structure within the `Razor` directory mirrors the project's directory structure.
+::: moniker range=">= aspnetcore-5.0"
 
-Consider the following directory structure in an ASP.NET Core Razor Pages project:
+The [Razor SDK](xref:razor-pages/sdk) handles compilation of Razor files. By default, the generated code files aren't emitted. To enable emitting the code files, set the `EmitCompilerGeneratedFiles` directive in the project file (`.csproj`) to `true`:
+
+```xml
+<PropertyGroup>
+  <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+</PropertyGroup>
+```
+
+When building a 6.0 project (`net6.0`) in the `Debug` build configuration, the Razor SDK generates an `obj/Debug/net6.0/generated/` directory in the project root. Its subdirectory contains the emitted Razor page code files.
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-5.0"
+
+The [Razor SDK](xref:razor-pages/sdk) handles compilation of Razor files. When building a project, the Razor SDK generates an `obj/{BUILD CONFIGURATION}/{TARGET FRAMEWORK MONIKER}/Razor` directory in the project root. The directory structure within the `Razor` directory mirrors the project's directory structure.
+
+Consider the following directory structure in an ASP.NET Core Razor Pages 2.1 project:
 
 ```
  Areas/
@@ -966,9 +1045,9 @@ Consider the following directory structure in an ASP.NET Core Razor Pages projec
    _ViewStart.cshtml
    Index.cshtml
    Index.cshtml.cs
-  ```
+```
 
-Building the project in *Debug* configuration yields the following `obj` directory:
+Building the project in `Debug` configuration yields the following `obj` directory:
 
 ```
  obj/
@@ -988,6 +1067,8 @@ Building the project in *Debug* configuration yields the following `obj` directo
 ```
 
 To view the generated class for `Pages/Index.cshtml`, open `obj/Debug/netcoreapp2.1/Razor/Pages/Index.g.cshtml.cs`.
+
+::: moniker-end
 
 ## View lookups and case sensitivity
 

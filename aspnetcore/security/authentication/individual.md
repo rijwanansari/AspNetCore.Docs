@@ -4,7 +4,6 @@ author: rick-anderson
 description: Discover articles based on ASP.NET Core projects created with individual user accounts.
 ms.author: riande
 ms.date: 12/11/2019
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: security/authentication/individual
 ---
 # Articles based on ASP.NET Core projects created with individual user accounts
@@ -58,12 +57,12 @@ The following table shows the authentication options available for new web apps:
 
 | Option | Type of authentication | Link for more information |
  | ----------------- | ------------ | ---------- |
-| None            |  No authentication | | 
-| Individual      |  Individual authentication | <xref:security/authentication/identity>
-| IndividualB2C   |  Cloud-hosted individual authentication with Azure AD B2C | [Azure AD B2C](/azure/active-directory-b2c/) |
-| SingleOrg       |  Organizational authentication for a single tenant | [Azure AD](/azure/active-directory/develop/quickstart-v2-aspnet-core-webapp) |
-| MultiOrg        |  Organizational authentication for multiple tenants | [Azure AD](/azure/active-directory/develop/quickstart-v2-aspnet-core-webapp) |
-| Windows         |  Windows authentication | [Windows Authentication](xref:security/authentication/windowsauth)
+| None            |  No authentication. | | 
+| Individual      |  Individual authentication. | <xref:security/authentication/identity>
+| IndividualB2C   |  Cloud-hosted individual authentication with Azure AD B2C. | [Azure AD B2C](/azure/active-directory-b2c/) |
+| SingleOrg       |  Organizational authentication for a single tenant. Entra External ID tenants also use SingleOrg.| [Entra ID](/azure/active-directory/develop/quickstart-v2-aspnet-core-webapp) |
+| MultiOrg        |  Organizational authentication for multiple tenants. | [Entra ID](/azure/active-directory/develop/quickstart-v2-aspnet-core-webapp) |
+| Windows         |  Windows authentication. | [Windows Authentication](xref:security/authentication/windowsauth)
 
 ## Visual Studio new webapp authentication options
 

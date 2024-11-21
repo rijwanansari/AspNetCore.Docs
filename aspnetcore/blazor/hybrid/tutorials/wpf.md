@@ -5,114 +5,58 @@ description: Build a Windows Presentation Foundation (WPF) app step-by-step.
 monikerRange: '>= aspnetcore-6.0'
 ms.author: riande
 ms.custom: mvc
-ms.date: 02/17/2022
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 02/09/2024
 uid: blazor/hybrid/tutorials/wpf
 ---
 # Build a Windows Presentation Foundation (WPF) Blazor app
+
+[!INCLUDE[](~/includes/not-latest-version.md)]
 
 This tutorial shows you how to build and run a WPF Blazor app. You learn how to:
 
 > [!div class="checklist"]
 > * Create a WPF Blazor app project
-> * Supply Razor components with a Razor class library (RCL)
+> * Add a Razor component to the project
 > * Run the app on Windows
 
 ## Prerequisites
 
 * [Supported platforms (WPF documentation)](/dotnet/desktop/wpf/overview/)
-* [Visual Studio 2022 Preview](https://visualstudio.microsoft.com/vs/preview/) with the following workloads:
-  * **ASP.NET and web development**
-  * **.NET desktop development**
+* [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the **.NET desktop development** workload
 
 ## Visual Studio workload
 
-If the **ASP.NET and web development** and **.NET desktop development** workloads aren't installed, use the Visual Studio installer to install the workloads. For more information, see [Modify Visual Studio workloads, components, and language packs](/visualstudio/install/modify-visual-studio).
+If the **.NET desktop development** workload isn't installed, use the Visual Studio installer to install the workload. For more information, see [Modify Visual Studio workloads, components, and language packs](/visualstudio/install/modify-visual-studio).
 
-:::image type="content" source="wpf/_static/install-workloads.png" alt-text="Visual Studio installer workload selection.":::
+:::image type="content" source="wpf/_static/install-workload.png" alt-text="Visual Studio installer workload selection.":::
 
 ## Create a WPF Blazor project
 
-Start Visual Studio 2022 Preview.
-
-In the Start Window, select **Create a new project**:
+Launch Visual Studio. In the **Start Window**, select **Create a new project**:
 
 :::image type="content" source="wpf/_static/new-solution.png" alt-text="Create a new solution in Visual Studio.":::
 
-In the **Create a new project** dialog, filter the **Project type** drop-down to **Desktop**. Select the C# project template for **WPF Application** and select the **Next** button:
+In the **Create a new project** dialog, filter the **Project type** dropdown to **Desktop**. Select the C# project template for **WPF Application** and select the **Next** button:
 
 :::image type="content" source="wpf/_static/create-project.png" alt-text="Create a new project in Visual Studio.":::
 
-In the **Configure your new project** dialog, set the **Project name** to **`WpfBlazor`**, choose a suitable location for the project, and select the **Next** button.
+In the **Configure your new project** dialog:
+
+* Set the **Project name** to **:::no-loc text="WpfBlazor":::**.
+* Choose a suitable location for the project.
+* Select the **Next** button.
 
 :::image type="content" source="wpf/_static/configure-project.png" alt-text="Configure the project.":::
 
-In the **Additional information** dialog, select the framework version, which must be .NET 6.0 or later. Select the **Create** button:
+In the **Additional information** dialog, select the framework version with the **Framework** dropdown list. Select the **Create** button:
 
-:::image type="content" source="wpf/_static/additional-information-1.png" alt-text="The Additional Information dialog for the WPF project.":::
+:::image type="content" source="wpf/_static/additional-information.png" alt-text="The Additional Information dialog for the WPF project.":::
 
-## Add a component via a Razor class library (RCL)
+Use [NuGet Package Manager](/nuget/consume-packages/install-use-packages-visual-studio) to install the [`Microsoft.AspNetCore.Components.WebView.Wpf`](https://nuget.org/packages/Microsoft.AspNetCore.Components.WebView.Wpf) NuGet package:
 
-Add a Razor class library (RCL) project to the solution:
+:::image type="content" source="wpf/_static/nuget-package-manager.png" alt-text="Use Nuget Package Manager in Visual Studio to install the Microsoft.AspNetCore.Components.WebView.Wpf NuGet package.":::
 
-In **Solution Explorer**, right-click the `WpfBlazor` solution and select **Add** > **New Project**:
-
-:::image type="content" source="wpf/_static/add-rcl-project.png" alt-text="Add a new RCL project to the solution in Visual Studio.":::
-
-In the **Create a new project** dialog, set the **Project types** drop-down to **Library**. Select the **Razor Class Library** project template and select the **Next** button:
-
-:::image type="content" source="wpf/_static/create-project-rcl.png" alt-text="Create a new RCL project in Visual Studio.":::
-
-In the **Configure your new project** dialog, set the **Project name** to **`ComponentLibrary`**. Confirm that the **Location** field is set to the solution's folder. Select the **Next** button:
-
-:::image type="content" source="wpf/_static/configure-project-rcl.png" alt-text="Configure the RCL project.":::
-
-In the **Additional information** dialog:
-
-* Select the framework version, which must be .NET 6.0 or later.
-* Do ***not*** select the **Support pages and views** checkbox.
-* Select the **Create** button.
-
-:::image type="content" source="wpf/_static/additional-information-2.png" alt-text="The Additional Information dialog for the Razor class library (RCL).":::
-
-Add the following `Counter` component to the root of the RCL, which is the default `Counter` component found in Blazor project templates.
-
-`Counter.razor`:
-
-```razor
-<h1>Counter</h1>
-
-<p>Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-
-@code {
-    private int currentCount = 0;
-
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
-}
-```
-
-Add a project reference for the RCL to the `WpfBlazor` project:
-
-* In **Solution Explorer**, right-click the `WpfBlazor` project and select **Add** > **Project Reference**:
-
-  :::image type="content" source="wpf/_static/add-rcl-project-reference.png" alt-text="Add a project reference to the WpfBlazor project.":::
-
-* Select the `ComponentLibrary`'s checkbox and select the **OK** button:
-
-  :::image type="content" source="wpf/_static/add-componentlibrary.png" alt-text="Select the ComponentLibrary RCL project.":::
-
-For more information on RCLs for Blazor apps, see <xref:blazor/components/class-libraries>.
-
-## Configure the `WpfBlazor` solution
-
-Use [NuGet Package Manager](/nuget/consume-packages/install-use-packages-visual-studio) to install the [`Microsoft.AspNetCore.Components.WebView.Wpf`](https://nuget.org/packages/Microsoft.AspNetCore.Components.WebView.Wpf) preview NuGet package.
-
-In **Solution Explorer**, right-click the `WpfBlazor` project and select **Edit Project File** to open the project file (`WpfBlazor.csproj`).
+In **Solution Explorer**, right-click the project's name, **:::no-loc text="WpfBlazor":::**, and select **Edit Project File** to open the project file (`WpfBlazor.csproj`).
 
 At the top of the project file, change the SDK to `Microsoft.NET.Sdk.Razor`:
 
@@ -120,7 +64,31 @@ At the top of the project file, change the SDK to `Microsoft.NET.Sdk.Razor`:
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 ```
 
+<!--
+    The following is a workaround for https://github.com/dotnet/wpf/issues/5697 (fixes https://github.com/dotnet/maui/issues/3526).
+    Additional open issue on it: https://github.com/dotnet/maui/issues/5861
+-->
+
+In the project file's existing `<PropertyGroup>` add the following markup to set the app's root namespace, which is `WpfBlazor` in this tutorial:
+
+```xml
+<RootNamespace>WpfBlazor</RootNamespace>
+```
+
+> [!NOTE]
+> The preceding guidance on setting the project's root namespace is a temporary workaround. For more information, see [[Blazor][Wpf] Root namespace related issue (dotnet/maui #5861)](https://github.com/dotnet/maui/issues/5861).
+
 Save the changes to the project file (`WpfBlazor.csproj`).
+
+Add an `_Imports.razor` file to the root of the project with an [`@using`](xref:mvc/views/razor#using) directive for <xref:Microsoft.AspNetCore.Components.Web?displayProperty=fullName>.
+
+`_Imports.razor`:
+
+```razor
+@using Microsoft.AspNetCore.Components.Web
+```
+
+Save the `_Imports.razor` file.
 
 Add a `wwwroot` folder to the project.
 
@@ -145,7 +113,7 @@ Add an `index.html` file to the `wwwroot` folder with the following markup.
 <body>
     <div id="app">Loading...</div>
 
-    <div id="blazor-error-ui">
+    <div id="blazor-error-ui" data-nosnippet>
         An unhandled error has occurred.
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
@@ -165,6 +133,20 @@ Add an `app.css` stylesheet to the `wwwroot/css` folder with the following conte
 ```css
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1:focus {
+    outline: none;
+}
+
+a, .btn-link {
+    color: #0071c1;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -199,6 +181,31 @@ html, body {
     }
 ```
 
+Inside the `wwwroot/css` folder, create a `bootstrap` folder. Inside the `bootstrap` folder, place a copy of `bootstrap.min.css`. You can obtain the latest version of `bootstrap.min.css` from the [Bootstrap website](https://getbootstrap.com/). Follow navigation bar links to **Docs** > **Download**. A direct link can't be provided here because all of the content at the site is versioned in the URL.
+
+Add the following `Counter` component to the root of the project, which is the default `Counter` component found in Blazor project templates.
+
+`Counter.razor`:
+
+```razor
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
+```
+
+Save the `Counter` component (`Counter.razor`).
+
 If the `MainWindow` designer isn't open, open it by double-clicking the `MainWindow.xaml` file in **Solution Explorer**. In the `MainWindow` designer, replace the XAML code with the following:
 
 ```xaml
@@ -207,12 +214,12 @@ If the `MainWindow` designer isn't open, open it by double-clicking the `MainWin
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfBlazor;assembly=ComponentLibrary"
         xmlns:blazor="clr-namespace:Microsoft.AspNetCore.Components.WebView.Wpf;assembly=Microsoft.AspNetCore.Components.WebView.Wpf"
+        xmlns:local="clr-namespace:WpfBlazor"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <blazor:BlazorWebView HostPage="index.html" Services="{DynamicResource services}">
+        <blazor:BlazorWebView HostPage="wwwroot\index.html" Services="{DynamicResource services}">
             <blazor:BlazorWebView.RootComponents>
                 <blazor:RootComponent Selector="#app" ComponentType="{x:Type local:Counter}" />
             </blazor:BlazorWebView.RootComponents>
@@ -231,15 +238,18 @@ Add the namespace <xref:Microsoft.Extensions.DependencyInjection?displayProperty
 using Microsoft.Extensions.DependencyInjection;
 ```
 
-Inside the `MainWindow` constructor, above the `InitializeComponent()` method call, add the following code:
+Inside the `MainWindow` constructor, after the `InitializeComponent` method call, add the following code:
 
 ```csharp
 var serviceCollection = new ServiceCollection();
-serviceCollection.AddBlazorWebView();
+serviceCollection.AddWpfBlazorWebView();
 Resources.Add("services", serviceCollection.BuildServiceProvider());
 ```
 
-The final, complete C# code of `MainWindow.xaml.cs`:
+> [!NOTE]
+> The `InitializeComponent` method is automatically generated at app build time and added to the compilation object for the calling class.
+
+The final, complete C# code of `MainWindow.xaml.cs` with a [file-scoped namespace](/dotnet/csharp/language-reference/keywords/namespace) and comments removed:
 
 ```csharp
 using System;
@@ -258,21 +268,17 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WpfBlazor
-{
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddBlazorWebView();
-            Resources.Add("services", serviceCollection.BuildServiceProvider());
+namespace WpfBlazor;
 
-            InitializeComponent();
-        }
+public partial class MainWindow : Window
+{
+    public MainWindow()
+    {
+        InitializeComponent();
+
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.AddWpfBlazorWebView();
+        Resources.Add("services", serviceCollection.BuildServiceProvider());
     }
 }
 ```
@@ -293,7 +299,7 @@ In this tutorial, you learned how to:
 
 > [!div class="checklist"]
 > * Create a WPF Blazor app project
-> * Supply Razor components with a Razor class library (RCL)
+> * Add a Razor component to the project
 > * Run the app on Windows
 
 Learn more about Blazor Hybrid apps:

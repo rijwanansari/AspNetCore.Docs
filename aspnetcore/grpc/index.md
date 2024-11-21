@@ -1,14 +1,13 @@
 ---
-title: Introduction to gRPC on .NET
+title: Overview for gRPC on .NET
 author: jamesnk
 description: Learn about gRPC services with Kestrel server and the ASP.NET Core stack.
 monikerRange: '>= aspnetcore-3.0'
 ms.author: jamesnk
 ms.date: 09/28/2021
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: grpc/index
 ---
-# Introduction to gRPC on .NET
+# Overview for gRPC on .NET
 
 By [James Newton-King](https://twitter.com/jamesnk)
 
@@ -26,8 +25,6 @@ These benefits make gRPC ideal for:
 * Lightweight microservices where efficiency is critical.
 * Polyglot systems where multiple languages are required for development.
 * Point-to-point real-time services that need to handle streaming requests or responses.
-
-[!INCLUDE[](~/includes/gRPCazure.md)]
 
 ## C# Tooling support for `.proto` files
 
@@ -147,8 +144,6 @@ These benefits make gRPC ideal for:
 * Polyglot systems where multiple languages are required for development.
 * Point-to-point real-time services that need to handle streaming requests or responses.
 
-[!INCLUDE[](~/includes/gRPCazure.md)]
-
 ## C# Tooling support for `.proto` files
 
 gRPC uses a contract-first approach to API development. Services and messages are defined in `.proto` files:
@@ -216,7 +211,7 @@ public class GreeterService : Greeter.GreeterBase
 }
 ```
 
-`GreeterService` inherits from the `GreeterBase` type, which is generated from the `Greeter` service in the `.proto` file. The service is made accessible to clients in *Startup.cs*:
+`GreeterService` inherits from the `GreeterBase` type, which is generated from the `Greeter` service in the `.proto` file. The service is made accessible to clients in `Startup.cs`:
 
 ```csharp
 app.UseEndpoints(endpoints =>

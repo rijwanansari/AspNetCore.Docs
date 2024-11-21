@@ -6,7 +6,6 @@ monikerRange: '>= aspnetcore-2.2'
 ms.author: bradyg
 ms.custom: mvc
 ms.date: 11/12/2019
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: signalr/java-client
 ---
 # ASP.NET Core SignalR Java client
@@ -21,15 +20,15 @@ The sample Java console app referenced in this article uses the SignalR Java cli
 
 ## Install the SignalR Java client package
 
-The *signalr-1.0.0* JAR file allows clients to connect to SignalR hubs. To find the latest JAR file version number, see the [Maven search results](https://search.maven.org/search?q=g:com.microsoft.signalr%20AND%20a:signalr).
+The *signalr-7.0.0* JAR file allows clients to connect to SignalR hubs. To find the latest JAR file version number, see the [Maven search results](https://search.maven.org/search?q=g:com.microsoft.signalr%20AND%20a:signalr).
 
 If using Gradle, add the following line to the `dependencies` section of your *build.gradle* file:
 
 ```gradle
-implementation 'com.microsoft.signalr:signalr:1.0.0'
+implementation 'com.microsoft.signalr:signalr:7.0.0'
 ```
 
-If using Maven, add the following lines inside the `<dependencies>` element of your *pom.xml* file:
+If using Maven, add the following lines inside the `<dependencies>` element of your `pom.xml` file:
 
 [!code-xml[pom.xml dependency element](java-client/sample/pom.xml?name=snippet_dependencyElement)]
 

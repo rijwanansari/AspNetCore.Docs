@@ -5,7 +5,6 @@ description: Discover links to resources for learning how to host ASP.NET Core a
 ms.author: riande
 ms.custom: mvc
 ms.date: 01/08/2018
-no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: host-and-deploy/docker/index
 ---
 # Host ASP.NET Core in Docker containers
@@ -27,6 +26,9 @@ Find out how Docker container images are stored in an image registry for consist
 <xref:host-and-deploy/docker/building-net-docker-images>
 Learn how to build and dockerize an ASP.NET Core app. Explore Docker images maintained by Microsoft and examine use cases.
 
+[.NET Docker samples](https://github.com/dotnet/dotnet-docker/tree/main/samples)
+Samples and guidance that demonstrate how to use .NET and Docker for development, testing and production.
+
 [Visual Studio Container Tools](xref:host-and-deploy/docker/visual-studio-tools-for-docker)  
 Discover how Visual Studio supports building, debugging, and running ASP.NET Core apps targeting either .NET Framework or .NET Core on Docker for Windows. Both Windows and Linux containers are supported.
 
@@ -38,3 +40,5 @@ Additional configuration might be required for apps hosted behind proxy servers 
 
 [GC using Docker and small containers](xref:performance/memory#sc)
 Discusses GC selection with small containers.
+
+[!INCLUDE[](~/includes/128.md)]
